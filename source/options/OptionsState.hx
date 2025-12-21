@@ -18,7 +18,8 @@ class OptionsState extends MusicBeatState
 		'Adjust Delay',
 		'Graphics',
 		'Visuals',
-		'Gameplay'
+		'Gameplay',
+		'Save Files'
 		#if TRANSLATIONS_ALLOWED , 'Language' #end
 	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -43,6 +44,11 @@ class OptionsState extends MusicBeatState
 				MusicBeatState.switchState(new options.NoteOffsetState());
 			case 'Language':
 				openSubState(new options.LanguageSubState());
+			case 'Save Files':
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+				
+				MusicBeatState.switchState(new options.SaveFilesMenu());
 		}
 
 		iconsPos.insert(0, icons.x);
@@ -114,9 +120,15 @@ class OptionsState extends MusicBeatState
 		for (num => option in options)
 		{
 			var optionText:Alphabet = new Alphabet(0, 0, Language.getPhrase('options_$option', option), true);
+			optionText.isMenuItem = true;
+			optionText.ID = num;
+			optionText.startPosition = new FlxPoint(150, 160);
+			optionText.distancePerItem = new FlxPoint(0, 92);
+			optionText.snapToPosition();
 			optionText.screenCenter(Y);
-			optionText.x = 150;
-			optionText.y += (92 * (num - (options.length / 2))) + 45;
+			//optionText.x = 150;
+			//optionText.y = 160;
+			//optionText.y += (92 * (num - (options.length / 2)));
 			optionText.alpha = 0;
 			FlxTween.tween(optionText, {alpha: num == curSelected ? 1 : 0.6}, 0.2, {startDelay: 0.1 + (0.03 * num), onComplete: function(t:FlxTween)
 			{
@@ -344,9 +356,22 @@ class OptionsState extends MusicBeatState
 
 		for (num => item in grpOptions.members)
 		{
-			item.targetY = num - curSelected;
+			switch(curSelected)
+			{
+				case 0 | 1 | 2:
+					item.targetY = num - curSelected;
+				case 3:
+					item.targetY = num - curSelected + 1;
+				case 4:
+					item.targetY = num - curSelected + 2;
+				case 5:
+					item.targetY = num - curSelected + 3;
+			}
+
+			if(change == 0) item.snapToPosition();
+
 			item.alpha = 0.6;
-			if (item.targetY == 0)
+			if (item.ID == curSelected)
 			{
 				item.alpha = 1;
 				selectorLeft.x = item.x - 63;
