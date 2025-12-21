@@ -69,7 +69,7 @@ class LimoStage extends BaseStage
         truck.loadGraphic(Paths.image('truck'));
         add(truck);
 
-        applyVelocites(true);
+        applyVelocites();
 	}
 
     function applyVelocites(isMaximumSpeed:Bool = false)
