@@ -155,7 +155,7 @@ class LimoStageNight extends BaseStage
         add(light);
 
         windLmao = new FlxBackdrop(Paths.image('night/windlmao'), XY, 0, 0);
-        //windLmao.alpha = 0;
+        windLmao.alpha = 0;
         windLmao.velocity.set(5000 * speedMult, 0);
         windLmao.scrollFactor.set(0, 0);
         add(windLmao);
