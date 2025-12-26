@@ -2093,6 +2093,16 @@ class PlayState extends MusicBeatState
 							}
 						}
 					}
+					else
+					{
+						if(startedLift)
+						{
+								liftAmount = 0;
+								startedLift = false;
+								liftingTime = 0;
+								alredyLiftAnim = false;
+						}
+					}
 				}
 			}
 		}
