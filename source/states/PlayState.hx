@@ -186,6 +186,7 @@ class PlayState extends MusicBeatState
 	public var healthShower:Float = 1;
 	public var combo:Int = 0;
 
+	public var healthBarGlow:FlxSprite;
 	public var healthBar:Bar;
 	public var fcSprite:FlxSprite;
 	public var timeBar:FlxSprite;
@@ -619,6 +620,14 @@ class PlayState extends MusicBeatState
 		moveCameraSection();
 
 		var hbOffset:Float = 10;
+
+		healthBarGlow = new FlxSprite();
+		healthBarGlow.loadGraphic('hud/hbglow');
+		healthBarGlow.antialiasing = ClientPrefs.data.antialiasing;
+		healthBarGlow.visible = !ClientPrefs.data.hideHud;
+		healthBarGlow.scrollFactor.set();
+		uiGroup.add(healthBarGlow);
+
 		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.805 : 0.032), 'hud/hb', function() return healthShower, 0, 2, true, 'hud/hbfill');
 		if(ClientPrefs.data.downScroll) healthBar.y += hbOffset;
 		healthBar.screenCenter(X);
@@ -637,6 +646,10 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 		healthBar.updateBar();
 		uiGroup.add(healthBar);
+
+		healthBarGlow.x = healthBar.x + (healthBar.width / 2) - (healthBarGlow.width / 2);
+		healthBarGlow.y = healthBar.y + (healthBar.height / 2) - (healthBarGlow.height / 2);
+		healthBarGlow.alpha = 0;
 
 		fcSprite = new FlxSprite(0, 15);
 		fcSprite.frames = Paths.getSparrowAtlas('hud/ratings_HUD');
@@ -938,6 +951,8 @@ class PlayState extends MusicBeatState
 	public function reloadHealthBarColors() {
 		healthBar.setColors(FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]),
 			FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]));
+
+		healthBarGlow.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 	}
 
 	public function addCharacterToList(newCharacter:String, type:Int) {
@@ -1972,6 +1987,11 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		if(constantHealthDrainActive)
+		{
+			if (health > 0.1) applyDifficultyBasedHealthDrain(constantHealthDrainAmount, storyDifficultyText.toLowerCase());
+		}
+
 		if(isLiftMechanicEnabled && !watchingMechanicInfo && !inCutscene && !paused)
 		{
 			if(curSong == 'Dad Battle')
@@ -2016,7 +2036,7 @@ class PlayState extends MusicBeatState
 								spaceMechanicButton.scale.set(1, 1);
 								spaceMechanicButton.visible = true;
 								spaceMechanicButton.animation.finishCallback = null;
-								spaceMechanicButton.animation.play('${10-liftAmount}');
+								spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
 							}
 
 							alredyLiftAnim = false;
@@ -2050,15 +2070,15 @@ class PlayState extends MusicBeatState
 							spaceMechanicButton.scale.set(1, 1);
 							spaceMechanicButton.visible = true;
 							spaceMechanicButton.animation.finishCallback = null;
-							spaceMechanicButton.animation.play('${10-liftAmount}');
+							spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
 	
-							if(liftAmount >= 10)
+							if(liftAmount >= getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase()))
 							{
 								liftAmount = 0;
 								startedLift = false;
 								liftingTime = 0;
 	
-								health += 0.25;
+								health += gainLiftHealthDifficultyBased(0.25, storyDifficultyText.toLowerCase());
 	
 								gf.playAnim('hey', true);
 								boyfriend.playAnim('liftUp', true);
@@ -2082,7 +2102,7 @@ class PlayState extends MusicBeatState
 										spaceMechanicButton.scale.set(1, 1);
 										spaceMechanicButton.visible = true;
 										spaceMechanicButton.animation.finishCallback = null;
-										spaceMechanicButton.animation.play('${10-liftAmount}');
+										spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
 									}
 	
 									alredyLiftAnim = false;
@@ -3635,6 +3655,17 @@ class PlayState extends MusicBeatState
 	}
 
 	var healthDrain:Bool = true;
+	var constantHealthDrainActive:Bool = false;
+	var constantHealthDrainAmount:Float = 0.0008;
+	var glowHealthBarEffect(default, set):Bool = false;
+
+	function set_glowHealthBarEffect(value:Bool)
+	{
+		//glow tween (later..)
+
+		glowHealthBarEffect = value;
+		return glowHealthBarEffect;
+	}
 
 	function opponentNoteHit(note:Note):Void
 	{
@@ -3693,9 +3724,9 @@ class PlayState extends MusicBeatState
 				{
 					case 'Tutorial': // do nothing
 					case 'Dad Battle':
-						if (drainHealth && health > 0.1) health -= 0.025;
+						if (drainHealth && health > 0.1) applyDifficultyBasedHealthDrain(0.025, storyDifficultyText.toLowerCase());
 					default:
-						if (drainHealth && health > 0.1) health -= 0.01;
+						if (drainHealth && health > 0.1) applyDifficultyBasedHealthDrain(0.01, storyDifficultyText.toLowerCase());
 				}
 			}
 
@@ -3779,6 +3810,8 @@ class PlayState extends MusicBeatState
 		if(opponentVocals.length <= 0) vocals.volume = 1;
 		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 		note.hitByOpponent = true;
+
+		vocals.volume = 1;
 		
 		stagesFunc(function(stage:BaseStage) stage.opponentNoteHit(note));
 		var result:Dynamic = callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
@@ -3907,6 +3940,38 @@ class PlayState extends MusicBeatState
 		var result:Dynamic = callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('goodNoteHit', [note]);
 		if(!note.isSustainNote) invalidateNote(note);
+	}
+
+	function applyDifficultyBasedHealthDrain(healthAmount:Float, difficulty:String)
+	{
+		switch(difficulty)
+		{
+			case 'easy': health -= healthAmount * 0;
+			case 'normal': health -= healthAmount * 0.5;
+			case 'hard': health -= healthAmount * 1;
+		}
+	}
+
+	function getLiftAmountDifficultyBased(difficulty:String):Int
+	{
+		switch(difficulty)
+		{
+			case 'easy': return 5;
+			case 'normal': return 7;
+			case 'hard': return 10;
+			default: return 10;
+		}
+	}
+
+	function gainLiftHealthDifficultyBased(healthAmount:Float, difficulty:String):Float
+	{
+		switch(difficulty)
+		{
+			case 'easy': return healthAmount * 0.3;
+			case 'normal': return healthAmount * 0.6;
+			case 'hard': return healthAmount * 1;
+			default: return healthAmount;
+		}
 	}
 
 	var swappedIcons:Null<Bool> = null;
@@ -4142,7 +4207,7 @@ class PlayState extends MusicBeatState
 						spaceMechanicButton.scale.set(1, 1);
 						spaceMechanicButton.visible = true;
 						spaceMechanicButton.animation.finishCallback = null;
-						spaceMechanicButton.animation.play('${10-liftAmount}');
+						spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
 					case 656:
 						FlxTween.tween(spaceMechanicButton, {alpha: 0}, 0.3);
 						forcedLiftingSection = false;
@@ -4240,6 +4305,18 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(songCard, {alpha: 1, y: songCard.y - 10}, 0.3);
 					case 64:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
+				}
+			case 'Milf':
+				switch(curStep)
+				{
+					case 1312:
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+					case 1440:
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
 				}
 		}
 
