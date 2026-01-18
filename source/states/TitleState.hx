@@ -255,6 +255,16 @@ class TitleState extends MusicBeatState
 			skipIntro();
 		else
 			initialized = true;
+		
+		if (initialized && FlxG.sound.music == null)
+		{
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			FlxG.sound.music.fadeIn(4, 0, 0.7);
+
+			// idk why mouse unloads like lol ok! :)
+			var sprite = new FlxSprite().loadGraphic(Paths.image('mouse'));
+			FlxG.mouse.load(sprite.pixels);
+		}
 
 		// credGroup.add(credTextShit);
 	}

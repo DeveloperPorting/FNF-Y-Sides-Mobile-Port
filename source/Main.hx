@@ -6,6 +6,7 @@ import android.content.Context;
 #end
 
 import debug.FPSCounter;
+import backend.Saves;
 
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
@@ -107,7 +108,9 @@ class Main extends Sprite
 		#end
 		Mods.loadTopMod();
 
-		FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		//FlxG.save.bind('funkin', CoolUtil.getSavePath());
+		@:privateAccess
+		Saves.init();
 		Highscore.load();
 
 		#if HSCRIPT_ALLOWED

@@ -35,9 +35,11 @@ class SaveFilesMenu extends MusicBeatState
         for(i in 0...saveFilesAmount)
         {
             var spr = new FlxSprite();
-            spr.makeGraphic(700, 100, 0xFF000000);
+            spr.makeGraphic(700, 100, 0xFFFFFFFF);
+            spr.ID = i;
             spr.screenCenter(X);
             spr.y = 200 + (i * 120);
+            spr.updateHitbox();
             //spr.y = triangleTop.y + triangleTop.height + 10 + (i * 120);
             saveFilesGrp.add(spr);
         }
@@ -48,6 +50,7 @@ class SaveFilesMenu extends MusicBeatState
         //saveFilesGrp.members[2].y = saveFilesGrp.members[1].y + 120; 
     }
 
+    var curSelected:Int = 0;
     override function update(elapsed:Float):Void
     {
         super.update(elapsed);
@@ -62,6 +65,17 @@ class SaveFilesMenu extends MusicBeatState
             if(FlxG.mouse.overlaps(spr))
             {
                 // code here...
+                spr.color = FlxColor.YELLOW;
+                curSelected = spr.ID;
+                if(FlxG.mouse.justPressed)
+                {
+                    Saves.loadSlot(curSelected);
+                    Sys.exit(0);
+                }
+            }
+            else
+            {
+                spr.color = FlxColor.WHITE;
             }
         });
     }
