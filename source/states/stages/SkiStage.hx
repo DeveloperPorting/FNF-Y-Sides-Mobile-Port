@@ -35,11 +35,11 @@ class SkiStage extends BaseStage
 			add(mountainsFront);
 		}
 
-		var city:BGSprite = new BGSprite('stages/skiStage/city', -400, -200, 0.6, 0.6);
-		add(city);
+		var snowBack2:BGSprite = new BGSprite('stages/skiStage/snowBack2', -400, -200, 0.6, 0.6);
+		add(snowBack2);
 
-		var cityFront:BGSprite = new BGSprite('stages/skiStage/cityFront', -300, -100, 0.75, 0.75);
-		add(cityFront);
+		var snowBack:BGSprite = new BGSprite('stages/skiStage/snowBack', -300, -100, 0.75, 0.75);
+		add(snowBack);
 
 		var fence:BGSprite = new BGSprite('stages/skiStage/fence', 0, 0, 1, 1);
 		add(fence);
