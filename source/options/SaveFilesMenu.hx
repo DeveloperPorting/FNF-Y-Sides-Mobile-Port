@@ -5,7 +5,8 @@ import flixel.addons.display.FlxBackdrop;
 class SaveFilesMenu extends MusicBeatState
 {
     var saveFilesAmount:Int = 3;
-    var saveFilesGrp:FlxTypedGroup<FlxSprite>;
+    var saveFilesSprGrp:FlxTypedGroup<FlxSprite>;
+    var saveFilesTxtGrp:FlxTypedGroup<FlxText>;
     override function create()
     {
         super.create();
@@ -19,8 +20,11 @@ class SaveFilesMenu extends MusicBeatState
 		bg.screenCenter();
 		add(bg);
 
-        saveFilesGrp = new FlxTypedGroup<FlxSprite>();
-        add(saveFilesGrp);
+        saveFilesSprGrp = new FlxTypedGroup<FlxSprite>();
+        add(saveFilesSprGrp);
+
+        saveFilesTxtGrp = new FlxTypedGroup<FlxText>();
+        add(saveFilesTxtGrp);
 
         var triangleTop:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
         triangleTop.velocity.set(10, 0);
@@ -41,7 +45,15 @@ class SaveFilesMenu extends MusicBeatState
             spr.y = 200 + (i * 120);
             spr.updateHitbox();
             //spr.y = triangleTop.y + triangleTop.height + 10 + (i * 120);
-            saveFilesGrp.add(spr);
+            saveFilesSprGrp.add(spr);
+
+            var txt = new FlxText(0, 0, spr.width, 'Save file ${i+1}');
+            txt.setFormat(Paths.font('FredokaOne-Regular.ttf'), 20, 0xFF000000);
+            txt.x = spr.x + 10;
+            txt.y = spr.y + 10;
+            txt.ID = i;
+            txt.antialiasing = ClientPrefs.data.antialiasing;
+            saveFilesTxtGrp.add(txt);
         }
 
         // tiny offset lmao so always centered
@@ -60,7 +72,7 @@ class SaveFilesMenu extends MusicBeatState
             MusicBeatState.switchState(new OptionsState());
         }
 
-        saveFilesGrp.forEach(function(spr:FlxSprite)
+        saveFilesSprGrp.forEach(function(spr:FlxSprite)
         {
             if(FlxG.mouse.overlaps(spr))
             {
