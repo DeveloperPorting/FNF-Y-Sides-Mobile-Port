@@ -714,6 +714,6 @@
 	"stage": "picoBG",
 	"needsVoices": true,
 	"format": "psych_v1_convert",
-	"speed": 2.2,
+	"speed": 2.5,
 	"bpm": 150
 }

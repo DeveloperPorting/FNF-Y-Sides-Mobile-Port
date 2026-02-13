@@ -702,6 +702,6 @@
 	"needsVoices": true,
 	"stage": "picoBG",
 	"bpm": 150,
-	"speed": 2,
+	"speed": 2.4,
 	"format": "psych_v1_convert"
 }
