@@ -169,6 +169,7 @@
 - [ ] Winter Horrorland (SONGCARD)
 
 - [ ] Pico resulsts screen sprites
+- [ ] New simple events for Pico (+ speed up chart)
 
 ## SPECIFIC
 
