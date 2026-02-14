@@ -1,6 +1,5 @@
 package backend;
 
-import flixel.system.FlxAssets.FlxSoundAsset;
 import openfl.utils.Assets;
 import openfl.display.Bitmap;
 import flixel.system.ui.FlxSoundTray;
@@ -8,6 +7,9 @@ import flixel.system.ui.FlxSoundTray;
 class CustomSoundTray extends FlxSoundTray
 {
     var graphicScale:Float = 0.30;
+    var lerpYPos:Float = 0;
+    var alphaTarget:Float = 0;
+  
     var volumeMaxSound:String;
 
     public function new()
@@ -59,99 +61,79 @@ class CustomSoundTray extends FlxSoundTray
         trace("Custom sound tray added!");
     }
 
-    /**
-     * This function updates the soundtray object.
-     */
-    public override function update(MS:Float):Void
+    public override function update(elapsed:Float):Void
     {
+        super.update(elapsed);
+        
+        y = FlxMath.lerp(y, lerpYPos, 0.1);
+        alpha = FlxMath.lerp(alpha, alphaTarget, 0.25);
+
         // Animate sound tray thing
         if (_timer > 0)
         {
-            _timer -= (MS / 1000);
+            _timer -= (elapsed / 1000);
+            alphaTarget = 1;
         }
-        else if (y > -height)
+        else if (y >= -height)
         {
-            y -= (MS / 1000) * height * 0.5;
+            lerpYPos = -height - 10;
+            alphaTarget = 0;
+        }
 
-            if (y <= -height)
+        if (y <= -height)
+        {
+            visible = false;
+            active = false;
+
+            #if FLX_SAVE
+            // Save sound preferences
+            if (FlxG.save.isBound)
             {
-                visible = false;
-                active = false;
-
-                #if FLX_SAVE
-                // Save sound preferences
-                if (FlxG.save.isBound)
-                {
-                    FlxG.save.data.mute = FlxG.sound.muted;
-                    FlxG.save.data.volume = FlxG.sound.volume;
-                    FlxG.save.flush();
-                }
-                #end
+              FlxG.save.data.mute = FlxG.sound.muted;
+              FlxG.save.data.volume = FlxG.sound.volume;
+              FlxG.save.flush();
             }
+            #end
         }
     }
 
-    /**
-     * Shows the volume animation for the desired settings
-     * @param   volume    The volume, 1.0 is full volume
-     * @param   sound     The sound to play, if any
-     * @param   duration  How long the tray will show
-     * @param   label     The test label to display
-     */
-    public override function showAnim(volume:Float, ?sound:FlxSoundAsset, duration = 1.0, label = "VOLUME")
+   /**
+   * Makes the little volume tray slide out.
+   *
+   * @param	up Whether the volume is increasing.
+   */
+    override public function show(up:Bool = false):Void
     {
-        if (sound != null)
-            FlxG.sound.play(FlxG.assets.getSoundAddExt(sound));
-        
-        _timer = duration;
-        y = 0;
+        _timer = 1;
+        lerpYPos = 10;
         visible = true;
         active = true;
+        var globalVolume:Int = Math.round(FlxG.sound.volume * 10);
         
-        final numBars = Math.round(volume * 10);
+        if (FlxG.sound.muted)
+        {
+            globalVolume = 0;
+        }
+    
+        if (!silent)
+        {
+            var sound = up ? volumeUpSound : volumeDownSound;
+            
+            if (globalVolume == 10) sound = volumeMaxSound;
+            
+            if (sound != null) FlxG.sound.load(sound).play();
+        }
+    
         for (i in 0..._bars.length)
         {
-            if (i < numBars)
+            if (i < globalVolume)
             {
-                _bars[i].visible = true;
-                _bars[i].alpha = 1.0;
+              _bars[i].visible = true;
             }
             else
             {
-                _bars[i].visible = false;
-                _bars[i].alpha = 0.5;
+              _bars[i].visible = false;
             }
         }
-    }
-
-    /**
-     * Makes the little volume tray slide out.
-     *
-     * @param   up  Whether the volume is increasing.
-     */
-    override public function show(up:Bool = false):Void
-    {
-        if (up)
-            showIncrement();
-        else
-            showDecrement();
-    }
-    
-    override function showIncrement():Void
-    {
-        final volume = FlxG.sound.muted ? 0 : FlxG.sound.volume;
-        var sound = silent ? null : volumeUpSound;
-        
-        // Check if volume is maxed out
-        if (Math.round(volume * 10) == 10)
-            sound = volumeMaxSound;
-            
-        showAnim(volume, sound);
-    }
-    
-    override function showDecrement():Void
-    {
-        final volume = FlxG.sound.muted ? 0 : FlxG.sound.volume;
-        showAnim(volume, silent ? null : volumeDownSound);
     }
 }

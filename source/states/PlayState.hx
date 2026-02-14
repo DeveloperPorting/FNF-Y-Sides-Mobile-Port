@@ -592,8 +592,8 @@ class PlayState extends MusicBeatState
 		timeTxt.alpha = 0;
 		timeTxt.screenCenter(X);
 		timeTxt.scale.set(0.75, 0.85);
-		timeTxt.x = timeBar.x + 37;
-		timeTxt.y = timeBar.y + timeBar.height / 4;
+		timeTxt.x = timeBar.x + 17;
+		timeTxt.y = timeBar.y + timeBar.height / 4 - 4;
 		timeTxt.visible = updateTime = showTime;
 		timeTxt.antialiasing = ClientPrefs.data.antialiasing;
 		if(ClientPrefs.data.downScroll) 
@@ -2683,7 +2683,7 @@ class PlayState extends MusicBeatState
 				persistentDraw = false;
 				FlxTimer.globalManager.clear();
 				FlxTween.globalManager.clear();
-				FlxG.camera.filters = [];
+				FlxG.camera.setFilters([]);
 
 				if(GameOverSubstate.deathDelay > 0)
 				{
@@ -4290,7 +4290,7 @@ class PlayState extends MusicBeatState
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 
-		FlxG.camera.filters = [];
+		FlxG.camera.setFilters([]);
 
 		#if FLX_PITCH FlxG.sound.music.pitch = 1; #end
 		FlxG.animationTimeScale = 1;
