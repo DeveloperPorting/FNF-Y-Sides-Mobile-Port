@@ -49,18 +49,15 @@ class SkiStage extends BaseStage
 
 		var buildings:BGSprite = new BGSprite('stages/skiStage/buildings', 0, 0, 1, 1);
 		add(buildings);
-		
-		if(!ClientPrefs.data.lowQuality)
-		{
-			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
-			add(snowboards);
-		}
 	}
 
 	override function createPost()
 	{
 		if(!ClientPrefs.data.lowQuality)
 		{
+			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
+			add(snowboards);
+
 			var lights:BGSprite = new BGSprite('stages/skiStage/lights', 0, 0, 1, 1);
 			lights.blend = ADD;
 			add(lights);
