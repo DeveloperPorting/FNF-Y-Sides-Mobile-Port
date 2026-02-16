@@ -39,10 +39,10 @@ class PicoStage extends BaseStage
 		if(!ClientPrefs.data.lowQuality)
 		{
             car = new FlxSprite();
-            car.makeGraphic(350, 350);
+            //car.makeGraphic(350, 350);
             car.antialiasing = ClientPrefs.data.antialiasing;
             car.x = 2000;
-            car.y = bg.y + 1100;
+            car.y = bg.y + 1000;
             add(car);
 
 		    var lights2:BGSprite = new BGSprite('stages/picoStage/lightsfr', -1079, -808, 1, 1);
@@ -94,22 +94,37 @@ class PicoStage extends BaseStage
             guards.offset.set(guards.animOffsets[1][0], guards.animOffsets[1][1]);
         }
 
-        if(curBeat == 3) spawnCar();
+        if(FlxG.random.bool(10) && canSpawnCar)
+        {
+            spawnCar();
+        }
     }
 
+    var canSpawnCar:Bool = true;
     function spawnCar()
     {
         if(ClientPrefs.data.lowQuality) return;
 
+        canSpawnCar = false;
+        var random:Int = FlxG.random.int(1, 2);
+        car.frames = Paths.getSparrowAtlas('stages/picoStage/car$random');
+        car.animation.addByPrefix('idle', 'car anim', 24, true);
+        car.animation.play('idle');
+
+        if(random == 2) car.y += -190;
+
         FlxG.sound.play(Paths.sound('car_passing'));
+        
         new FlxTimer().start(3.5, function(tmr:FlxTimer)
         {
-            FlxTween.tween(car, {x: -1000}, 0.3, {ease: FlxEase.linear});
+            FlxTween.tween(car, {x: -2500}, 0.2, {ease: FlxEase.linear});
         });
         new FlxTimer().start(7, function(tmr:FlxTimer)
         {
             // reset
             car.x = 2000;
+            car.y = bg.y + 1000;
+            canSpawnCar = true;
         });
     }
 }
