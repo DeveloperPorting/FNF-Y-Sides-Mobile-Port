@@ -67,7 +67,7 @@ class SkiCreepyStage extends BaseStage
 		colorSwapShader.uTime.value = [0, -0.3, 0];
 
 		colorSwapFilter = new ShaderFilter(colorSwapShader);
-		FlxG.camera.filters = [dubswitcherFilter, colorSwapFilter];
+		if(ClientPrefs.data.shaders) FlxG.camera.filters = [dubswitcherFilter, colorSwapFilter];
 	}
 
 	override function createPost()
@@ -77,12 +77,12 @@ class SkiCreepyStage extends BaseStage
 			var snowboards:BGSprite = new BGSprite('stages/skiStage/snowboards', 0, 0, 1, 1);
 			add(snowboards);
 
-			var lights:BGSprite = new BGSprite('stages/skiStage/lights', 0, 0, 1, 1);
+			var lights:BGSprite = new BGSprite('stages/skiStage/lights', 0, 0, 0, 0);
 			lights.blend = ADD;
-			add(lights);
+			//add(lights);
 			
-			var shadow:BGSprite = new BGSprite('stages/skiStage/shadow', 0, 0, 1, 1);
-			add(shadow);
+			var shadow:BGSprite = new BGSprite('stages/skiStage/shadow', 0, 0, 0, 0);
+			//add(shadow);
 		}
 	}
 
