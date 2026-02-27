@@ -53,12 +53,12 @@ class SaveFilesMenu extends MusicBeatState
         add(saveFilesPlayedTimeTxtGrp);
 
         var triangleTop:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
-        triangleTop.velocity.set(10, 0);
+        triangleTop.velocity.set(20, 0);
         triangleTop.angle = 180;
         add(triangleTop);
 
         var triangleBottom:FlxBackdrop = new FlxBackdrop(Paths.image('resultsScreen/newResultsScreen/lettaBoxDark'), X, 0, 0);
-        triangleBottom.velocity.set(-10, 0);
+        triangleBottom.velocity.set(-20, 0);
         triangleBottom.y = FlxG.height - triangleBottom.height;
         add(triangleBottom);
 

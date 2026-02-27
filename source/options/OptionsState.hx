@@ -175,7 +175,7 @@ class OptionsState extends MusicBeatState
 		add(character);
 
 		dialogueBox = new FlxSprite(40, 600).makeGraphic(1200, 80, FlxColor.BLACK);
-		dialogueBox.alpha = 0.6;
+		dialogueBox.alpha = 0;
 		dialogueBox.antialiasing = ClientPrefs.data.antialiasing;
 		add(dialogueBox);
 
@@ -194,6 +194,10 @@ class OptionsState extends MusicBeatState
 				character.playAnim('happy');
 			}
 			catch(exc) { trace ('Error: $exc'); }
+			dialogueBox.y += 10;
+			dialogueText.y += 10;
+			FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.quartOut});
+			FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.quartOut});
 			dialogueText.resetText('Welcome to the options menu! Here you can tweak with some of the option we offer to you...');
 			dialogueText.start(0.04, true);
 			dialogueText.completeCallback = function() 
@@ -215,6 +219,10 @@ class OptionsState extends MusicBeatState
 				character.playAnim('happy');
 			}
 			catch(exc) { trace ('Error: $exc'); }
+					dialogueBox.y += 10;
+					dialogueText.y += 10;
+					FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.quartOut});
+					FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.quartOut});
 			dialogueText.resetText(FlxG.random.getObject([welcomeBack1, welcomeBack2, welcomeBack3]));
 			dialogueText.start(0.04, true);
 			dialogueText.completeCallback = function() 
@@ -256,6 +264,10 @@ class OptionsState extends MusicBeatState
 						character.playAnim('happy');
 					}
 					catch(exc) { trace ('Error: $exc'); }
+					dialogueBox.y += 10;
+					dialogueText.y += 10;
+					FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.quartOut});
+					FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.quartOut});
 					dialogueText.resetText('Welcome to the options menu! Here you can tweak with some of the option we offer to you...');
 					dialogueText.start(0.04, true);
 					dialogueText.completeCallback = function() 
@@ -277,6 +289,10 @@ class OptionsState extends MusicBeatState
 						character.playAnim('happy');
 					}
 					catch(exc) { trace ('Error: $exc'); }
+					dialogueBox.y += 10;
+					dialogueText.y += 10;
+					FlxTween.tween(dialogueBox, {alpha: 0.6, y: dialogueBox.y - 10}, 0.35, {ease: FlxEase.quartOut});
+					FlxTween.tween(dialogueText, {alpha: 1, y: dialogueText.y - 10}, 0.35, {ease: FlxEase.quartOut});
 					dialogueText.resetText(FlxG.random.getObject([welcomeBack1, welcomeBack2, welcomeBack3]));
 					dialogueText.start(0.04, true);
 					dialogueText.completeCallback = function() 
