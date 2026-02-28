@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="menu-characters.png">
+	<!-- Created with Adobe Animate version 22.0.2.168 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="awards_characters0000" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="awards_characters0001" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="awards_characters0002" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="awards_characters0003" x="734" y="24" width="686" height="321" frameX="0" frameY="0" frameWidth="686" frameHeight="322"/>
+	<SubTexture name="awards_characters0004" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="awards_characters0005" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="awards_characters0006" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="awards_characters0007" x="24" y="24" width="686" height="322"/>
+	<SubTexture name="credits_characters0000" x="24" y="370" width="492" height="335"/>
+	<SubTexture name="credits_characters0001" x="24" y="370" width="492" height="335"/>
+	<SubTexture name="credits_characters0002" x="24" y="370" width="492" height="335"/>
+	<SubTexture name="credits_characters0003" x="24" y="370" width="492" height="335"/>
+	<SubTexture name="credits_characters0004" x="540" y="713" width="492" height="335"/>
+	<SubTexture name="credits_characters0005" x="540" y="713" width="492" height="335"/>
+	<SubTexture name="credits_characters0006" x="540" y="713" width="492" height="335"/>
+	<SubTexture name="credits_characters0007" x="540" y="713" width="492" height="335"/>
+	<SubTexture name="freeplay_characters0000" x="1362" y="369" width="603" height="320" frameX="0" frameY="0" frameWidth="604" frameHeight="320"/>
+	<SubTexture name="freeplay_characters0001" x="1362" y="369" width="603" height="320" frameX="0" frameY="0" frameWidth="604" frameHeight="320"/>
+	<SubTexture name="freeplay_characters0002" x="1362" y="369" width="603" height="320" frameX="0" frameY="0" frameWidth="604" frameHeight="320"/>
+	<SubTexture name="freeplay_characters0003" x="1362" y="369" width="603" height="320" frameX="0" frameY="0" frameWidth="604" frameHeight="320"/>
+	<SubTexture name="freeplay_characters0004" x="734" y="369" width="604" height="320"/>
+	<SubTexture name="freeplay_characters0005" x="734" y="369" width="604" height="320"/>
+	<SubTexture name="freeplay_characters0006" x="734" y="369" width="604" height="320"/>
+	<SubTexture name="freeplay_characters0007" x="734" y="369" width="604" height="320"/>
+	<SubTexture name="gallery_characters0000" x="1465" y="713" width="339" height="391"/>
+	<SubTexture name="gallery_characters0001" x="1465" y="713" width="339" height="391"/>
+	<SubTexture name="gallery_characters0002" x="1465" y="713" width="339" height="391"/>
+	<SubTexture name="gallery_characters0003" x="1465" y="713" width="339" height="391"/>
+	<SubTexture name="gallery_characters0004" x="1465" y="1128" width="339" height="391"/>
+	<SubTexture name="gallery_characters0005" x="1465" y="1128" width="339" height="391"/>
+	<SubTexture name="gallery_characters0006" x="1465" y="1128" width="339" height="391"/>
+	<SubTexture name="gallery_characters0007" x="1465" y="1128" width="339" height="391"/>
+	<SubTexture name="options_characters0000" x="434" y="1072" width="374" height="355"/>
+	<SubTexture name="options_characters0001" x="434" y="1072" width="374" height="355"/>
+	<SubTexture name="options_characters0002" x="434" y="1072" width="374" height="355"/>
+	<SubTexture name="options_characters0003" x="434" y="1072" width="374" height="355"/>
+	<SubTexture name="options_characters0004" x="24" y="1161" width="374" height="355"/>
+	<SubTexture name="options_characters0005" x="24" y="1161" width="374" height="355"/>
+	<SubTexture name="options_characters0006" x="24" y="1161" width="374" height="355"/>
+	<SubTexture name="options_characters0007" x="24" y="1161" width="374" height="355"/>
+	<SubTexture name="story_characters0000" x="24" y="729" width="386" height="408"/>
+	<SubTexture name="story_characters0001" x="24" y="729" width="386" height="408"/>
+	<SubTexture name="story_characters0002" x="24" y="729" width="386" height="408"/>
+	<SubTexture name="story_characters0003" x="24" y="729" width="386" height="408"/>
+	<SubTexture name="story_characters0004" x="1056" y="713" width="385" height="408" frameX="-1" frameY="0" frameWidth="386" frameHeight="408"/>
+	<SubTexture name="story_characters0005" x="1056" y="713" width="385" height="408" frameX="-1" frameY="0" frameWidth="386" frameHeight="408"/>
+	<SubTexture name="story_characters0006" x="1056" y="713" width="385" height="408" frameX="-1" frameY="0" frameWidth="386" frameHeight="408"/>
+	<SubTexture name="story_characters0007" x="1056" y="713" width="385" height="408" frameX="-1" frameY="0" frameWidth="386" frameHeight="408"/>
+</TextureAtlas>
