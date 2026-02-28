@@ -197,6 +197,7 @@ class PlayState extends MusicBeatState
 	public var watchingMechanicInfo:Bool = false;
 	public var thisShittyBackground:FlxSprite;
 	public var mechanicPoster:FlxSprite;
+	public var mechanicBf:Character; var liftsAnimAmount:Int = 0;
 	public var mechanicEnterSprite:FlxSprite;
 
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
@@ -763,8 +764,33 @@ class PlayState extends MusicBeatState
 		mechanicEnterSprite = new FlxSprite(FlxG.width + 600, 0);
 		mechanicEnterSprite.loadGraphic(Paths.image('hud/mechanic/enter'));
 		mechanicEnterSprite.screenCenter(Y);
+		mechanicEnterSprite.y += -200;
 		mechanicEnterSprite.antialiasing = ClientPrefs.data.antialiasing;
 		uiGroup.add(mechanicEnterSprite);
+
+		mechanicBf = new Character(FlxG.width + 600, 0, 'bf', true);
+		mechanicBf.screenCenter(Y);
+		mechanicBf.y += 100;
+		mechanicBf.antialiasing = ClientPrefs.data.antialiasing;
+		mechanicBf.cameras = [camHUD];
+		//mechanicBf.flipX = true;
+		mechanicBf.playAnim('lift', true, false);
+		mechanicBf.offset.set(9, 2);
+		new FlxTimer().start(2, function(tmr:FlxTimer)
+		{
+			mechanicBf.playAnim('liftUp', true);
+			mechanicBf.offset.set(3, 19);
+			mechanicBf.animation.finishCallback = function(name:String)
+			{
+				if(name == 'liftUp')
+				{
+					mechanicBf.playAnim('lift', true);
+					mechanicBf.offset.set(9, 2);
+					mechanicBf.animation.finishCallback = null;
+				}
+			}
+		}, 0);
+		add(mechanicBf);
 
 		botplayTxt = new FlxText(400, healthBar.y - 90, FlxG.width - 800, Language.getPhrase("Botplay").toUpperCase(), 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -858,7 +884,8 @@ class PlayState extends MusicBeatState
 		{
 			startCallback = null;
 			FlxTween.tween(mechanicPoster, {x: 10}, 1, {ease: FlxEase.quartOut});
-			FlxTween.tween(mechanicEnterSprite, {x: FlxG.width - mechanicEnterSprite.width - 10}, 1, {ease: FlxEase.quartOut});
+			FlxTween.tween(mechanicBf, {x: FlxG.width - mechanicBf.width - 150}, 1, {ease: FlxEase.quartOut});
+			FlxTween.tween(mechanicEnterSprite, {x: FlxG.width - mechanicEnterSprite.width - 110}, 1, {ease: FlxEase.quartOut});
 			FlxTween.tween(thisShittyBackground, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
 			watchingMechanicInfo = true;
 		}
@@ -2202,12 +2229,14 @@ class PlayState extends MusicBeatState
 			if(FlxG.keys.justPressed.ENTER)
 			{
 				FlxTween.cancelTweensOf(mechanicPoster);
+				FlxTween.cancelTweensOf(mechanicBf);
 				FlxTween.cancelTweensOf(mechanicEnterSprite);
 				FlxTween.cancelTweensOf(thisShittyBackground);
 
 				watchingMechanicInfo = false;
 
 				FlxTween.tween(mechanicPoster, {x: -600}, 1, {ease: FlxEase.quartOut});
+				FlxTween.tween(mechanicBf, {x: FlxG.width + 600}, 1, {ease: FlxEase.quartOut});
 				FlxTween.tween(mechanicEnterSprite, {x: FlxG.width + 600}, 1, {ease: FlxEase.quartOut});
 				FlxTween.tween(thisShittyBackground, {alpha: 0}, 1, {ease: FlxEase.quartOut, onComplete: function(t:FlxTween)
 				{
