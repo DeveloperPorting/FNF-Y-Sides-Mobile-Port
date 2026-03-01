@@ -11,6 +11,8 @@ enum Column
 
 class NewMainMenuState extends MusicBeatState 
 {
+	var allowMouse:Bool = true; //Turn this off to block mouse movement in menus
+
 	var bg:FlxSprite;
 	var backgroundGradientBottom:FlxSprite;
 	var icons:FlxBackdrop;
@@ -293,16 +295,10 @@ class NewMainMenuState extends MusicBeatState
 		FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, (multX * scrollMultiplier), elapsed * 10);
 		FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (multY * scrollMultiplier), elapsed * 10);
 
-		if (controls.BACK)
-		{
-			selectedSomethin = true;
-			FlxG.mouse.visible = false;
-			FlxG.sound.play(Paths.sound('cancelMenu'));
-			transitionBack();
-		}
-
         if(!selectedSomethin)
         {
+            mouseBehaviour(elapsed);
+
             if(controls.UI_UP_P)
             {
                 changeSelection(-1);
@@ -318,7 +314,7 @@ class NewMainMenuState extends MusicBeatState
                 changeColumn();
             }
 
-            if(controls.ACCEPT)
+            if(controls.ACCEPT || (FlxG.mouse.justPressed && allowMouse))
             {
 				FlxG.sound.play(Paths.sound('confirmMenu'));
                 selectedSomethin = true;
@@ -424,6 +420,14 @@ class NewMainMenuState extends MusicBeatState
                     FlxTween.tween(obj, {alpha: 0, y: obj.y + 10}, 0.2);
                 }
             }
+
+		    if (controls.BACK)
+		    {
+		    	selectedSomethin = true;
+		    	FlxG.mouse.visible = false;
+		    	FlxG.sound.play(Paths.sound('cancelMenu'));
+		    	transitionBack();
+		    }
         }
     }
 
@@ -526,12 +530,12 @@ class NewMainMenuState extends MusicBeatState
 	function transitionBack()
 	{
         /*
-		for (memb in menuItems)
+		for (memb in menuItemsLeftGrp)
 		{
 			FlxTween.tween(memb, {x: -350}, 0.5, {ease: FlxEase.quadOut});
 		}
 
-		for (memb in menuItems2)
+		for (memb in menuItemsRightGrp)
 		{
 			FlxTween.tween(memb, {x: FlxG.width + 10}, 0.5, {ease: FlxEase.quadOut});
 		}
@@ -545,6 +549,76 @@ class NewMainMenuState extends MusicBeatState
 			MusicBeatState.switchState(new TitleState());
 		});
 	}
+
+	var timeNotMoving:Float = 0;
+    function mouseBehaviour(elapsed:Float)
+    {
+		var allowMouse:Bool = allowMouse;
+		if (allowMouse && ((FlxG.mouse.deltaScreenX != 0 && FlxG.mouse.deltaScreenY != 0) || FlxG.mouse.justPressed)) //FlxG.mouse.deltaScreenX/Y checks is more accurate than FlxG.mouse.justMoved
+		{
+			allowMouse = false;
+			FlxG.mouse.visible = true;
+			timeNotMoving = 0;
+			var selectedItem:FlxSprite;
+			switch(curColumn)
+			{
+				case LEFT:
+					selectedItem = menuItemsLeftGrp.members[curSelected];
+				case RIGHT:
+					selectedItem = menuItemsRightGrp.members[curSelected];
+			}
+			var dist2:Float = -1;
+			var distItem2:Int = -1;
+			for (i in 0...menuItemsRightArr.length)
+			{
+				var memb2:FlxSprite = menuItemsRightGrp.members[i];
+				if(FlxG.mouse.overlaps(memb2))
+				{
+					var distance:Float = Math.sqrt(Math.pow(memb2.getGraphicMidpoint().x - FlxG.mouse.screenX, 2) + Math.pow(memb2.getGraphicMidpoint().y - FlxG.mouse.screenY, 2));
+					if (dist2 < 0 || distance < dist2)
+					{
+						dist2 = distance;
+						distItem2 = i;
+						allowMouse = true;
+					}
+				}
+			}
+			if(distItem2 != -1 && selectedItem != menuItemsRightGrp.members[distItem2])
+			{
+				curColumn = RIGHT;
+				curSelected = distItem2;
+				changeSelection();
+			}
+			
+			var dist:Float = -1;
+			var distItem:Int = -1;
+			for (i in 0...menuItemsLeftArr.length)
+			{
+				var memb:FlxSprite = menuItemsLeftGrp.members[i];
+				if(FlxG.mouse.overlaps(memb))
+				{
+					var distance:Float = Math.sqrt(Math.pow(memb.getGraphicMidpoint().x - FlxG.mouse.screenX, 2) + Math.pow(memb.getGraphicMidpoint().y - FlxG.mouse.screenY, 2));
+					if (dist < 0 || distance < dist)
+					{
+						dist = distance;
+						distItem = i;
+						allowMouse = true;
+					}
+				}
+			}
+			if(distItem != -1 && selectedItem != menuItemsLeftGrp.members[distItem])
+			{
+				curColumn = LEFT;
+				curSelected = distItem;
+				changeSelection();
+			}
+		}
+		else
+		{
+			timeNotMoving += elapsed;
+			if(timeNotMoving > 2) FlxG.mouse.visible = false;
+		}
+    }
 }
 
 class MenuItemObj extends FlxSprite
