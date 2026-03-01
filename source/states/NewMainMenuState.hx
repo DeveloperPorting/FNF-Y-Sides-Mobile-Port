@@ -33,16 +33,18 @@ class NewMainMenuState extends MusicBeatState
         'freeplay',
         'credits'
     ];
-    var menuItemsLeftGrp:FlxTypedGroup<FlxSprite>;
+    var menuItemsLeftGrp:FlxTypedGroup<MenuItemObj>;
     
     var menuItemsRightArr:Array<String> = [
         'options',
         'awards',
         'gallery'
     ];
-    var menuItemsRightGrp:FlxTypedGroup<FlxSprite>;
+    var menuItemsRightGrp:FlxTypedGroup<MenuItemObj>;
     var curSelected:Int = 0;
     var curColumn:Column = LEFT;
+    var menuItemsAngle:Int = 1;
+    var menuItemsAngleReverse:Int = -1;
 
     override function create()
     {
@@ -150,22 +152,31 @@ class NewMainMenuState extends MusicBeatState
         circle2.x = rightBar.x - (circle2.width / 1.8);
         circle2.y = FlxG.height - circle2.height + 210;
 
-        menuItemsLeftGrp = new FlxTypedGroup<FlxSprite>();
+        menuItemsLeftGrp = new FlxTypedGroup<MenuItemObj>();
         add(menuItemsLeftGrp);
 
-        menuItemsRightGrp = new FlxTypedGroup<FlxSprite>();
+        menuItemsRightGrp = new FlxTypedGroup<MenuItemObj>();
         add(menuItemsRightGrp);
 
         for(i in 0...menuItemsLeftArr.length)
         {
-            var item = new FlxSprite(0, 80 + (i * 220));
+            var item = new MenuItemObj(0, 80 + (i * 220));
             item.frames = Paths.getSparrowAtlas('mainmenu/new/${menuItemsLeftArr[i]}');
             item.animation.addByPrefix('idle', menuItemsLeftArr[i], 24, true);
             item.animation.play('idle');
             item.x = leftBar.x + (leftBar.width / 2) - (item.width / 2);
             item.ID = i;
             item.antialiasing = ClientPrefs.data.antialiasing;
+            item.angle = i == 1 ? menuItemsAngleReverse : menuItemsAngle;
             menuItemsLeftGrp.add(item);
+
+            new FlxTimer().start(1, function(tmr:FlxTimer)
+            {
+                if(i != 1)
+                    item.angle = item.angle == menuItemsAngle ? -menuItemsAngle : menuItemsAngle;
+                else
+                    item.angle = item.angle == menuItemsAngleReverse ? -menuItemsAngleReverse : menuItemsAngleReverse;
+            }, 0);
         }
 
 		if(StoryMenuState.backFromStoryMode) {
@@ -190,17 +201,26 @@ class NewMainMenuState extends MusicBeatState
 
         for(i in 0...menuItemsRightArr.length)
         {
-            var item = new FlxSprite(0, 80 + (i * 200));
+            var item = new MenuItemObj(0, 80 + (i * 200));
             item.frames = Paths.getSparrowAtlas('mainmenu/new/${menuItemsRightArr[i]}');
             item.animation.addByPrefix('idle', menuItemsRightArr[i], 24, true);
             item.animation.play('idle');
             item.x = rightBar.x + (rightBar.width / 2) - (item.width / 2) - 30;
             item.ID = i;
+            item.angle = i == 1 ? menuItemsAngleReverse : menuItemsAngle;
             
             if(i == 1) item.x += 70; // lil offset :)
 
             item.antialiasing = ClientPrefs.data.antialiasing;
             menuItemsRightGrp.add(item);
+
+            new FlxTimer().start(1, function(tmr:FlxTimer)
+            {
+                if(i != 1)
+                    item.angle = item.angle == menuItemsAngle ? -menuItemsAngle : menuItemsAngle;
+                else
+                    item.angle = item.angle == menuItemsAngleReverse ? -menuItemsAngleReverse : menuItemsAngleReverse;
+            }, 0);
         }
 
 		if(AchievementsMenuState.comingFromAchievements) {
@@ -341,6 +361,8 @@ class NewMainMenuState extends MusicBeatState
                             FlxTween.tween(rightBar, {x: FlxG.width + 80}, 0.35, {ease: FlxEase.quartIn});
                             FlxTween.tween(rightBarThorns, {x: FlxG.width + 80 - rightBarThorns.width + 1}, 0.35, {ease: FlxEase.quartIn});
                             FlxTween.tween(circle2, {x: FlxG.width + 80 - (circle2.width / 1.8)}, 0.35, {ease: FlxEase.quartIn});
+
+                            FlxTween.tween(item, {x: item.x - 450}, 0.35, {ease: FlxEase.quartIn});
                         });
 
                     // special anims
@@ -439,16 +461,19 @@ class NewMainMenuState extends MusicBeatState
                     if(obj.ID == curSelected)
                     {
                         obj.color = 0xFFFFFFFF;
+                        obj.scaleTarget = 1.05;
                     }
                     else
                     {
                         obj.color = 0xFF666666;
+                        obj.scaleTarget = 1;
                     }
                 }
 
                 for(obj in menuItemsRightGrp)
                 {
                     obj.color = 0xFF666666;
+                    obj.scaleTarget = 1;
                 }
             case RIGHT:
                 for(obj in menuItemsRightGrp)
@@ -456,16 +481,19 @@ class NewMainMenuState extends MusicBeatState
                     if(obj.ID == curSelected)
                     {
                         obj.color = 0xFFFFFFFF;
+                        obj.scaleTarget = 1.05;
                     }
                     else
                     {
                         obj.color = 0xFF666666;
+                        obj.scaleTarget = 1;
                     }
                 }
 
                 for(obj in menuItemsLeftGrp)
                 {
                     obj.color = 0xFF666666;
+                    obj.scaleTarget = 1;
                 }
         }
     }
@@ -517,4 +545,22 @@ class NewMainMenuState extends MusicBeatState
 			MusicBeatState.switchState(new TitleState());
 		});
 	}
+}
+
+class MenuItemObj extends FlxSprite
+{
+    public var scaleTarget:Float = 1;
+
+    public function new(x:Float = 0, y:Float = 0)
+    {
+        super(x, y);
+    }
+
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        var mult = FlxMath.lerp(scale.x, scaleTarget, elapsed * 9);
+        scale.set(mult, mult);
+    }
 }
