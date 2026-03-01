@@ -249,6 +249,9 @@ class NewMainMenuState extends MusicBeatState
     var circleAngleSpeed:Float = 10;
     var circle2AngleSpeed:Float = -8;
 	var scrollMultiplier:Float = 3;
+    var characterScaleX:Float = 1;
+    var characterScaleY:Float = 1;
+    var squishiIntensity:Float = 0.05;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -256,6 +259,11 @@ class NewMainMenuState extends MusicBeatState
         // spin anim
         circle.angle += circleAngleSpeed * elapsed;
         circle2.angle += circle2AngleSpeed * elapsed;
+
+        // squishi squishi anim
+        var multX = FlxMath.lerp(character.scale.x, characterScaleX, elapsed * 9);
+        var multY = FlxMath.lerp(character.scale.y, characterScaleY, elapsed * 9);
+        character.scale.set(multX, multY);
 
 		final hudMousePos = FlxG.mouse.getScreenPosition(FlxG.cameras.list[FlxG.cameras.list.length - 1]);
 
@@ -402,11 +410,23 @@ class NewMainMenuState extends MusicBeatState
         FlxG.sound.play(Paths.sound('scrollMenu'));
         curSelected = FlxMath.wrap(curSelected + change, 0, curColumn == LEFT ? menuItemsLeftArr.length - 1 : menuItemsRightArr.length - 1);
 
-        character.animation.play(curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected]);
+        var targetOption = curColumn == LEFT ? menuItemsLeftArr[curSelected] : menuItemsRightArr[curSelected];
+        characterScaleX = characterScaleY = switch(targetOption)
+        {
+            case 'freeplay' | 'awards':
+                0.85;
+            default:
+                1;
+        }
+        character.animation.play(targetOption);
+        character.alpha = 0;
+        character.scale.set(characterScaleX - squishiIntensity, characterScaleY + squishiIntensity);
         character.updateHitbox();
         character.screenCenter();
+        if(targetOption == 'freeplay') character.x += -5;
+        characterY = character.y;
+
         character.y = characterY + 10;
-        character.alpha = 0;
 
         FlxTween.cancelTweensOf(character);
         FlxTween.tween(character, {alpha: 1, y: characterY}, 0.25, {ease: FlxEase.quartOut});
