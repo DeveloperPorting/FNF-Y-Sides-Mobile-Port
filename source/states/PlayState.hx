@@ -4369,6 +4369,7 @@ class PlayState extends MusicBeatState
 					case 64:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 256:
+						constantHealthDrainAmount = 0.0004;
 						constantHealthDrainActive = true;
 						glowHealthBarEffect = true;
 						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
