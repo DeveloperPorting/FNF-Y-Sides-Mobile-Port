@@ -2106,6 +2106,8 @@ class PlayState extends MusicBeatState
 						alredyLiftAnim = true;
 						trace('FAILED!');
 
+						FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
+
 						FlxTween.cancelTweensOf(spaceMechanicButton);
 						FlxTween.shake(spaceMechanicButton, 0.05, 0.4, X);
 						FlxTween.tween(spaceMechanicButton, {"scale.x": 0, "scale.y": 0}, 0.1, {ease: FlxEase.expoOut});
@@ -2156,7 +2158,6 @@ class PlayState extends MusicBeatState
 							liftAmount++;
 	
 							boyfriend.playAnim('lift', true);
-							spaceMechanicButton.scale.set(1, 1);
 							spaceMechanicButton.visible = true;
 							spaceMechanicButton.animation.finishCallback = null;
 							spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
@@ -2169,6 +2170,8 @@ class PlayState extends MusicBeatState
 	
 								health += gainLiftHealthDifficultyBased(0.25, storyDifficultyText.toLowerCase());
 	
+								FlxG.sound.play(Paths.sound('liftDumbellsSuccess'));
+
 								gf.playAnim('hey', true);
 								boyfriend.playAnim('liftUp', true);
 								spaceMechanicButton.animation.play('confirm');
