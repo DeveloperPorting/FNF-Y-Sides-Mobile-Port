@@ -2074,6 +2074,9 @@ class PlayState extends MusicBeatState
 		else FlxG.camera.followLerp = 0;
 		callOnScripts('onUpdate', [elapsed]);
 
+		var mult:Float = FlxMath.lerp(spaceMechanicButton.scale.x, 1, elapsed * 9);
+		spaceMechanicButton.scale.set(mult, mult);
+
 		super.update(elapsed);
 
 		if(constantHealthDrainActive)
@@ -2158,6 +2161,8 @@ class PlayState extends MusicBeatState
 							liftAmount++;
 	
 							boyfriend.playAnim('lift', true);
+							
+							spaceMechanicButton.scale.set(1.05, 1.05);
 							spaceMechanicButton.visible = true;
 							spaceMechanicButton.animation.finishCallback = null;
 							spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
@@ -4420,7 +4425,7 @@ class PlayState extends MusicBeatState
 
 						boyfriend.playAnim('lift', true);
 						FlxTween.tween(spaceMechanicButton, {alpha: 1}, 0.3);
-						spaceMechanicButton.scale.set(1, 1);
+						spaceMechanicButton.scale.set(1.05, 0.95);
 						spaceMechanicButton.visible = true;
 						spaceMechanicButton.animation.finishCallback = null;
 						spaceMechanicButton.animation.play('${getLiftAmountDifficultyBased(storyDifficultyText.toLowerCase())-liftAmount}');
