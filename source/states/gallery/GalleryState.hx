@@ -29,9 +29,22 @@ class GalleryState extends MusicBeatState
     public static var linesPos:Array<Float> = [0, 0];
     private static var curSelected:Int = 0;
 
+    public static var comingFromGallery:Bool = false;
+
     override function create() 
     {
         super.create();
+
+		if(FlxG.sound.music != null)
+		{
+			if(!FlxG.sound.music.playing)
+			{
+				trace('Main menu music is not playing, starting gallery menu music!');
+                FlxG.sound.playMusic(Paths.music('galleryMenu'));
+				FlxG.sound.music.fadeIn(1);
+			}
+		}
+        
 
         FlxG.mouse.visible = true;
 
@@ -187,6 +200,9 @@ class GalleryState extends MusicBeatState
             {
                 alreadyPressedSmth = true;
                 updateArrowScale = false;
+
+			    FlxG.sound.music.fadeOut(0.2);
+                comingFromGallery = true;
 
                 FlxTween.cancelTweensOf(barTop);
                 FlxTween.cancelTweensOf(barBottom);

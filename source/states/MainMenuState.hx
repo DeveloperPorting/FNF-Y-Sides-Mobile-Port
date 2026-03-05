@@ -1,6 +1,7 @@
 package states;
 
 import flixel.addons.display.FlxBackdrop;
+import states.gallery.GalleryState;
 import options.OptionsState;
 
 enum Column
@@ -266,6 +267,13 @@ class MainMenuState extends MusicBeatState
 			changeColumn(RIGHT, true);
 		}
 
+		if(GalleryState.comingFromGallery) {
+			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+			FlxG.sound.music.fadeIn(1);
+			GalleryState.comingFromGallery = false;
+			changeColumn(RIGHT, true);
+		}
+
 		transition = new FlxSprite(FlxG.width, 0);
 		transition.antialiasing = ClientPrefs.data.antialiasing;
 		transition.loadGraphic(Paths.image('transition'));
@@ -451,7 +459,7 @@ class MainMenuState extends MusicBeatState
                 trace('Transitioning to $option');
                 var state = getTargetState(option);
 
-				if(option == 'options')
+				if(option == 'options' || option == 'gallery')
 				{
 					FlxG.sound.music.fadeOut(0.65, 0, function(twn:FlxTween)
 					{
@@ -558,7 +566,7 @@ class MainMenuState extends MusicBeatState
             case 'awards':
                 new AchievementsMenuState();
             case 'gallery': 
-                new states.gallery.GalleryState();
+                new GalleryState();
             default:
                 null;
         }
