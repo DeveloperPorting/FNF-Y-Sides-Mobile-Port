@@ -61,7 +61,12 @@ class FreeplayState extends MusicBeatState
 	var diffArrowUp:FlxSprite;
 	var diffArrowDown:FlxSprite;
 
-	public static var characterPrefix:String = '';
+	public var isPicoMix:Bool = false;
+	public function new(_isPicoMix:Bool = false)
+	{
+		isPicoMix = _isPicoMix;
+		super();
+	}
 
 	override function create()
 	{
@@ -118,7 +123,12 @@ class FreeplayState extends MusicBeatState
 				{
 					colors = [146, 113, 253];
 				}
-				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				if(!isPicoMix) addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				else
+				{
+					if(!song[3]) continue;
+					addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+				}
 			}
 		}
 		Mods.loadTopMod();
@@ -424,9 +434,6 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.pressed.SHIFT) characterPrefix = '-pico';
-		else characterPrefix = '';
-
 		if (controls.BACK)
 		{
 			if (player.playingMusic)
@@ -507,7 +514,7 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.music.volume = 0;
 
 				Mods.currentModDirectory = songs[curSelected].folder;
-				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase() + characterPrefix, curDifficulty);
+				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase() + '-' + CharSelectState.currentFreeplaySelectedName, curDifficulty);
 				Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 				if (PlayState.SONG.needsVoices)
 				{
@@ -578,7 +585,7 @@ class FreeplayState extends MusicBeatState
 		{
 			persistentUpdate = false;
 			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-			var poop:String = Highscore.formatSong(songLowercase + characterPrefix, curDifficulty);
+			var poop:String = Highscore.formatSong(songLowercase + '-' + CharSelectState.currentFreeplaySelectedName, curDifficulty);
 
 			try
 			{

@@ -2,6 +2,7 @@ package substates;
 
 import flixel.addons.display.FlxBackdrop;
 
+import states.CharSelectState;
 import states.StoryMenuState;
 import states.FreeplayState;
 
@@ -278,10 +279,10 @@ class ResultsScreen extends MusicBeatSubstate
             new FlxTimer().start(tweenDur + 0.4, (_) -> {
                 startBeating = true;
                 var musicPath:String = getRankName() == 'e' ? 'winScreenbad' : 'winScreen';
-                musicPath += FreeplayState.characterPrefix;
+                musicPath += '-${CharSelectState.currentFreeplaySelectedName}';
                 FlxG.sound.playMusic(Paths.music(musicPath));
                 Conductor.bpm = getRankName() == 'e' ? 100 : 127;
-                if(FreeplayState.characterPrefix == '-pico') Conductor.bpm = getRankName() == 'e' ? 100 : 105;
+                if(CharSelectState.currentFreeplaySelectedName == 'pico') Conductor.bpm = getRankName() == 'e' ? 100 : 105;
 
                 if(getRankName() == 'e')
                 {
@@ -364,7 +365,7 @@ class ResultsScreen extends MusicBeatSubstate
                     {
 		            	FlxTransitionableState.skipNextTransIn = true;
 		            	FlxTransitionableState.skipNextTransOut = true;
-                        MusicBeatState.switchState(new FreeplayState());
+                        MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
                     }
                 });
             }}, function(value:Float)

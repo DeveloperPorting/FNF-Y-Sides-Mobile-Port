@@ -229,7 +229,7 @@ class NewPauseSubState extends MusicBeatSubstate
 				if (PlayState.isStoryMode)
 					MusicBeatState.switchState(new StoryMenuState());
 				else
-					MusicBeatState.switchState(new FreeplayState());
+					MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				PlayState.changedDifficulty = false;
 				PlayState.chartingMode = false;

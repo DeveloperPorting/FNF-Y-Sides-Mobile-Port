@@ -255,7 +255,7 @@ class WinScreen extends MusicBeatSubstate
                 {
 					FlxTransitionableState.skipNextTransIn = true;
 					FlxTransitionableState.skipNextTransOut = true;
-                    MusicBeatState.switchState(new FreeplayState());
+                    MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
                 }
             }});
         }

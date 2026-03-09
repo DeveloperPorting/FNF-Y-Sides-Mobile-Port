@@ -3321,7 +3321,7 @@ class PlayState extends MusicBeatState
 
 				canResync = false;
 				/*
-				MusicBeatState.switchState(new FreeplayState());
+				MusicBeatState.switchState(new FreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				changedDifficulty = false;
 				*/
@@ -3344,7 +3344,7 @@ class PlayState extends MusicBeatState
 
 		FlxTween.tween(shit, {alpha: 1}, 0.4);
 			
-		var resultsScreen = new ResultsScreen(FreeplayState.characterPrefix == '-pico');
+		var resultsScreen = new ResultsScreen(CharSelectState.currentFreeplaySelectedName == 'pico');
 		resultsScreen.cameras = [camOther];
 		openSubState(resultsScreen);
 

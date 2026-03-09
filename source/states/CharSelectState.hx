@@ -97,6 +97,7 @@ class CharSelectState extends MusicBeatState
         changeSelect();
     }
 
+    public static var currentFreeplaySelectedName:String = 'bf';
     var selectedCharacter:Bool = false;
     var currentCharacter:CharSelectObject; // reference of the selected char
     var acceptTimer:FlxTimer;
@@ -148,8 +149,10 @@ class CharSelectState extends MusicBeatState
                 // TO DO: make a cool transition with the icon and a mask (yk what i mean, hmmm... cuphead, hmm... winter gamejam delivery guy.. hmm.....)
                 acceptTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
                 {
+                    currentFreeplaySelectedName = avaibleCharactersArr[curSelected][0];
+
                     FlxG.sound.music.stop();
-                    MusicBeatState.switchState(new FreeplayState());
+                    MusicBeatState.switchState(new FreeplayState(currentFreeplaySelectedName == 'pico'));
                 });
             }
         }
@@ -196,7 +199,7 @@ class CharSelectState extends MusicBeatState
 
     function goBack()
     {
-        MusicBeatState.switchState(new FreeplayState());
+        MusicBeatState.switchState(new FreeplayState(currentFreeplaySelectedName == 'pico'));
     }
 
     function changeSelect(change:Int = 0)
