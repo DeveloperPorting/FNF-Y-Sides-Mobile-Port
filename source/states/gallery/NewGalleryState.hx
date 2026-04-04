@@ -3,10 +3,12 @@ package states.gallery;
 import flixel.addons.display.FlxBackdrop;
 import states.gallery.GalleryState.GalleryStateImages;
 import shaders.WaterShader;
+import haxe.Json;
 
 class NewGalleryState extends MusicBeatState
 {
     private static var curSelected:Int = 0;
+    private static var curSelectedImages:Int = 0;
 
     var optionsGrp:FlxTypedGroup<GalleryObject>;
     var optionsArr:Array<String> = [
@@ -25,6 +27,10 @@ class NewGalleryState extends MusicBeatState
     var rightArrow:FlxSprite;
 
     var waterShader:WaterShader;
+
+    // Images section
+    var imagesGrp:FlxTypedGroup<GalleryObject>;
+    var imageDataArray:Array<Dynamic> = [];
 
     override function create()
     {
@@ -51,6 +57,9 @@ class NewGalleryState extends MusicBeatState
 
         optionsGrp = new FlxTypedGroup<GalleryObject>();
         add(optionsGrp);
+
+        imagesGrp = new FlxTypedGroup<GalleryObject>();
+        add(imagesGrp);
 
         leftDownBars = new FlxSprite();
         leftDownBars.loadGraphic(Paths.image('gallery/NEW/leftDownBars'));
@@ -130,10 +139,13 @@ class NewGalleryState extends MusicBeatState
             icons.angle = icons.angle == angleTarget ? -angleTarget : angleTarget;
         }, 0);
 
-        changeSelect();
+        changeSelect(0, true);
     }
 
+    var tweenTransSpeed:Float = 0.4;
     var angleSpeed:Float = 15;
+    var canInteract:Bool = true;
+    var isPreviewingSomething:Bool = false;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
@@ -141,115 +153,215 @@ class NewGalleryState extends MusicBeatState
         disk.angle += angleSpeed * elapsed;
         if(waterShader != null) waterShader.iTime.value[0] += elapsed;
 
-        if(controls.UI_RIGHT_P)
+        if(canInteract) handleInputs();
+    }
+
+    function handleInputs()
+    {
+        if(isPreviewingSomething)
         {
-            changeSelect(1);
-            rightArrow.animation.play('press', true);
-            rightArrow.animation.finishCallback = function(name)
+            if(controls.UI_RIGHT_P)
             {
-                rightArrow.animation.play('idle', true);
-            };
+                changeSelect(1);
+                rightArrow.animation.play('press', true);
+                rightArrow.animation.finishCallback = function(name)
+                {
+                    rightArrow.animation.play('idle', true);
+                };
+            }
+            if(controls.UI_LEFT_P)
+            {
+                changeSelect(-1);
+                leftArrow.animation.play('press', true);
+                leftArrow.animation.finishCallback = function(name)
+                {
+                    leftArrow.animation.play('idle', true);
+                };
+            }
+
+            if(controls.BACK)
+            {
+                for(obj in imagesGrp)
+                {
+                    FlxTween.cancelTweensOf(obj);
+                    FlxTween.tween(obj, {y: 1280}, tweenTransSpeed, {ease: FlxEase.quartInOut});
+                }
+
+                FlxTween.tween(optionsGrp.members[curSelected], {y: 150}, tweenTransSpeed, {ease: FlxEase.quartInOut});
+
+                isPreviewingSomething = false;
+            }
         }
-        if(controls.UI_LEFT_P)
+        else
         {
-            changeSelect(-1);
-            leftArrow.animation.play('press', true);
-            leftArrow.animation.finishCallback = function(name)
+            if(controls.UI_RIGHT_P)
             {
-                leftArrow.animation.play('idle', true);
-            };
-        }
-
-        if(controls.BACK)
-        {
-            new FlxTimer().start(0.8, function(t:FlxTimer)
+                changeSelect(1);
+                rightArrow.animation.play('press', true);
+                rightArrow.animation.finishCallback = function(name)
+                {
+                    rightArrow.animation.play('idle', true);
+                };
+            }
+            if(controls.UI_LEFT_P)
             {
-		    	FlxTransitionableState.skipNextTransIn = true;
-		    	FlxTransitionableState.skipNextTransOut = true;
-                MusicBeatState.switchState(new MainMenuState());
-            });
-        }
+                changeSelect(-1);
+                leftArrow.animation.play('press', true);
+                leftArrow.animation.finishCallback = function(name)
+                {
+                    leftArrow.animation.play('idle', true);
+                };
+            }
 
-        if(controls.ACCEPT)
-        {
-            var selectedItem:String = optionsArr[curSelected];
-            switch(selectedItem)
+            if(controls.BACK)
             {
-                    case 'outdated_concepts':
-                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                new FlxTimer().start(0.8, function(t:FlxTimer)
+                {
+		            	FlxTransitionableState.skipNextTransIn = true;
+		            	FlxTransitionableState.skipNextTransOut = true;
+                    MusicBeatState.switchState(new MainMenuState());
+                });
+            }
 
-                        FlxTween.cancelTweensOf(leftArrow);
-                        for(obj in optionsGrp)
-                        {
-                            FlxTween.cancelTweensOf(obj);
-                        }
-                        FlxTween.cancelTweensOf(rightArrow);
+            if(controls.ACCEPT)
+            {
+                isPreviewingSomething = true;
+                var selectedItem:String = optionsArr[curSelected];
+                switch(selectedItem)
+                {
+                        case 'outdated_concepts' | 'bored':
+                            FlxG.sound.play(Paths.sound('confirmMenu'));
 
-                        FlxTween.tween(leftArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn});
-                        FlxTween.tween(optionsGrp.members[curSelected], {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.1});
-                        FlxTween.tween(rightArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.2});
+                            for(obj in optionsGrp)
+                            {
+                                FlxTween.cancelTweensOf(obj);
+                            }
 
-                        new FlxTimer().start(0.8, function(t:FlxTimer)
-                        {
-		    				FlxTransitionableState.skipNextTransIn = true;
-		    				FlxTransitionableState.skipNextTransOut = true;
-                            MusicBeatState.switchState(new GalleryStateImages(selectedItem));
-                        });
-                    case 'music':
-                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                            disposeImages();
+                            generateImages(selectedItem);
 
-                        FlxTween.cancelTweensOf(leftArrow);
-                        for(obj in optionsGrp)
-                        {
-                            FlxTween.cancelTweensOf(obj);
-                        }
-                        FlxTween.cancelTweensOf(rightArrow);
+                            FlxTween.tween(optionsGrp.members[curSelected], {y: -380}, tweenTransSpeed, {ease: FlxEase.quartInOut});
+                        case 'music':
+                            FlxG.sound.play(Paths.sound('confirmMenu'));
 
-                        FlxTween.tween(leftArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn});
-                        FlxTween.tween(optionsGrp.members[curSelected], {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.1});
-                        FlxTween.tween(rightArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.2});
+                            FlxTween.cancelTweensOf(leftArrow);
+                            for(obj in optionsGrp)
+                            {
+                                FlxTween.cancelTweensOf(obj);
+                            }
+                            FlxTween.cancelTweensOf(rightArrow);
 
-                        new FlxTimer().start(0.8, function(t:FlxTimer)
-                        {
-		    				FlxTransitionableState.skipNextTransIn = true;
-		    				FlxTransitionableState.skipNextTransOut = true;
-                            MusicBeatState.switchState(new GalleryStateMusic());
-                        });
-                    case 'bored':
-                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                            FlxTween.tween(leftArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn});
+                            FlxTween.tween(optionsGrp.members[curSelected], {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.1});
+                            FlxTween.tween(rightArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.2});
 
-                        FlxTween.cancelTweensOf(leftArrow);
-                        for(obj in optionsGrp)
-                        {
-                            FlxTween.cancelTweensOf(obj);
-                        }
-                        FlxTween.cancelTweensOf(rightArrow);
-
-                        FlxTween.tween(leftArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn});
-                        FlxTween.tween(optionsGrp.members[curSelected], {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.1});
-                        FlxTween.tween(rightArrow, {y: 800}, 0.6, {ease: FlxEase.quartIn, startDelay: 0.2});
-
-                        new FlxTimer().start(0.8, function(t:FlxTimer)
-                        {
-		    				FlxTransitionableState.skipNextTransIn = true;
-		    				FlxTransitionableState.skipNextTransOut = true;
-                            MusicBeatState.switchState(new GalleryStateImages(selectedItem));
-                        });
-                    default:
+                            new FlxTimer().start(0.8, function(t:FlxTimer)
+                            {
+		            				FlxTransitionableState.skipNextTransIn = true;
+		            				FlxTransitionableState.skipNextTransOut = true;
+                                MusicBeatState.switchState(new GalleryStateMusic());
+                            });
+                        default:
+                }
             }
         }
     }
 
     function changeSelect(change:Int = 0, firstTime:Bool = false)
     {
-        curSelected = FlxMath.wrap(curSelected + change, 0, optionsArr.length - 1);
+        if(isPreviewingSomething)
+        {
+            curSelectedImages = FlxMath.wrap(curSelectedImages + change, 0, imageDataArray.length - 1);
 
-		for (num => item in optionsGrp.members)
-		{
-			item.targetX = num - curSelected;
-			item.alpha = 0.6;
-			if (item.targetX == 0) item.alpha = 1;
-            if (firstTime) item.snapToPosition();
-		}
+		    for (num => item in imagesGrp.members)
+		    {
+		    	item.targetX = num - curSelectedImages;
+		    	item.alpha = 0.6;
+		    	if (item.targetX == 0) item.alpha = 1;
+                if (firstTime) item.snapToPosition();
+		    }
+        }
+        else
+        {
+            curSelected = FlxMath.wrap(curSelected + change, 0, optionsArr.length - 1);
+
+		    for (num => item in optionsGrp.members)
+		    {
+		    	item.targetX = num - curSelected;
+		    	item.alpha = 0.6;
+		    	if (item.targetX == 0) item.alpha = 1;
+                if (firstTime) item.snapToPosition();
+		    }
+        }
+    }
+
+    function generateImages(folderName:String)
+    {
+        var imagesOnFolder = FileSystem.readDirectory('assets/shared/images/gallery/$folderName');
+
+        // Delete json files
+        for(obj in imagesOnFolder)
+        {
+            if(StringTools.endsWith(obj, '.json'))
+            {
+                imagesOnFolder.remove(obj);
+            }
+        }
+
+        for(num => image in imagesOnFolder)
+        {
+            #if debug
+                trace(' * $image');
+            #end
+            
+            // removing the extension .png
+            var imageName = StringTools.replace(image, '.png', '');
+
+            try {
+                var content = File.getContent('assets/shared/images/gallery/$folderName/$imageName.json');
+                var imageData = Json.parse(content);
+
+                #if debug
+                trace('$num: ${imageData.name}');
+                trace('$num: ${imageData.description}');
+                #end
+
+                imageDataArray.push(imageData);
+            } 
+            catch(exc)
+            {
+                #if debug trace('No json has been found for the image with ID $num'); #end
+            }
+
+            var spr = new GalleryObject();
+            spr.loadGraphic(Paths.image('gallery/$folderName/$imageName'));
+            #if debug
+            trace(' - [$num] Path: ${'assets/shared/images/gallery/$folderName/$imageName.png'}');
+            #end
+            spr.antialiasing = ClientPrefs.data.antialiasing;
+            spr.screenCenter();
+            spr.x = 800;
+            spr.x += -(spr.width / 2);
+            spr.startPosition = new FlxPoint(spr.x, spr.y);
+            spr.targetX = num;
+            spr.x += FlxG.width * num;
+            spr.snapToPosition();
+            imagesGrp.add(spr);
+        }
+
+        changeSelect(0, true);
+
+        for(obj in imagesGrp)
+        {
+            obj.y = 1280;
+            FlxTween.tween(obj, {y: obj.startPosition.y}, tweenTransSpeed, {ease: FlxEase.quartInOut});
+        }
+    }
+
+    function disposeImages()
+    {
+        imagesGrp.forEach(function(spr:FlxSprite) spr.destroy());
+        imagesGrp.clear();
+        imageDataArray = [];
     }
 }
