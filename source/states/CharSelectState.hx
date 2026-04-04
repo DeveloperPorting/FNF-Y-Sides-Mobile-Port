@@ -199,7 +199,13 @@ class CharSelectState extends MusicBeatState
 
     function goBack()
     {
-        MusicBeatState.switchState(new FreeplayState(currentFreeplaySelectedName == 'pico'));
+        FlxG.sound.play(Paths.sound('cancelMenu'));
+        
+        FlxG.sound.music.fadeOut(0.5);
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, false, () -> {
+            FlxG.sound.music.pause();
+            MusicBeatState.switchState(new FreeplayState(currentFreeplaySelectedName == 'pico'));
+        });
     }
 
     function changeSelect(change:Int = 0)
