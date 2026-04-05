@@ -171,7 +171,7 @@
 - [] Week 4 Award
 - [] Week 5 Award
 
-- [ ] Pico resulsts screen sprites
+- [x] Pico resulsts screen sprites
 - [x] New simple events for Pico (+ speed up chart)
 
 - [x] Performance Menu overhaul
