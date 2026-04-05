@@ -2,54 +2,54 @@
 <TextureAtlas imagePath="bfwinosi.png">
 	<!-- Created with Adobe Animate version 22.0.2.168 -->
 	<!-- http://www.adobe.com/products/animate.html -->
-	<SubTexture name="badd instancia 10000" x="5" y="5" width="308" height="337"/>
-	<SubTexture name="badd instancia 10001" x="5" y="5" width="308" height="337"/>
-	<SubTexture name="badd instancia 10002" x="5" y="5" width="308" height="337"/>
-	<SubTexture name="badd instancia 10003" x="5" y="5" width="308" height="337"/>
-	<SubTexture name="badd instancia 10004" x="5" y="5" width="308" height="337"/>
-	<SubTexture name="badd instancia 10005" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
-	<SubTexture name="badd instancia 10006" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
-	<SubTexture name="badd instancia 10007" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
-	<SubTexture name="badd instancia 10008" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
-	<SubTexture name="badd instancia 10009" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
-	<SubTexture name="best instancia 10000" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10001" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10002" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10003" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10004" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10005" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10006" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10007" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10008" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="best instancia 10009" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
-	<SubTexture name="choosing instancia 10000" x="1600" y="5" width="371" height="341"/>
-	<SubTexture name="choosing instancia 10001" x="1600" y="5" width="371" height="341"/>
-	<SubTexture name="choosing instancia 10002" x="1600" y="5" width="371" height="341"/>
-	<SubTexture name="choosing instancia 10003" x="1600" y="5" width="371" height="341"/>
-	<SubTexture name="choosing instancia 10004" x="1600" y="5" width="371" height="341"/>
-	<SubTexture name="choosing instancia 10005" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
-	<SubTexture name="choosing instancia 10006" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
-	<SubTexture name="choosing instancia 10007" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
-	<SubTexture name="choosing instancia 10008" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
-	<SubTexture name="choosing instancia 10009" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
-	<SubTexture name="great instancia 10000" x="413" y="397" width="306" height="388"/>
-	<SubTexture name="great instancia 10001" x="413" y="397" width="306" height="388"/>
-	<SubTexture name="great instancia 10002" x="413" y="397" width="306" height="388"/>
-	<SubTexture name="great instancia 10003" x="413" y="397" width="306" height="388"/>
-	<SubTexture name="great instancia 10004" x="413" y="397" width="306" height="388"/>
-	<SubTexture name="great instancia 10005" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
-	<SubTexture name="great instancia 10006" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
-	<SubTexture name="great instancia 10007" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
-	<SubTexture name="great instancia 10008" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
-	<SubTexture name="great instancia 10009" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10000" x="1101" y="397" width="335" height="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10001" x="1101" y="397" width="335" height="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10002" x="1101" y="397" width="335" height="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10003" x="1101" y="397" width="335" height="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10004" x="1101" y="397" width="335" height="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10005" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10006" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10007" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10008" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
-	<SubTexture name="ryousurethatthiscouldbeworse instancia 10009" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
+	<SubTexture name="bad0000" x="5" y="5" width="308" height="337"/>
+	<SubTexture name="bad0001" x="5" y="5" width="308" height="337"/>
+	<SubTexture name="bad0002" x="5" y="5" width="308" height="337"/>
+	<SubTexture name="bad0003" x="5" y="5" width="308" height="337"/>
+	<SubTexture name="bad0004" x="5" y="5" width="308" height="337"/>
+	<SubTexture name="bad0005" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
+	<SubTexture name="bad0006" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
+	<SubTexture name="bad0007" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
+	<SubTexture name="bad0008" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
+	<SubTexture name="bad0009" x="351" y="5" width="308" height="336" frameX="0" frameY="-1" frameWidth="308" frameHeight="337"/>
+	<SubTexture name="best0000" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0001" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0002" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0003" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0004" x="697" y="5" width="413" height="354" frameX="0" frameY="0" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0005" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0006" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0007" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0008" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="best0009" x="1148" y="5" width="414" height="353" frameX="0" frameY="-1" frameWidth="414" frameHeight="354"/>
+	<SubTexture name="choosing0000" x="1600" y="5" width="371" height="341"/>
+	<SubTexture name="choosing0001" x="1600" y="5" width="371" height="341"/>
+	<SubTexture name="choosing0002" x="1600" y="5" width="371" height="341"/>
+	<SubTexture name="choosing0003" x="1600" y="5" width="371" height="341"/>
+	<SubTexture name="choosing0004" x="1600" y="5" width="371" height="341"/>
+	<SubTexture name="choosing0005" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
+	<SubTexture name="choosing0006" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
+	<SubTexture name="choosing0007" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
+	<SubTexture name="choosing0008" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
+	<SubTexture name="choosing0009" x="5" y="397" width="370" height="340" frameX="-1" frameY="-1" frameWidth="371" frameHeight="341"/>
+	<SubTexture name="great0000" x="413" y="397" width="306" height="388"/>
+	<SubTexture name="great0001" x="413" y="397" width="306" height="388"/>
+	<SubTexture name="great0002" x="413" y="397" width="306" height="388"/>
+	<SubTexture name="great0003" x="413" y="397" width="306" height="388"/>
+	<SubTexture name="great0004" x="413" y="397" width="306" height="388"/>
+	<SubTexture name="great0005" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
+	<SubTexture name="great0006" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
+	<SubTexture name="great0007" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
+	<SubTexture name="great0008" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
+	<SubTexture name="great0009" x="757" y="397" width="306" height="387" frameX="0" frameY="0" frameWidth="306" frameHeight="388"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0000" x="1101" y="397" width="335" height="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0001" x="1101" y="397" width="335" height="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0002" x="1101" y="397" width="335" height="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0003" x="1101" y="397" width="335" height="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0004" x="1101" y="397" width="335" height="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0005" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0006" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0007" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0008" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
+	<SubTexture name="ryousurethatthiscouldbeworse0009" x="1474" y="397" width="334" height="350" frameX="0" frameY="0" frameWidth="335" frameHeight="350"/>
 </TextureAtlas>

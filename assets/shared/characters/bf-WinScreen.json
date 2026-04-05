@@ -6,7 +6,7 @@
 			"fps": 24,
 			"anim": "90%",
 			"indices": [],
-			"name": "best instancia 1"
+			"name": "best"
 		},
 		{
 			"offsets": [-40, 20],
@@ -14,7 +14,7 @@
 			"fps": 24,
 			"anim": "75%",
 			"indices": [],
-			"name": "great instancia 1"
+			"name": "great"
 		},
 		{
 			"offsets": [-10, -10],
@@ -22,7 +22,7 @@
 			"fps": 24,
 			"anim": "65%",
 			"indices": [],
-			"name": "badd instancia 1"
+			"name": "bad"
 		},
 		{
 			"offsets": [-10, -10],
@@ -30,7 +30,7 @@
 			"fps": 24,
 			"anim": "55%",
 			"indices": [],
-			"name": "badd instancia 1"
+			"name": "bad"
 		},
 		{
 			"offsets": [50, 0],
@@ -38,14 +38,14 @@
 			"fps": 24,
 			"anim": "0%",
 			"indices": [],
-			"name": "ryousurethatthiscouldbeworse instancia 1"
+			"name": "ryousurethatthiscouldbeworse"
 		},
 		{
 			"loop": true,
 			"offsets": [-20, 0],
 			"anim": "choose",
 			"fps": 24,
-			"name": "choosing instancia 1",
+			"name": "choosing",
 			"indices": []
 		}
 	],

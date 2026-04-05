@@ -118,12 +118,13 @@ class ResultsScreen extends MusicBeatSubstate
         whiteBackground.alpha = 0;
         add(whiteBackground);
 
-        boyfriend = new Character(0, 300, 'bf-WinScreen');
+        boyfriend = new Character(0, 300, '${CharSelectState.currentFreeplaySelectedName}-WinScreen');
         boyfriend.screenCenter(Y);
         boyfriend.y += 20;
         boyfriend.antialiasing = ClientPrefs.data.antialiasing;
         boyfriend.isPlayer = true;
         boyfriend.alpha = 0;
+        if(CharSelectState.currentFreeplaySelectedName == 'pico') boyfriend.y += -40;
 
         boyfriend.animation.finishCallback = function(name:String)
         {

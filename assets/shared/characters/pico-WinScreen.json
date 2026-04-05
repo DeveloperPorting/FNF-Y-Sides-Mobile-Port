@@ -1,0 +1,63 @@
+{
+	"animations": [
+		{
+			"loop": true,
+			"offsets": [24, -14],
+			"anim": "90%",
+			"fps": 24,
+			"name": "best",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [-10, 0],
+			"anim": "75%",
+			"fps": 24,
+			"name": "great",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [-10, 0],
+			"anim": "65%",
+			"fps": 24,
+			"name": "bad",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [-10, 0],
+			"anim": "55%",
+			"fps": 24,
+			"name": "bad",
+			"indices": []
+		},
+		{
+			"loop": true,
+			"offsets": [-10, 0],
+			"anim": "0%",
+			"fps": 24,
+			"name": "ryousurethatthiscouldbeworse",
+			"indices": []
+		},
+		{
+			"offsets": [-20, 0],
+			"loop": true,
+			"fps": 24,
+			"anim": "choose",
+			"indices": [],
+			"name": "choosing"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"image": "resultsScreen/newResultsScreen/picowinosi",
+	"position": [0, 220],
+	"healthicon": "face",
+	"flip_x": false,
+	"healthbar_colors": [161, 161, 161],
+	"camera_position": [0, 0],
+	"sing_duration": 4,
+	"scale": 1,
+	"_editor_isPlayer": false
+}
