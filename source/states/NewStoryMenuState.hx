@@ -191,7 +191,7 @@ class NewStoryMenuState extends MusicBeatState
     {
         super.update(elapsed);
 
-		if(!selectedWeek)
+		if(!selectedWeek && !goneBack)
 		{
 			if(controls.UI_DOWN_P)
 			{
@@ -215,11 +215,60 @@ class NewStoryMenuState extends MusicBeatState
 
 			if(controls.BACK)
 			{
-				MusicBeatState.switchState(new MainMenuState());
+				goneBack = true;
+
+				FlxTween.cancelTweensOf(weekBackground);
+				FlxTween.cancelTweensOf(poloUp);
+				FlxTween.cancelTweensOf(poloDown);
+				FlxTween.cancelTweensOf(scoreText);
+				FlxTween.cancelTweensOf(weekTextBackground);
+				FlxTween.cancelTweensOf(songsThingie);
+				FlxTween.cancelTweensOf(gradient);
+				FlxTween.cancelTweensOf(sprDifficulty);
+				FlxTween.cancelTweensOf(character);
+
+				txtTracklistGrp.forEach(function(text:FlxBitmapText)
+				{
+					FlxTween.cancelTweensOf(text);
+				});
+				grpWeekText.forEach(function(item:WeekItem)
+				{
+					FlxTween.cancelTweensOf(item);
+				});
+
+				FlxTween.tween(weekBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(poloUp, {y: -poloUp.height}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(poloDown, {y: FlxG.height}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(scoreText, {y: FlxG.height + 10}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(weekTextBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(diffBackground, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(songsThingie, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(gradient, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(sprDifficulty, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				FlxTween.tween(character, {alpha: 0, y: character.y + 10}, transitionDuration, {ease: FlxEase.expoOut});
+
+				txtTracklistGrp.forEach(function(text:FlxBitmapText)
+				{
+					text.alpha = 0;
+					FlxTween.tween(text, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
+				});
+
+				grpWeekText.forEach(function(item:WeekItem)
+				{
+					item.copyPositions = false;
+					FlxTween.tween(item, {x: -600}, transitionDuration, {ease: FlxEase.expoOut});
+				});
+
+				new FlxTimer().start(transitionDuration, function(tmr:FlxTimer)
+				{
+                    FlxTransitionableState.skipNextTransIn = true;
+                    FlxTransitionableState.skipNextTransOut = true;
+					MusicBeatState.switchState(new MainMenuState());
+				});
+
+				if (controls.ACCEPT)
+					selectWeek();
 			}
-			
-			if (controls.ACCEPT)
-				selectWeek();
 		}
 
         var multX = FlxMath.lerp(character.scale.x, characterScaleX, elapsed * 9);
@@ -272,6 +321,7 @@ class NewStoryMenuState extends MusicBeatState
 		});
 	}
 	
+	var goneBack:Bool = false;
 	var selectedWeek:Bool = false;
 	var stopspamming:Bool = false;
 	function selectWeek()
