@@ -7,6 +7,7 @@ import flixel.graphics.FlxGraphic;
 import backend.Highscore;
 import backend.Song;
 import backend.WeekData;
+import backend.StageData;
 
 import objects.MenuItem;
 
@@ -25,6 +26,7 @@ class NewStoryMenuState extends MusicBeatState
     var gradient:FlxSprite;
     var character:FlxSprite;
     var songsThingie:FlxSprite;
+	var txtTracklistGrp:FlxTypedGroup<FlxBitmapText>;
     var weekTextBackground:FlxSprite;
     var diffBackground:FlxSprite;
     var sprDifficulty:FlxSprite;
@@ -87,9 +89,10 @@ class NewStoryMenuState extends MusicBeatState
         character.antialiasing = ClientPrefs.data.antialiasing;
         add(character);
 
-        weekTextBackground = new FlxSprite(20, 0);
+        weekTextBackground = new FlxSprite(0, 0);
         weekTextBackground.makeGraphic(290, FlxG.height, 0xFF8E8596);
         weekTextBackground.alpha = 0.5;
+		weekTextBackground.x = (375 / 2) - (weekTextBackground.width / 2);
         add(weekTextBackground);
 
         diffBackground = new FlxSprite(0, 155);
@@ -118,6 +121,8 @@ class NewStoryMenuState extends MusicBeatState
 
 				var weekThing:WeekItem = new WeekItem(0, 0, WeekData.weeksList[i]);
                 weekThing.screenCenter(Y);
+				weekThing.x = weekTextBackground.x + weekTextBackground.width / 2 - weekThing.width / 2;
+                weekThing.startPosition.x = weekThing.x;
                 weekThing.startPosition.y = weekThing.y;
                 weekThing.targetY = i;
 				weekThing.ID = i;
@@ -147,6 +152,9 @@ class NewStoryMenuState extends MusicBeatState
         songsThingie.y = diffBackground.y + diffBackground.height + 10;
         add(songsThingie);
 
+		txtTracklistGrp = new FlxTypedGroup<FlxBitmapText>();
+		add(txtTracklistGrp);
+
         poloUp = new FlxSprite();
         poloUp.loadGraphic(Paths.image('storymenu/new/poloUp'));
         add(poloUp);
@@ -164,30 +172,37 @@ class NewStoryMenuState extends MusicBeatState
     {
         super.update(elapsed);
 
-        if(controls.UI_DOWN_P)
-        {
-            changeWeek(1);
-        }
+		if(!selectedWeek)
+		{
+			if(controls.UI_DOWN_P)
+			{
+				changeWeek(1);
+			}
 
-        if(controls.UI_UP_P)
-        {
-            changeWeek(-1);
-        }
+			if(controls.UI_UP_P)
+			{
+				changeWeek(-1);
+			}
 
-        if(controls.UI_LEFT_P)
-        {
-            changeDifficulty(-1);
-        }
+			if(controls.UI_LEFT_P)
+			{
+				changeDifficulty(-1);
+			}
 
-        if(controls.UI_RIGHT_P)
-        {
-            changeDifficulty(1);
-        }
+			if(controls.UI_RIGHT_P)
+			{
+				changeDifficulty(1);
+			}
 
-        if(controls.BACK)
-        {
-            MusicBeatState.switchState(new MainMenuState());
-        }
+			if(controls.BACK)
+			{
+				MusicBeatState.switchState(new MainMenuState());
+			}
+			
+			if (controls.ACCEPT)
+				selectWeek();
+		}
+
 
 		if(intendedScore != lerpScore)
 		{
@@ -197,6 +212,81 @@ class NewStoryMenuState extends MusicBeatState
 			//scoreText.text = Language.getPhrase('week_score', 'WEEK SCORE: {1}', [lerpScore]);
 		}
     }
+	
+	var selectedWeek:Bool = false;
+	var stopspamming:Bool = false;
+	function selectWeek()
+	{
+		if (!weekIsLocked(loadedWeeks[curWeek].fileName))
+		{
+			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
+			var songArray:Array<String> = [];
+			var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
+			for (i in 0...leWeek.length) {
+				songArray.push(leWeek[i][0]);
+			}
+
+			// Nevermind that's stupid lmao
+			try
+			{
+				PlayState.storyPlaylist = songArray;
+				PlayState.isStoryMode = true;
+				selectedWeek = true;
+	
+				var diffic = Difficulty.getFilePath(curDifficulty);
+				if(diffic == null) diffic = '';
+	
+				PlayState.storyDifficulty = curDifficulty;
+	
+				Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() +  '-' + CharSelectState.currentFreeplaySelectedName + diffic, PlayState.storyPlaylist[0].toLowerCase());
+
+				PlayState.totalSongsPlayed = 0;
+				PlayState.campaignScore = 0;
+				PlayState.campaignMisses = 0;
+				PlayState.campaignRating = 0;
+
+				PlayState.campaignSicks = 0;
+				PlayState.campaignGoods = 0;
+				PlayState.campaignBads = 0;
+				PlayState.campaignShits = 0;
+			}
+			catch(e:Dynamic)
+			{
+				trace('ERROR! $e');
+				return;
+			}
+			
+			if (stopspamming == false)
+			{
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+
+				stopspamming = true;
+			}
+
+			var directory = StageData.forceNextDirectory;
+			LoadingState.loadNextDirectory();
+			StageData.forceNextDirectory = directory;
+
+			@:privateAccess
+			if(PlayState._lastLoadedModDirectory != Mods.currentModDirectory)
+			{
+				trace('CHANGED MOD DIRECTORY, RELOADING STUFF');
+				Paths.freeGraphicsFromMemory();
+			}
+			LoadingState.prepareToSong();
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+			{
+				#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
+				LoadingState.loadAndSwitchState(new PlayState(), true);
+				FreeplayState.destroyFreeplayVocals();
+			});
+			
+			#if (MODS_ALLOWED && DISCORD_ALLOWED)
+			DiscordClient.loadModRPC();
+			#end
+		}
+		else FlxG.sound.play(Paths.sound('cancelMenu'));
+	}
 
 	function weekIsLocked(name:String):Bool {
 		var leWeek:WeekData = WeekData.weeksLoaded.get(name);
@@ -228,6 +318,7 @@ class NewStoryMenuState extends MusicBeatState
 			//sprDifficulty.x += (308 - sprDifficulty.width) / 3;
 			sprDifficulty.alpha = 0;
 			sprDifficulty.y = diffBackground.y + diffBackground.height/2 - sprDifficulty.height/2;
+			sprDifficulty.y += -30;
 
 			FlxTween.cancelTweensOf(sprDifficulty);
 			FlxTween.tween(sprDifficulty, {y: sprDifficulty.y + 30, alpha: 1}, 0.07);
@@ -292,6 +383,38 @@ class NewStoryMenuState extends MusicBeatState
 		{
 			curDifficulty = newPos;
 		}
+
+		updateText();
+	}
+
+	function updateText()
+	{
+		var leWeek:WeekData = loadedWeeks[curWeek];
+		var stringThing:Array<String> = [];
+		for (i in 0...leWeek.songs.length) {
+			stringThing.push(leWeek.songs[i][0]);
+		}
+
+		txtTracklistGrp.forEach(function(spr:FlxBitmapText) spr.destroy());
+		txtTracklistGrp.clear();
+
+		for (i in 0...stringThing.length)
+		{
+			var fontLetters:String = "abcgipydefhjqzklmnorstuvwx";
+			var txtTracklist = new FlxBitmapText(FlxBitmapFont.fromMonospace(Paths.image("storymenu/new/storyfont"), fontLetters, FlxPoint.get(42, 56)));
+			txtTracklist.text = stringThing[i].toLowerCase();
+			txtTracklist.antialiasing = ClientPrefs.data.antialiasing;
+			txtTracklist.scale.set(0.5, 0.5);
+			txtTracklist.updateHitbox();
+        	txtTracklist.screenCenter();
+			txtTracklist.x = songsThingie.x + songsThingie.width / 2 - txtTracklist.width / 2;
+			txtTracklist.y = songsThingie.y + 60 + (txtTracklist.height * i);
+        	txtTracklistGrp.add(txtTracklist);
+		}
+
+		#if !switch
+		intendedScore = Highscore.getWeekScore(loadedWeeks[curWeek].fileName, curDifficulty);
+		#end
 	}
 }
 
@@ -302,12 +425,14 @@ class WeekItem extends FlxSprite
     public var distancePerItem:FlxPoint = new FlxPoint(0, 160);
     public var startPosition:FlxPoint = new FlxPoint(0, 0);
     public var copyPositions:Bool = true;
+    public var changeScale:Bool = true;
 
     public function new(x:Float, y:Float, weekName:String)
     {
         super(x, y);
 
         loadGraphic(Paths.image('storymenu/new/items/$weekName'));
+		antialiasing = ClientPrefs.data.antialiasing;
     }
 
     override function update(elapsed:Float)
@@ -324,6 +449,14 @@ class WeekItem extends FlxSprite
             x = FlxMath.lerp((realTargetX * distancePerItem.x) + startPosition.x, x, lerpVal);
             y = FlxMath.lerp((targetY * distancePerItem.y) + startPosition.y, y, lerpVal);
         }
+
+		var targetScale:Float = 0.9;
+		if(targetY == 0) targetScale = 1;
+		if(changeScale)
+		{
+			var mult = FlxMath.lerp(scale.x, targetScale, elapsed * 7);
+			scale.set(mult, mult);
+		}
     }
 
     public function snapToPosition()
@@ -333,5 +466,10 @@ class WeekItem extends FlxSprite
 
         x = startPosition.x + (realTargetX * distancePerItem.x);
         y = startPosition.y + (targetY * distancePerItem.y);
+
+		// also snap scale
+		var targetScale:Float = 0.9;
+		if(targetY == 0) targetScale = 1;
+		scale.set(targetScale, targetScale);
     }
 }
