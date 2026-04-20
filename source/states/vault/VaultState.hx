@@ -655,7 +655,8 @@ class VaultState extends MusicBeatState
         "Many people ask me why I'm a boyfriend... I guess it's just my hair",
         "This shop has tons of employees actually, but only 4 are the ones who really work hard :(",
         "Your progress is stored by Tapi, hopefully he won't erase your save files as he did with mines",
-        "Oh, about the name of the company... it's a very gorgeous metaphor, isn't it?"
+        "Oh, about the name of the company... it's a very gorgeous metaphor, isn't it?",
+        "The last meeting we had was about starting to sell plushies. \nI refused.",
     ];
     var randomStartIndex:Int = 0;
 
