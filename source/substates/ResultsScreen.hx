@@ -359,6 +359,8 @@ class ResultsScreen extends MusicBeatSubstate
 		            ShopSubState.addMoney(150);
 		            trace(ShopSubState.money);
 
+                    BeatenSongs.beatSong('${PlayState.instance.curSong.toLowerCase()}-${CharSelectState.currentFreeplaySelectedName}');
+
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     if(PlayState.isStoryMode)
                     {

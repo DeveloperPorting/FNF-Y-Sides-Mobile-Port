@@ -119,8 +119,6 @@ class Highscore
 		if (FlxG.save.data.songScores != null)
 			songScores = FlxG.save.data.songScores;
 
-		trace(songScores);
-
 		if (FlxG.save.data.songRating != null)
 			songRating = FlxG.save.data.songRating;
 	}

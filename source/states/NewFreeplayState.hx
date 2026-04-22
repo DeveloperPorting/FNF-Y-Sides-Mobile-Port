@@ -58,6 +58,7 @@ class NewFreeplayState extends MusicBeatState
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
+		BeatenSongs.init();
 
 		#if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
@@ -206,15 +207,7 @@ class NewFreeplayState extends MusicBeatState
             capsule.startPosition.y = capsule.y;
 			capsule.snapToPosition();
 
-            var isNewSong:Bool = false;
-            for(j in 0...Difficulty.defaultList.length)
-            {
-		        var score:Int = Highscore.getScore(songs[i].songName, CharSelectState.currentFreeplaySelectedName, j);
-                trace('$score / $j / $i / ${songs[i].songName}');
-                if(score == 0) isNewSong = true;
-            }
-
-            capsule.isNewSong = isNewSong;
+            capsule.isNewSong = !BeatenSongs.beatenSongs.get('${songs[i].songName.toLowerCase()}-${CharSelectState.currentFreeplaySelectedName}');
             grpSongs.add(capsule);
         }
 
