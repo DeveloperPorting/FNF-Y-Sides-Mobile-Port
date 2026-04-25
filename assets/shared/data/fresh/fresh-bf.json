@@ -5,7 +5,7 @@
 		[
 			0,
 			[
-				["smooth_camera_zoom", "0.9", "7.45, linear"]
+				["smooth_camera_zoom", "0.75", "7.45, linear"]
 			]
 		],
 		[
@@ -17,58 +17,58 @@
 		[
 			8000,
 			[
-				["smooth_camera_zoom", "0.75", "1.3, quartOut"],
+				["smooth_camera_zoom", "0.6", "1.3, quartOut"],
 				["camera_flash", "1.3", ""]
 			]
 		],
 		[
 			16000,
 			[
-				["smooth_camera_zoom", "0.9", "1.2, quartOut"]
+				["smooth_camera_zoom", "0.65", "1.2, quartOut"]
 			]
 		],
 		[
 			21750,
 			[
-				["smooth_camera_zoom", "1", "1.3, quartOut"]
+				["smooth_camera_zoom", "0.7", "1.3, quartOut"]
 			]
 		],
 		[
 			24000,
 			[
-				["smooth_camera_zoom", "0.75", "1, expoOut"],
+				["smooth_camera_zoom", "0.65", "1, expoOut"],
 				["camera_flash", "1.2", ""]
 			]
 		],
 		[
 			50000,
 			[
-				["smooth_camera_zoom", "1.05", "0.5, quartOut"]
+				["smooth_camera_zoom", "0.75", "0.5, quartOut"]
 			]
 		],
 		[
 			52000,
 			[
-				["smooth_camera_zoom", "0.75", "1.2, quartOut"]
+				["smooth_camera_zoom", "0.65", "1.2, quartOut"]
 			]
 		],
 		[
 			54000,
 			[
-				["smooth_camera_zoom", "1.05", "0.5, quartOut"]
+				["smooth_camera_zoom", "0.8", "0.5, quartOut"]
 			]
 		],
 		[
 			56000,
 			[
-				["smooth_camera_zoom", "0.86", "1.1, quartOut"],
+				["smooth_camera_zoom", "0.67", "1.1, quartOut"],
 				["smooth_camera_zoom", "0.86", "1.1, quartOut"]
 			]
 		],
 		[
 			64000,
 			[
-				["smooth_camera_zoom", "0.75", "1.2, quartOut"],
+				["smooth_camera_zoom", "0.7", "1.2, quartOut"],
 				["camera_flash", "0.8", ""]
 			]
 		]
