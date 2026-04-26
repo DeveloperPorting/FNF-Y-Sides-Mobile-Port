@@ -209,7 +209,9 @@ class ShopSubState extends MusicBeatSubstate
 
 		for (num => item in itemsListGrp.members)
 		{
-            if(item != null) FlxTween.cancelTweensOf(item);
+            if(item == null) continue;
+            
+            FlxTween.cancelTweensOf(item);
             if(itemsListGrp.length > 5)
             {
 			    switch(curSelected)
