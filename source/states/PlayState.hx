@@ -438,6 +438,7 @@ class PlayState extends MusicBeatState
 		{
 			case 'stage': new StageWeek1();
 			case 'halloween': new HalloweenStage();
+			case 'halloweenPico': new HalloweenStagePico();
 			case 'halloweenCreepy': new HalloweenCreepyStage();
 			case 'picoBG': new PicoStage();
 			case 'limo': new LimoStage();
