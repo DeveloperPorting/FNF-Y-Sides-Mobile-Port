@@ -165,6 +165,7 @@ class PlayState extends MusicBeatState
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
+	public var censorSprite:FlxSprite;
 
 	public var notes:FlxTypedGroup<Note>;
 	public var unspawnNotes:Array<Note> = [];
@@ -542,6 +543,12 @@ class PlayState extends MusicBeatState
 		startCharacterScripts(dad.curCharacter);
 		startCharacterScripts(boyfriend.curCharacter);
 		#end
+
+		censorSprite = new FlxSprite(boyfriend.x + boyfriend.censorIdleOffset[0], boyfriend.y + boyfriend.censorIdleOffset[1]);
+		censorSprite.loadGraphic(Paths.image('hud/censor'));
+		censorSprite.antialiasing = ClientPrefs.data.antialiasing;
+		censorSprite.visible = false;
+		add(censorSprite);
 
 		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
 		vignette.alpha = 0.25;
@@ -4104,6 +4111,24 @@ class PlayState extends MusicBeatState
 						if(char.getAnimationName() == holdAnim || char.getAnimationName() == holdAnim + '-loop') canPlay = false;
 					}
 
+					if(note.censorNote)
+					{
+						censorSprite.visible = true;
+						switch(animToPlay)
+						{
+							case 'singLEFT':
+								censorSprite.setPosition(boyfriend.x + boyfriend.censorLeftOffset[0], boyfriend.y + boyfriend.censorLeftOffset[1]);
+							case 'singRIGHT':
+								censorSprite.setPosition(boyfriend.x + boyfriend.censorRightOffset[0], boyfriend.y + boyfriend.censorRightOffset[1]);
+							case 'singDOWN':
+								censorSprite.setPosition(boyfriend.x + boyfriend.censorDownOffset[0], boyfriend.y + boyfriend.censorDownOffset[1]);
+							case 'singUP':
+								censorSprite.setPosition(boyfriend.x + boyfriend.censorUpOffset[0], boyfriend.y + boyfriend.censorUpOffset[1]);
+							default:
+								censorSprite.setPosition(boyfriend.x + boyfriend.censorIdleOffset[0], boyfriend.y + boyfriend.censorIdleOffset[1]);
+						}
+					}
+					else censorSprite.visible = false;
 					
 					var cameraOffset:Float = 12; // 30 is good option
 
@@ -4845,10 +4870,17 @@ class PlayState extends MusicBeatState
 		if (boyfriend != null && beat % boyfriend.danceEveryNumBeats == 0 && !boyfriend.getAnimationName().startsWith('sing') && !boyfriend.stunned)
 		{
 			if(isLiftMechanicEnabled) {
-				if(!startedLift && !forcedLiftingSection) boyfriend.dance();
+				if(!startedLift && !forcedLiftingSection)
+				{
+					censorSprite.visible = false;
+					boyfriend.dance();
+				}
 			}
 			else 
+			{
+				censorSprite.visible = false;
 				boyfriend.dance();
+			}
 		}
 		if (dad != null && beat % dad.danceEveryNumBeats == 0 && !dad.getAnimationName().startsWith('sing') && !dad.stunned)
 			dad.dance();
@@ -4867,7 +4899,10 @@ class PlayState extends MusicBeatState
 	{
 		var anim:String = boyfriend.getAnimationName();
 		if(boyfriend.holdTimer > Conductor.stepCrochet * (0.0011 #if FLX_PITCH / FlxG.sound.music.pitch #end) * boyfriend.singDuration && anim.startsWith('sing') && !anim.endsWith('miss'))
+		{
+			censorSprite.visible = false;
 			boyfriend.dance();
+		}
 	}
 
 	override function sectionHit()

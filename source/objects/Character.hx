@@ -25,6 +25,7 @@ typedef CharacterFile = {
 	var no_antialiasing:Bool;
 	var healthbar_colors:Array<Int>;
 	@:optional var icon_offset:Array<Int>;
+	@:optional var censor_offset:Array<Int>;
 	var vocals_file:String;
 	@:optional var _editor_isPlayer:Null<Bool>;
 }
@@ -69,6 +70,11 @@ class Character extends FlxSprite
 	public var cameraPosition:Array<Float> = [0, 0];
 	public var healthColorArray:Array<Int> = [255, 0, 0];
 	public var iconOffset:Array<Int> = [0, 0];
+	public var censorIdleOffset:Array<Int> = [0, 0];
+	public var censorLeftOffset:Array<Int> = [0, 0];
+	public var censorDownOffset:Array<Int> = [0, 0];
+	public var censorUpOffset:Array<Int> = [0, 0];
+	public var censorRightOffset:Array<Int> = [0, 0];
 	public var flipHealthIcon:Bool = false;
 
 	public var missingCharacter:Bool = false;
@@ -195,6 +201,11 @@ class Character extends FlxSprite
 		healthColorArray = (json.healthbar_colors != null && json.healthbar_colors.length > 2) ? json.healthbar_colors : [161, 161, 161];
 		flipHealthIcon = (json.flip_health_icon == true);
 		iconOffset = (json.icon_offset != null && json.icon_offset.length > 1) ? json.icon_offset : [0, 0];
+		censorIdleOffset = (json.censor_offset_idle != null && json.censor_offset_idle.length > 1) ? json.censor_offset_idle : [0, 0];
+		censorLeftOffset = (json.censor_offset_left != null && json.censor_offset_left.length > 1) ? json.censor_offset_left : [0, 0];
+		censorDownOffset = (json.censor_offset_down != null && json.censor_offset_down.length > 1) ? json.censor_offset_down : [0, 0];
+		censorUpOffset = (json.censor_offset_up != null && json.censor_offset_up.length > 1) ? json.censor_offset_up : [0, 0];
+		censorRightOffset = (json.censor_offset_right != null && json.censor_offset_right.length > 1) ? json.censor_offset_right : [0, 0];
 		vocalsFile = json.vocals_file != null ? json.vocals_file : '';
 		originalFlipX = (json.flip_x == true);
 		editorIsPlayer = json._editor_isPlayer;
