@@ -112,7 +112,7 @@ class LimoStage extends BaseStage
     {
         if(!ClientPrefs.data.lowQuality) clouds.velocity.set(20, 0);
         if(!ClientPrefs.data.lowQuality) airplaneRight.velocity.set(130, 0);
-        if(!ClientPrefs.data.lowQuality) airplaneLeft.velocity.set(-130, 0);
+        if(!ClientPrefs.data.lowQuality) airplaneLeft.velocity.set(-115, 0);
         buildingsBack2.velocity.set(40, 0);
         buildingsBack.velocity.set(50, 0);
         buildingsFront.velocity.set(75, 0);
