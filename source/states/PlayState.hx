@@ -4779,6 +4779,26 @@ class PlayState extends MusicBeatState
 						cameraFollowInstant = false;
 						blackThing.alpha = 0;
 				}
+			case 'Madness':
+				switch(curStep)
+				{
+					case 768:
+						constantHealthDrainActive = true;
+						glowHealthBarEffect = true;
+						FlxTween.tween(healthBarFireBlur, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+						FlxTween.tween(healthBarFire, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
+						FlxTween.tween(healthBarGlow, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+						FlxTween.tween(fireVignette, {alpha: 1}, 1, {ease: FlxEase.quartOut});
+					case 896:
+						constantHealthDrainAmount = 0.00095;
+					case 1024:
+						constantHealthDrainActive = false;
+						glowHealthBarEffect = false;
+						FlxTween.tween(healthBarFireBlur, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+						FlxTween.tween(healthBarFire, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+						FlxTween.tween(healthBarGlow, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+						FlxTween.tween(fireVignette, {alpha: 0}, 1, {ease: FlxEase.quartOut});
+				}
 		}
 
 		lastStepHit = curStep;
