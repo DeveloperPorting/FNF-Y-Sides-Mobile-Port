@@ -204,7 +204,7 @@ class NewGalleryState extends MusicBeatState
         infoBackground.visible = false;
         add(infoBackground);
 
-        infoText = new FlxText(0, 0, 0, '');
+        infoText = new FlxText(0, 0, 650, '');
         infoText.setFormat(Paths.font("vcr.ttf"), 36, 0xFFFFFFFF);
         infoText.visible = false;
         infoText.antialiasing = ClientPrefs.data.antialiasing;
