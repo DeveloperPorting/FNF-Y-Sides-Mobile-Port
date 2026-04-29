@@ -4,6 +4,8 @@ import states.stages.objects.*;
 import objects.Character;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WaterShader;
+import shaders.Dubswitcher;
+import openfl.filters.ShaderFilter;
 
 class TrickyStage extends BaseStage
 {
@@ -21,6 +23,8 @@ class TrickyStage extends BaseStage
 	var sign:BGSprite;
 
 	var voidShader:WaterShader;
+	var dubswitcherShader:Dubswitcher;
+	var dubswitcherFilter:ShaderFilter;
 
 	override function create()
 	{
@@ -80,6 +84,12 @@ class TrickyStage extends BaseStage
 			voidShader = new WaterShader();
 			verticalVoid.shader = voidShader;
 			horizontalVoid.shader = voidShader;
+
+            dubswitcherShader = new Dubswitcher();
+            dubswitcherShader.intensity.value = [0.004];
+
+            dubswitcherFilter = new ShaderFilter(dubswitcherShader);
+            if(ClientPrefs.data.shaders) FlxG.camera.filters = [dubswitcherFilter];
 		}
 	}
 
@@ -113,5 +123,6 @@ class TrickyStage extends BaseStage
 	override function update(elapsed:Float)
 	{
         if(voidShader != null) voidShader.iTime.value[0] += (elapsed / 1.25);
+		if(dubswitcherShader != null) dubswitcherShader.iTime.value[0] += elapsed;
 	}
 }
