@@ -234,8 +234,8 @@ class FlashingState extends MusicBeatState
 
 			var tweenDuration:Float = 1.2;
 
-			FlxG.camera.zoom = 1.15;
-			FlxTween.tween(FlxG.camera, {zoom: 1}, tweenDuration, {ease: FlxEase.cubeOut});
+			//FlxG.camera.zoom = 1.15;
+			//FlxTween.tween(FlxG.camera, {zoom: 1}, tweenDuration, {ease: FlxEase.cubeOut});
 
 			ClientPrefs.data.shaders = shadersOpt.value;
 			ClientPrefs.data.flashing = flashingLightsOpt.value;
