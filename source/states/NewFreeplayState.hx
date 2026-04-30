@@ -31,8 +31,8 @@ class NewFreeplayState extends MusicBeatState
     var scoreText:FlxText;
     var difText:FlxSprite;
 
-    var unlockedModSongs:Map<String, Bool> = [
-        'Madness' => true
+    public static var unlockedModSongs:Map<String, Bool> = [
+        'Madness' => false
     ];
 
 	public var isPicoMix:Bool = false;
@@ -102,6 +102,7 @@ class NewFreeplayState extends MusicBeatState
 				}
 				if(!isPicoMix) 
                 {
+                    unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked('Tricky Sign'));
                     if(!unlockedModSongs.get(song[0]) && song[4]) continue;
                     #if debug
                     trace(' * Added song with name ${song[0]} and char ${song[1]}');
