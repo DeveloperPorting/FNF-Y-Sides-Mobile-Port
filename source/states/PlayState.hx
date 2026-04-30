@@ -5,6 +5,7 @@ import backend.StageData;
 import backend.WeekData;
 import backend.Song;
 import backend.Rating;
+import backend.InputFormatter;
 
 import flixel.graphics.frames.FlxBitmapFont;
 import flixel.text.FlxBitmapText;
@@ -205,6 +206,7 @@ class PlayState extends MusicBeatState
 	public var watchingMechanicInfo:Bool = false;
 	public var thisShittyBackground:FlxSprite;
 	public var mechanicPoster:FlxSprite;
+	public var mechanicPosterText:FlxText;
 	public var mechanicBf:Character; var liftsAnimAmount:Int = 0;
 	public var mechanicEnterSprite:FlxSprite;
 
@@ -846,6 +848,13 @@ class PlayState extends MusicBeatState
 		mechanicPoster.antialiasing = ClientPrefs.data.antialiasing;
 		uiGroup.add(mechanicPoster);
 
+		var text:String = 'When there are no arrows in your section, you can press ${InputFormatter.getKeyName(ClientPrefs.keyBinds.get('mechanic')[0])} to lift dumbells and gain health!';
+		mechanicPosterText = new FlxText(-560, 0, mechanicPoster.width - 100, text);
+		mechanicPosterText.setFormat(Paths.font("GAU_pop_magic.ttf"), 26, 0xFFB996D4, CENTER);
+		mechanicPosterText.y = mechanicPoster.y + 150;
+		mechanicPosterText.antialiasing = ClientPrefs.data.antialiasing;
+		uiGroup.add(mechanicPosterText);
+
 		mechanicEnterSprite = new FlxSprite(FlxG.width + 600, 0);
 		mechanicEnterSprite.loadGraphic(Paths.image('hud/mechanic/enter'));
 		mechanicEnterSprite.screenCenter(Y);
@@ -969,6 +978,7 @@ class PlayState extends MusicBeatState
 		{
 			startCallback = null;
 			FlxTween.tween(mechanicPoster, {x: 10}, 1, {ease: FlxEase.quartOut});
+			FlxTween.tween(mechanicPosterText, {x: 10 + mechanicPoster.width / 2 - mechanicPosterText.width / 2}, 1, {ease: FlxEase.quartOut});
 			FlxTween.tween(mechanicBf, {x: FlxG.width - mechanicBf.width - 150}, 1, {ease: FlxEase.quartOut});
 			FlxTween.tween(mechanicEnterSprite, {x: FlxG.width - mechanicEnterSprite.width - 110}, 1, {ease: FlxEase.quartOut});
 			FlxTween.tween(thisShittyBackground, {alpha: 0.6}, 1, {ease: FlxEase.quartOut});
@@ -2288,7 +2298,7 @@ class PlayState extends MusicBeatState
 					}
 					if(!areNotesInBfSec)
 					{
-						if(FlxG.keys.justPressed.SPACE && !alredyLiftAnim) {
+						if(controls.MECHANIC && !alredyLiftAnim) {
 	
 							startedLift = true;
 							isPressingSpace = true;
@@ -2378,6 +2388,7 @@ class PlayState extends MusicBeatState
 			if(FlxG.keys.justPressed.ENTER)
 			{
 				FlxTween.cancelTweensOf(mechanicPoster);
+				FlxTween.cancelTweensOf(mechanicPosterText);
 				FlxTween.cancelTweensOf(mechanicBf);
 				FlxTween.cancelTweensOf(mechanicEnterSprite);
 				FlxTween.cancelTweensOf(thisShittyBackground);
@@ -2385,6 +2396,7 @@ class PlayState extends MusicBeatState
 				watchingMechanicInfo = false;
 
 				FlxTween.tween(mechanicPoster, {x: -600}, 1, {ease: FlxEase.quartOut});
+				FlxTween.tween(mechanicPosterText, {x: -600 + mechanicPoster.width / 2 - mechanicPosterText.width / 2}, 1, {ease: FlxEase.quartOut});
 				FlxTween.tween(mechanicBf, {x: FlxG.width + 600}, 1, {ease: FlxEase.quartOut});
 				FlxTween.tween(mechanicEnterSprite, {x: FlxG.width + 600}, 1, {ease: FlxEase.quartOut});
 				FlxTween.tween(thisShittyBackground, {alpha: 0}, 1, {ease: FlxEase.quartOut, onComplete: function(t:FlxTween)
