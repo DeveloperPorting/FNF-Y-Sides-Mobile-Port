@@ -47,7 +47,7 @@ class ShopSubState extends MusicBeatSubstate
         trace('Added the amount of $value coins (Total: $money)');
     }
 
-    static var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
+    public static var itemsListArr:Array<Dynamic> = [ // Name - Price - Stars - Image name
         ['Picostola', 150, 2, 'picostola'],
         ['Tricky Sign', 150, 2, 'tricky'],
         ['Calcetines', 75, 2, 'picostola'],

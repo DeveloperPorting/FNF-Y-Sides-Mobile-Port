@@ -34,8 +34,8 @@ class VaultState extends MusicBeatState
     var preShopHand:FlxSprite;
     var preShopCurSelected:Int = 0;
 
-    var poloUp:FlxSprite;
-    var poloDown:FlxSprite;
+    public static var poloUp:FlxSprite;
+    public static var poloDown:FlxSprite;
 
     var camMain:FlxCamera;
     var camHUD:FlxCamera;
@@ -492,7 +492,7 @@ class VaultState extends MusicBeatState
                 zoomOutFromShop();
             }
         }
-        else if(!isOnPreShop)
+        else if(!isOnPreShop && !isOnCollectionables)
         {
             if(controls.BACK && !wentBack)
             {
@@ -552,6 +552,10 @@ class VaultState extends MusicBeatState
         {
 
         }
+        else if(isOnCollectionables)
+        {
+
+        }
         else
         {
             // shop table
@@ -572,6 +576,27 @@ class VaultState extends MusicBeatState
             if(FlxG.mouse.overlaps(shelf))
             {
                 shelf.animation.play('select');
+                if(FlxG.mouse.justPressed)
+                {
+                    if(blurShaderTween != null) blurShaderTween.cancel();
+                    FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
+                    {
+                        blurShader.radius.value[0] = v;
+                    });
+
+                    persistentUpdate = true;
+
+                    var collectionables = new CollectionablesSubState();
+                    collectionables.cameras = [camHUD];
+                    openSubState(collectionables);
+
+                    isOnCollectionables = true;
+
+                    endDialogue();
+
+                    FlxTween.cancelTweensOf(poloDown);
+                    FlxTween.tween(poloDown, {y: FlxG.height}, 0.45, {ease: FlxEase.quintOut});
+                }
             }
             else
             {
@@ -630,6 +655,7 @@ class VaultState extends MusicBeatState
     }
 
     var isOnPreShop:Bool = false;
+    var isOnCollectionables:Bool = false;
     function zoomCameraToShop()
     {
         // if hero is walking make him run so it doesn't bother you while you buy stuff
@@ -731,7 +757,7 @@ class VaultState extends MusicBeatState
         }
     }
 
-    var blurShader:BlurShader;
+    public static var blurShader:BlurShader;
     var blurFilter:ShaderFilter;
     function openShop()
     {
@@ -769,26 +795,35 @@ class VaultState extends MusicBeatState
         FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 0.7, {ease: FlxEase.quartOut});
     }
 
-    var blurShaderTween:FlxTween;
+    public static var blurShaderTween:FlxTween;
     override function closeSubState()
     {
         super.closeSubState();
 
-        FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
-        FlxG.cameras.remove(ShopSubState.cursorCamera);
-        FlxG.cameras.remove(ShopSubState.itemsCamera);
-
-        FlxTween.cancelTweensOf(poloDown);
-        FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
-
-        zoomOutToCharacter();
-
-        showPreShopUI();
-        if(blurShaderTween != null) blurShaderTween.cancel();
-        FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
+        if(isOnCollectionables)
         {
-            blurShader.radius.value[0] = v;
-        });
+            isOnCollectionables = false;
+            //FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
+        }
+
+        if(isOnPreShop)
+        {
+            FlxG.sound.play(Paths.sound('vault/shop/zoomOut'));
+            if(FlxG.cameras.list.contains(ShopSubState.cursorCamera)) FlxG.cameras.remove(ShopSubState.cursorCamera);
+            if(FlxG.cameras.list.contains(ShopSubState.itemsCamera)) FlxG.cameras.remove(ShopSubState.itemsCamera);
+
+            FlxTween.cancelTweensOf(poloDown);
+            FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
+
+            zoomOutToCharacter();
+
+            showPreShopUI();
+            if(blurShaderTween != null) blurShaderTween.cancel();
+            FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
+            {
+                blurShader.radius.value[0] = v;
+            });
+        }
     }
 
     function zoomOutFromShop()
