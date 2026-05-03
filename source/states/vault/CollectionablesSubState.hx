@@ -1,6 +1,7 @@
 package states.vault;
 
 import backend.PsychCamera;
+import objects.Bar;
 
 enum CollectPage
 {
@@ -24,6 +25,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 
     // awards thingie
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
+    var awardCamera:FlxCamera;
 
     override function create()
     {
@@ -40,23 +42,12 @@ class CollectionablesSubState extends MusicBeatSubstate
         collectBackground.y = FlxG.height;
         add(collectBackground);
 
-        itemsPageText = new FlxText(0, collectBackground.y, 250, 'Items');
-        itemsPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
-        itemsPageText.antialiasing = ClientPrefs.data.antialiasing;
-        itemsPageText.x = collectBackground.x;
-        add(itemsPageText);
+        awardCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height + 15, Std.int(collectBackground.width), Std.int(collectBackground.height));
+        awardCamera.bgColor.alpha = 0;
+        awardCamera.scroll.y = 200;
+        add(awardCamera);
 
-        awardsPageText = new FlxText(0, collectBackground.y, 250, 'Awards');
-        awardsPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
-        awardsPageText.antialiasing = ClientPrefs.data.antialiasing;
-        awardsPageText.x = collectBackground.x + 250;
-        add(awardsPageText);
-
-        progressPageText = new FlxText(0, collectBackground.y, 250, 'Progress');
-        progressPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
-        progressPageText.antialiasing = ClientPrefs.data.antialiasing;
-        progressPageText.x = collectBackground.x + 500;
-        add(progressPageText);
+        FlxG.cameras.add(awardCamera, false);
 
         collectItemsGrp = new FlxTypedGroup<CollectItem>();
         add(collectItemsGrp);
@@ -84,13 +75,34 @@ class CollectionablesSubState extends MusicBeatSubstate
         {
             var item:AwardItem = new AwardItem(0, 0, key);
             item.makeGraphic(120, 120, 0xFFFFFFFF);
-            item.x = collectBackground.x + 40;
-            item.y = 60 + ((item.height + 25) * awardNum);
+            item.cameras = [awardCamera];
+            //item.x = collectBackground.x + 40;
+            //item.y = 60 + ((item.height + 25) * awardNum);
+            item.x = 20;
+            item.y = FlxG.height - collectBackground.height + 60 + ((item.height + 10) * awardNum);
             item.ID = awardNum;
             awardItemsGrp.add(item);
 
             awardNum++;
         }
+
+        itemsPageText = new FlxText(0, collectBackground.y, 250, 'Items');
+        itemsPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
+        itemsPageText.antialiasing = ClientPrefs.data.antialiasing;
+        itemsPageText.x = collectBackground.x;
+        add(itemsPageText);
+
+        awardsPageText = new FlxText(0, collectBackground.y, 250, 'Awards');
+        awardsPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
+        awardsPageText.antialiasing = ClientPrefs.data.antialiasing;
+        awardsPageText.x = collectBackground.x + 250;
+        add(awardsPageText);
+
+        progressPageText = new FlxText(0, collectBackground.y, 250, 'Progress');
+        progressPageText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
+        progressPageText.antialiasing = ClientPrefs.data.antialiasing;
+        progressPageText.x = collectBackground.x + 500;
+        add(progressPageText);
 
         setCurrentPage(currentPage);
         initTransition();
@@ -176,6 +188,16 @@ class CollectionablesSubState extends MusicBeatSubstate
 
     function handleMouseBehaviour()
     {
+        //
+        if(FlxG.mouse.wheel != 0)
+        {
+            var wheelSpeed:Float = 20;
+            awardCamera.followLerp = 0.8;
+            awardCamera.scroll.y -= FlxG.mouse.wheel * wheelSpeed;
+            if(awardCamera.scroll.y < 200) awardCamera.scroll.y = 200;
+            if(awardCamera.scroll.y > 10 + (awardItemsGrp.members.length - 3) * 145 + 25) awardCamera.scroll.y = 10 + (awardItemsGrp.members.length - 3) * 145 + 25;
+        }
+
         // changing shitty pages
         // items
         if(FlxG.mouse.overlaps(itemsPageText))
@@ -267,6 +289,8 @@ class AwardItem extends FlxSpriteGroup
     public var awardLogo:FlxSprite;
     public var awardNameText:FlxText;
     public var awardDescriptionText:FlxText;
+    public var awardProgressBar:Bar;
+    public var awardProgressText:FlxText;
 
     public function new(x:Float = 0, y:Float = 0, awardName:String)
     {
@@ -275,7 +299,7 @@ class AwardItem extends FlxSpriteGroup
         var achievementData = Achievements.get(awardName);
 
         background = new FlxSprite();
-        background.makeGraphic(570, 130, 0xFF000000);
+        background.makeGraphic(710, 130, 0xFF000000);
         background.alpha = 0.56;
         background.antialiasing = ClientPrefs.data.antialiasing;
         add(background);
@@ -287,17 +311,56 @@ class AwardItem extends FlxSpriteGroup
         awardLogo.updateHitbox();
         add(awardLogo);
 
-        awardNameText = new FlxText(0, 0, 0, achievementData.name);
-        awardNameText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
+        awardNameText = new FlxText(0, 0, background.width - awardLogo.width - 20, achievementData.name);
+        awardNameText.setFormat(Paths.font('GAU_pop_magic.ttf'), 20, 0xFFE0DEEA, LEFT);
         awardNameText.antialiasing = ClientPrefs.data.antialiasing;
         awardNameText.x += awardLogo.width + 10;
         add(awardNameText);
 
-        awardDescriptionText = new FlxText(0, 0, 0, achievementData.description);
-        awardDescriptionText.setFormat(Paths.font('GAU_pop_magic.ttf'), 25, 0xFFE0DEEA, CENTER);
+        awardDescriptionText = new FlxText(0, 0, background.width - awardLogo.width - 20, achievementData.description);
+        awardDescriptionText.setFormat(Paths.font('GAU_pop_magic.ttf'), 16, 0xFFE0DEEA, LEFT);
         awardDescriptionText.antialiasing = ClientPrefs.data.antialiasing;
         awardDescriptionText.x += awardLogo.width + 10;
-        awardDescriptionText.y += awardNameText.height + 10;
+        awardDescriptionText.y += awardNameText.height + 5;
         add(awardDescriptionText);
+
+		awardProgressBar = new Bar(0, 0, 'vault/collectionables/award_bar');
+        awardProgressBar.visible = false;
+		awardProgressBar.barOffset = new FlxPoint(0, 0);
+		awardProgressBar.setColors(0xFF000000, 0xFFFFFFFF);
+
+        awardProgressBar.percent = Achievements.getScore(awardName) / achievementData.maxScore;
+        awardProgressBar.updateBar();
+
+        awardProgressBar.x += awardLogo.width + 10;
+        awardProgressBar.y += awardNameText.height + 5 + awardDescriptionText.height + 5;
+        
+		awardProgressBar.leftToRight = true;
+        add(awardProgressBar);
+
+        awardProgressText = new FlxText(0, 0, background.width - awardLogo.width - 20, '${Achievements.getScore(awardName)}/${achievementData.maxScore}');
+        awardProgressText.visible = false;
+        awardProgressText.setFormat(Paths.font('GAU_pop_magic.ttf'), 10, 0xFFE0DEEA, LEFT);
+        awardProgressText.antialiasing = ClientPrefs.data.antialiasing;
+        awardProgressText.x += awardLogo.width + 10;
+        awardProgressText.y += awardNameText.height + 5 + awardDescriptionText.height + 5 + awardProgressBar.height + 5;
+        add(awardProgressText);
+
+        if(achievementData.maxScore != null && achievementData.maxScore > 0) 
+        {
+            trace('is really ${achievementData.maxScore} > 0 ?????');
+            awardProgressBar.visible = true;
+            awardProgressText.visible = true;
+        }
+        else
+        {
+            trace('WHY ARENT YOU VISIBLE FALSE???');
+            awardProgressBar.visible = false;
+            awardProgressText.visible = false;
+
+            // this is ridiculous...
+            awardProgressBar.x += 600;
+            awardProgressText.x += 600;
+        }
     }
 }
