@@ -196,7 +196,7 @@ class CollectionablesSubState extends MusicBeatSubstate
     {
         super.update(elapsed);
 
-        handleMouseBehaviour();
+        handleMouseBehaviour(elapsed);
 
         if(controls.BACK)
         {
@@ -246,18 +246,23 @@ class CollectionablesSubState extends MusicBeatSubstate
         }
     }
 
-    function handleMouseBehaviour()
+    var mouseScroll:Float = 200;
+    function handleMouseBehaviour(elapsed:Float)
     {
         //
         if(FlxG.mouse.wheel != 0)
         {
             if(currentPage != AWARDS) return;
 
-            var wheelSpeed:Float = 20;
-            awardCamera.followLerp = 0.8;
-            awardCamera.scroll.y -= FlxG.mouse.wheel * wheelSpeed;
-            if(awardCamera.scroll.y < 200) awardCamera.scroll.y = 200;
-            if(awardCamera.scroll.y > 10 + (awardItemsGrp.members.length - 3) * 145 + 25) awardCamera.scroll.y = 10 + (awardItemsGrp.members.length - 3) * 145 + 25;
+            var wheelSpeed:Float = 60;
+            mouseScroll -= FlxG.mouse.wheel * wheelSpeed;
+            if(mouseScroll < 200) mouseScroll = 200;
+            if(mouseScroll > 10 + (awardItemsGrp.members.length - 3) * 145 + 25) mouseScroll = 10 + (awardItemsGrp.members.length - 3) * 145 + 25;
+        }
+
+        if(currentPage == AWARDS)
+        {
+            awardCamera.scroll.y = FlxMath.lerp(awardCamera.scroll.y, mouseScroll, elapsed * 19);
         }
 
         // changing shitty pages
