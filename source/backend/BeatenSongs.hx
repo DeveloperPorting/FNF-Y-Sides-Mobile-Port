@@ -60,7 +60,7 @@ class BeatenSongs
     {
         // yes, hardcoded, kill me if you want :)
         var songsWithNewFlag:Array<String> = [
-            'fresh-pico'
+            'fresh-pico',
             'south-pico',
             'satin-panties-bf',
             'high-bf',
@@ -71,7 +71,8 @@ class BeatenSongs
             'eggnog-bf',
             'winter-horrorland-bf',
             'improbable-outset-bf',
-            'madness-bf'
+            'madness-bf',
+            'ram-bf'
         ];
 
         if(songsWithNewFlag.contains(name)) return true;
