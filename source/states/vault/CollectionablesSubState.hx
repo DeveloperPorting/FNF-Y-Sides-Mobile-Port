@@ -64,7 +64,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 
         awardCamera = new FlxCamera(collectBackground.x, FlxG.height - collectBackground.height - 30 + 90, Std.int(collectBackground.width), Std.int(collectBackground.height - 90));
         awardCamera.bgColor.alpha = 0;
-        awardCamera.scroll.y = 200;
+        awardCamera.scroll.y = mouseScroll;
         add(awardCamera);
 
         splashCamera = new FlxCamera();
@@ -273,7 +273,7 @@ class CollectionablesSubState extends MusicBeatSubstate
         }
     }
 
-    var mouseScroll:Float = 200;
+    var mouseScroll:Float = 190;
     var mousePointerX:Float = 0;
     var mousePointerY:Float = 0;
     function handleMouseBehaviour(elapsed:Float)
@@ -285,7 +285,7 @@ class CollectionablesSubState extends MusicBeatSubstate
 
             var wheelSpeed:Float = 60;
             mouseScroll -= FlxG.mouse.wheel * wheelSpeed;
-            if(mouseScroll < 200) mouseScroll = 200;
+            if(mouseScroll < 190) mouseScroll = 190;
             if(mouseScroll > 10 + (awardItemsGrp.members.length - 3) * 145 + 135) mouseScroll = 10 + (awardItemsGrp.members.length - 3) * 145 + 135;
         }
 
