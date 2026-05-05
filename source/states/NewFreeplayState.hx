@@ -102,12 +102,30 @@ class NewFreeplayState extends MusicBeatState
 				}
 				if(!isPicoMix) 
                 {
-                    unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked('Tricky Sign'));
-                    if(!unlockedModSongs.get(song[0]) && song[4]) continue;
-                    #if debug
-                    trace(' * Added song with name ${song[0]} and char ${song[1]}');
-                    #end
-                    addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                    // modded songs (maybe you hate this code, but i won't change it)
+                    // so your eyes can bleed ;) (and mine too)
+                    if(song[4] != null)
+                    {
+                        // quick explanation so there's no lose
+                        // when this equals '' it means no item has to be unlocked, so basically the song just appears.
+                        // if you have something inside, like ':sob:' then you have to unlock :sob: to play the song.
+                        // and now i'm wondering who's gonna read this like i'm the only coder who writes this shit
+                        if(song[4] != '')
+                        {
+                            unlockedModSongs.set(song[0], ShopSubState.isItemUnlocked(song[4]));
+                            if(!unlockedModSongs.get(song[0])) continue;
+                            addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                        }
+                        else
+                        {
+                            addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                        }
+                    }
+                    else
+                    {
+                        // just ignore that shitty code up there right? i love you y sides main content, fuck mods. -madera <3
+                        addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                    }
                 }
 				else
 				{
