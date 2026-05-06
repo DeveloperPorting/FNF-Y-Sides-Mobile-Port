@@ -29,6 +29,9 @@ class CollectionablesSubState extends MusicBeatSubstate
 
     // awards thingie
     var awardItemsGrp:FlxTypedGroup<AwardItem>;
+	var platiniumAchievement:FlxSprite;
+	var gotPlatinium:Bool = false;
+	var confetti:FlxSprite;
     public static var collectionableCamera:FlxCamera;
     public static var awardCamera:FlxCamera;
     public static var splashCamera:FlxCamera;
@@ -140,6 +143,33 @@ class CollectionablesSubState extends MusicBeatSubstate
             awardNum++;
         }
 
+		platiniumAchievement = new FlxSprite();
+		platiniumAchievement.loadGraphic(Paths.image('achievements/platiniumTrophie'));
+		platiniumAchievement.scrollFactor.set(0, 0);
+		platiniumAchievement.scale.set(0.35, 0.35);
+		platiniumAchievement.updateHitbox();
+		platiniumAchievement.antialiasing = ClientPrefs.data.antialiasing;
+		platiniumAchievement.x = FlxG.width - platiniumAchievement.width - 20;
+		platiniumAchievement.y = FlxG.height - platiniumAchievement.height - 20;
+		add(platiniumAchievement);
+
+		confetti = new FlxSprite();
+		confetti.frames = Paths.getSparrowAtlas('achievements/confeti');
+		confetti.animation.addByPrefix('play', 'confeti idle', 24, false);
+		confetti.animation.play('play');
+		confetti.scrollFactor.set(0, 0);
+		confetti.alpha = 0.001;
+		confetti.x = platiniumAchievement.x + platiniumAchievement.width / 2 - confetti.width / 2;
+		confetti.y = platiniumAchievement.y + platiniumAchievement.height / 2 - confetti.height / 2;
+		confetti.antialiasing = ClientPrefs.data.antialiasing;
+		//confetti.x = platiniumAchievement.x;
+		//confetti.y = platiniumAchievement.y;
+		//confetti.screenCenter();
+		add(confetti);
+
+		gotPlatinium = Achievements.checkPlatiniumAchievement();
+		if(!gotPlatinium) platiniumAchievement.color = 0xFF000000;
+
         progressItemsGrp = new FlxTypedGroup<ProgressItem>();
         add(progressItemsGrp);
 
@@ -219,17 +249,40 @@ class CollectionablesSubState extends MusicBeatSubstate
         });
     }
 
+	var platiniumScale:Float = 0.35;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
         handleMouseBehaviour(elapsed);
 
+        if(gotPlatinium)
+        {
+            var mult = FlxMath.lerp(platiniumAchievement.scale.x, platiniumScale, elapsed * 13);
+            platiniumAchievement.scale.set(mult, mult);
+
+            if(FlxG.mouse.overlaps(platiniumAchievement))
+            {
+                platiniumScale = 0.4;
+                if(FlxG.mouse.justPressed)
+                {
+                    confetti.alpha = 1;
+                    confetti.animation.play('play', true);
+                    FlxG.sound.play(Paths.sound('confetti'));
+                    FlxG.camera.shake(0.001, 0.5);
+                }
+            }
+            else platiniumScale = 0.35;
+        }
+
         if(controls.BACK)
         {
             FlxTween.cancelTweensOf(collectBackground);
             FlxTween.cancelTweensOf(border);
             FlxTween.cancelTweensOf(VaultState.poloDown);
+            FlxTween.cancelTweensOf(platiniumAchievement);
+            FlxTween.cancelTweensOf(pattern);
+            pattern.alpha = 0;
 
             upOptionsGrp.forEach(function(spr:UpOption)
             {
@@ -270,6 +323,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 close();
             }});
             FlxTween.tween(VaultState.poloDown, {y: FlxG.height - VaultState.poloDown.height}, 0.15, {ease: FlxEase.quintOut});
+            FlxTween.tween(platiniumAchievement, {y: FlxG.height}, 0.15, {ease: FlxEase.quartOut});
         }
     }
 
@@ -366,6 +420,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 {
                     item.visible = false;
                 });
+                platiniumAchievement.visible = false;
 
                 progressItemsGrp.forEach(function(item:ProgressItem)
                 {
@@ -381,6 +436,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 {
                     item.visible = true;
                 });
+                platiniumAchievement.visible = true;
 
                 progressItemsGrp.forEach(function(item:ProgressItem)
                 {
@@ -396,6 +452,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 {
                     item.visible = false;
                 });
+                platiniumAchievement.visible = false;
                 
                 progressItemsGrp.forEach(function(item:ProgressItem)
                 {

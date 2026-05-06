@@ -579,7 +579,7 @@ class VaultState extends MusicBeatState
                 if(FlxG.mouse.justPressed)
                 {
                     if(blurShaderTween != null) blurShaderTween.cancel();
-                    FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
+                    blurShaderTween = FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
                     {
                         blurShader.radius.value[0] = v;
                     });
@@ -771,7 +771,7 @@ class VaultState extends MusicBeatState
 
         hidePreShopUI();
         if(blurShaderTween != null) blurShaderTween.cancel();
-        FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
+        blurShaderTween = FlxTween.num(0, 5, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
         {
             blurShader.radius.value[0] = v;
         });
@@ -819,7 +819,7 @@ class VaultState extends MusicBeatState
 
             showPreShopUI();
             if(blurShaderTween != null) blurShaderTween.cancel();
-            FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
+            blurShaderTween = FlxTween.num(5, 0, 1, {ease: FlxEase.quartOut, onComplete: (_) -> blurShaderTween = null}, function(v:Float)
             {
                 blurShader.radius.value[0] = v;
             });
