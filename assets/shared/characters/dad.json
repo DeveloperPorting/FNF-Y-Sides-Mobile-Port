@@ -45,7 +45,7 @@
 			"indices": [],
 			"fps": 24,
 			"anim": "omg",
-			"loop": false,
+			"loop": true,
 			"name": "dadflipandoencolore"
 		},
 		{
