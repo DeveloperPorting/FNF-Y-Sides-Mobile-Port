@@ -613,6 +613,8 @@ class AwardItem extends FlxSpriteGroup
     public var awardProgressBar:Bar;
     public var awardProgressText:FlxText;
 
+    // TODO: update this whenever a progress is made (e.g. the click thingie)
+    // ! i wont do it so free pr :D
     public function new(x:Float = 0, y:Float = 0, awardName:String)
     {
         super(x, y);
