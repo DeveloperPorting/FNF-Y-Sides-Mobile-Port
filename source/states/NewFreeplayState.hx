@@ -591,7 +591,7 @@ class NewFreeplayState extends MusicBeatState
                 targetAlphaMods = 1;
         }
 
-        if(curCategory == targetCategory) return;
+        // if(curCategory == targetCategory) return;
 
         curCategory = targetCategory;
         reloadSongsList(targetCategory);
