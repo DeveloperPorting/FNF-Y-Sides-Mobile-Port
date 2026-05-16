@@ -221,9 +221,6 @@ class CharSelectState extends MusicBeatState
             {
                 selectedCharacter = true;
 
-                if(idleTimer != null && !idleTimer.finished)
-                    idleTimer.cancel();
-
                 FlxG.sound.music.fadeOut(0.5);
                 FlxG.sound.play(Paths.sound('charSelect/CS_confirm'));
 
@@ -248,6 +245,9 @@ class CharSelectState extends MusicBeatState
                         obj.animation.play('accept', true);
                     }
                 });
+
+                if(currentCharacter.idleTimer != null && !currentCharacter.idleTimer.finished)
+                    currentCharacter.idleTimer.cancel();
 
                 acceptTimer = new FlxTimer().start(2, function(tmr:FlxTimer)
                 {
@@ -285,16 +285,24 @@ class CharSelectState extends MusicBeatState
                 // cancel anim
                 if(currentCharacter == null) throw "Ermm, what the hell? currentCharacter seems to be null.";
 
+                currentCharacter.goneBack = true;
                 currentCharacter.animation.play('deny', true);
                 currentCharacter.animation.finishCallback = function(name)
                 {
                     if(name == 'deny') 
                     {
-                        if(idleTimer != null && !idleTimer.finished)
-                            idleTimer.cancel();
-                        idleTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
+                        if(currentCharacter.idleTimer != null && !currentCharacter.idleTimer.finished)
+                            currentCharacter.idleTimer.cancel();
+                        currentCharacter.idleTimer = new FlxTimer().start(0.5, function(tmr:FlxTimer)
                         {
-                            currentCharacter.animation.play('idle');
+                            avaibleCharactersGrp.forEach(function(obj:CharSelectObject)
+                            {
+                                if(obj.goneBack)
+                                {
+                                    obj.goneBack = false;
+                                    obj.animation.play('idle');
+                                }
+                            });
                         });
                     }
                 }
@@ -364,6 +372,8 @@ class CharSelectObject extends FlxSprite
     public var elapsedSpeed:Float = 8;
     public var useTargets:Bool = true;
     public var charColor:FlxColor = 0xFFFFFFFF;
+    public var goneBack:Bool = false;
+    public var idleTimer:FlxTimer;
 
     public function new(x:Float = 0, y:Float = 0, name:String = '', _charColor:FlxColor = 0xFFFFFFFF)
     {
