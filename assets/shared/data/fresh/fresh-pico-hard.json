@@ -1,5 +1,5 @@
 {
-	"player1": "Pico-Playable",
+	"player1": "Pico-Playable-sunset",
 	"gfVersion": "nogf",
 	"notes": [
 		{
@@ -812,7 +812,7 @@
 			]
 		]
 	],
-	"player2": "dad",
+	"player2": "dad-sunset",
 	"offset": 0,
 	"song": "Fresh",
 	"needsVoices": true,
