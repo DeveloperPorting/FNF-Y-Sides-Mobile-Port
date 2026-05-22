@@ -3,6 +3,7 @@ package states.vault;
 import cpp.abi.Abi;
 import flixel.addons.display.FlxBackdrop;
 import flixel.util.FlxSort;
+import backend.GameProgress;
 
 class ShopSubState extends MusicBeatSubstate
 {
@@ -34,6 +35,15 @@ class ShopSubState extends MusicBeatSubstate
 
         FlxG.save.data.boughtItems = boughtItems;
         FlxG.save.flush();
+    }
+
+    public static function hasBoughtAllItems():Bool
+    {
+        for(item in itemsListArr)
+        {
+            if(!boughtItems.get(item[0])) return false;
+        }
+        return true;
     }
 
     public static var money:Int;
@@ -480,6 +490,14 @@ class ShopSubState extends MusicBeatSubstate
         addMoney(-curItem.price);
         unlockItem(curItem.title);
         resortShopItems(curItem);
+
+        switch(curItem.title)
+        {
+            case 'Picostola': GameProgress.completeTask(5);
+            case 'Tricky Sign': GameProgress.completeTask(6);
+        }
+
+        if(hasBoughtAllItems()) GameProgress.completeTask(9);
 
         FlxG.sound.play(Paths.sound('vault/shop/confirmPurchase'));
         if(moneyTween != null) moneyTween.cancel();

@@ -312,10 +312,11 @@ class VaultState extends MusicBeatState
             "Break a leg out there!"
         ];
 
-        new FlxTimer().start(transDuration, function(tmr:FlxTimer)
+        FlxG.save.data.firstTimeOnVault = FlxG.save.data.firstTimeOnVault != null ? FlxG.save.data.firstTimeOnVault : true;
+        if(FlxG.save.data.firstTimeOnVault)
         {
-            FlxG.save.data.firstTimeOnVault = FlxG.save.data.firstTimeOnVault != null ? FlxG.save.data.firstTimeOnVault : true;
-            if(FlxG.save.data.firstTimeOnVault)
+            isInInteractiveDialogue = true;
+            new FlxTimer().start(transDuration, function(tmr:FlxTimer)
             {
                 updateScroll = false;
                 FlxTween.cancelTweensOf(FlxG.camera);
@@ -336,13 +337,12 @@ class VaultState extends MusicBeatState
                     FlxTween.tween(FlxG.camera, {zoom: 1}, 1.05, {ease: FlxEase.quartOut});
                     FlxTween.tween(blackShopBackground, {alpha: 0}, 1.05);
                 });
-            }
-            else
-            {
-                    startDialogue('Hey! We are finishing to place your progress...');
-            }
-        });
-
+            });
+        }
+        else
+        {
+            startDialogue('Hey! We are finishing to place your progress...');
+        }
     }
 
     var transDuration:Float = 0.65;
