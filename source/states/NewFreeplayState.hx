@@ -664,7 +664,15 @@ class NewFreeplayState extends MusicBeatState
                         case OG:
                             // just ignore that shitty code up there right? i love you y sides main content, fuck mods. -madera <3
                             if(song[4] != null) continue;
-                            addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+
+                            if(song[0] == 'Test' && ShopSubState.isItemUnlocked('Mic Bulb')) 
+                            {
+                                addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                            }
+                            else
+                            {
+                                addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+                            } 
                     }
                 }
 				else

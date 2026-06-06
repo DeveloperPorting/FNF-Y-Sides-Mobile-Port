@@ -62,6 +62,7 @@ class ShopSubState extends MusicBeatSubstate
         ['Tricky Sign', 150, 2, 'tricky'],
         ['Tennis Racket', 175, 3, 'racket'],
         ['Banana', 125, 2, 'banana'],
+        ['Mic Bulb', 100, 2, 'micbulb'],
         ['Calcetines', 75, 2, 'picostola'],
         ['Chocha de gbv', 75, 5, 'picostola'],
         ['Super saiyan 7', 100, 5, 'picostola'],

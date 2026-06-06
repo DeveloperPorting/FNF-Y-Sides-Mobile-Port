@@ -827,8 +827,10 @@ class NewGalleryState extends MusicBeatState
             musicSongsArray.push(['ram', false]);
         }
 
-        // last song on the playlist
-        musicSongsArray.push(['test', false]);
+        if(ShopSubState.isItemUnlocked('Mic Bulb'))
+        {
+            musicSongsArray.push(['test', false]);
+        }
     }
 
     function picoUnlocked():Bool
