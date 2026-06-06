@@ -166,6 +166,7 @@
 
 - [] Week 4 Award
 - [] Week 5 Award
+- [x] First purchase Award
 
 - [x] Pico resulsts screen sprites
 - [x] New simple events for Pico (+ speed up chart)
