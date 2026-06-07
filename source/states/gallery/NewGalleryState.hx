@@ -393,14 +393,9 @@ class NewGalleryState extends MusicBeatState
 
                 playMusicTimer = 0;
                 //if(isPreviewingMusics) resetTimer();
-                if(inst != null)
-                {
-                    if(!inst.playing) 
-                    {
-                        FlxG.sound.playMusic(Paths.music('galleryMenu'), 0);
-                        FlxG.sound.music.fadeIn(1);
-                    }
-                }
+
+                FlxG.sound.playMusic(Paths.music('galleryMenu'), 0);
+                FlxG.sound.music.fadeIn(1);
 
                 FlxTween.cancelTweensOf(galleryTheme);
                 FlxTween.tween(galleryTheme, {alpha: 1}, tweenTransSpeed, {ease: FlxEase.quartOut});
