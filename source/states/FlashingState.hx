@@ -438,6 +438,9 @@ class FlashingState extends MusicBeatState
 
 	function selectBindThing()
 	{
+		bindNameGrp.members[curSelectedControls].color = 0xFFF7F16A;
+		bindAssignedGrp.members[curSelectedControls].color = 0xFFF7F16A;
+
 		FlxG.sound.play(Paths.sound('confirmMenuFlash'));
 		selectedControl = true;
 	}
@@ -457,10 +460,13 @@ class FlashingState extends MusicBeatState
 
 		ClientPrefs.keyBinds.set(bindsToConfig[curSelectedControls][1], ogArray);
 		bindAssignedGrp.members[curSelectedControls].text = ClientPrefs.keyBinds.get(bindsToConfig[curSelectedControls][1])[0];
+		bindAssignedGrp.members[curSelectedControls].color = 0xFFF7F16A;
 		FlxG.sound.play(Paths.sound('keyInput'));
 
-		new FlxTimer().start(0.2, function(tmr:FlxTimer)
+		new FlxTimer().start(0.1, function(tmr:FlxTimer)
 		{
+			bindNameGrp.members[curSelectedControls].color = 0xFFFFFFFF;
+			bindAssignedGrp.members[curSelectedControls].color = 0xFFFFFFFF;
 			selectedControl = false;
 			trace(selectedControl);
 		});
