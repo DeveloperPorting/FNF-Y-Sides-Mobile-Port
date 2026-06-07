@@ -334,6 +334,8 @@ class PlayState extends MusicBeatState
 
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
+
+	var ogPlayer3Pos:Array<Float> = [];
 	override public function create()
 	{
 		//trace('Playback Rate: ' + playbackRate);
@@ -486,6 +488,8 @@ class PlayState extends MusicBeatState
 			player3 = new Character(0, 0, SONG.player3);
 			startCharacterPos(player3, true);
 			player3Group.add(player3);
+
+			ogPlayer3Pos = [player3.x, player3.y];
 		}
 
 		dad = new Character(0, 0, SONG.player2);
@@ -1107,12 +1111,10 @@ class PlayState extends MusicBeatState
 		var singUPFrame1:Array<Float> = [-10, -3];
 		var singRIGHTFrame0:Array<Float> = [29, 0];
 		var singRIGHTFrame1:Array<Float> = [6, 0];
-
-		var ogPlayer3Pos:Array<Float> = [player3.x, player3.y];
 		
 		// offsets thingie
 		// harcoded cuz it's so fucking bullshit to code something that's gonna be used in 2 FCKING songs
-		if(curSong == 'Cocoa' || curSong == 'Egggnog')
+		if(curSong == 'Cocoa' || curSong == 'Eggnog')
 		{
 			dad.animation.callback = function(name:String, frame:Int, frameIndex:Int)
 			{
