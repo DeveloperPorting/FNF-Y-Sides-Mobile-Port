@@ -56,6 +56,8 @@ class Paths
 	// define the locally tracked assets
 	public static var localTrackedAssets:Array<String> = [];
 
+	public static var permanentTrackedAssets:Map<String, Dynamic> = new Map<String, Dynamic>();
+
 	@:access(flixel.system.frontEnds.BitmapFrontEnd._cache)
 	public static function clearStoredMemory()
 	{

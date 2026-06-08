@@ -9,13 +9,16 @@ class HaxeflixelIntroState extends MusicBeatState
     override function create()
     {
         super.create();
-        
+
 		var bgcolor = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF120125);
 		add(bgcolor);
 
         videoCutscene = new VideoSprite(Paths.video('haxeflixelIntro'), false, false, false);
         videoCutscene.play();
         add(videoCutscene);
+
+        FlxTransitionableState.skipNextTransIn = true;
+        FlxTransitionableState.skipNextTransOut = true;
 
         videoCutscene.finishCallback = function()
         {
