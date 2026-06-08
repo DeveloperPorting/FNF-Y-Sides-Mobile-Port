@@ -498,7 +498,9 @@ class ShopSubState extends MusicBeatSubstate
 
         switch(curItem.title)
         {
-            case 'Picostola': GameProgress.completeTask(5);
+            case 'Picostola': 
+                Achievements.unlock('unlock_pico');
+                GameProgress.completeTask(5);
             case 'Tricky Sign': GameProgress.completeTask(6);
         }
 

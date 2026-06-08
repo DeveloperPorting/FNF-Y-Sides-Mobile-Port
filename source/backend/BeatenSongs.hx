@@ -60,6 +60,7 @@ class BeatenSongs
     {
         // yes, hardcoded, kill me if you want :)
         var songsWithNewFlag:Array<String> = [
+            'test-bf',
             'fresh-pico',
             'south-pico',
             'pico-pico',

@@ -82,8 +82,10 @@ class MusicBeatState extends FlxState
 			if(FlxG.mouse.visible) {
 				var clicks = Achievements.addScore('click');
 				var clicks2 = Achievements.addScore('click2');
+				var clicks3 = Achievements.addScore('click3');
 				trace('Clicked $clicks times...');
 				trace('Clicked $clicks2 times... (V2)');
+				trace('Clicked $clicks3 times... (V3)'); // when is this ending...
 			}
 		}
 

@@ -38,13 +38,20 @@ class Achievements {
 		createAchievement('week1_nomiss',				{name: "She Calls Me Daddy Too", description: "Beat Week 1 on Hard with no Misses."});
 		createAchievement('week2_nomiss',				{name: "SPOOKY MONTH!!!", description: "Beat Week 2 on Hard with no Misses."});
 		createAchievement('week3_nomiss',				{name: "No money needed to beat you!", description: "Beat Week 3 on Hard with no Misses."});
-		createAchievement('week4_nomiss',				{name: "Mom said to Full Combo", description: "Beat Week 4 on Hard with no Misses."});
+		createAchievement('week4_nomiss',				{name: "Mom ordered to Full Combo", description: "Beat Week 4 on Hard with no Misses."});
 		createAchievement('week5_nomiss',				{name: "Santa, gimme gifts!", description: "Beat Week 5 on Hard with no Misses."});
 		createAchievement('weekTest_nomissfreeplay',	{name: "Thanks for testing!", description: "Play test with no Misses."});
+		createAchievement('unlock_pico',				{name: "Welcome to the group!", description: "Unlock Pico as a playable character."});
+		createAchievement('beat_tricky',				{name: "YOU BEAT CLOWN!", description: "Beat Tricky on Hard"});
+		createAchievement('beat_returny',				{name: "Springfunked!", description: "Beat Groon on Hard"});
+		createAchievement('beat_ram',					{name: "Well played, funker!", description: "Beat Hex on Hard"});
+		createAchievement('50misses',					{name: "Buy new hands...", description: "Get 50 misses in a song", maxScore: 50, maxDecimals: 0});
+		createAchievement('10deaths',					{name: "Go play anything else please.", description: "Die 10 times in the same song", maxScore: 10, maxDecimals: 0});
 		createAchievement('dumbbells',					{name: "Stop playing with those dumbbells", description: "Lift dumbbells 50 times.", maxScore: 50, maxDecimals: 0});
 		createAchievement('first_purchase',				{name: "Gimme your yoins!", description: "Purchase an item for the first time."});
 		createAchievement('click',						{name: "The art of clicks", description: "Click 1000 times", maxScore: 1000, maxDecimals: 0, hidden: true});
 		createAchievement('click2',						{name: "Are you seriously still clicking?", description: "Click 2000 times", maxScore: 2000, maxDecimals: 0, hidden: true});
+		createAchievement('click3',						{name: "Stop please...", description: "Click 3000 times", maxScore: 3000, maxDecimals: 0, hidden: true});
 		
 		//dont delete this thing below
 		_originalLength = _sortID + 1;

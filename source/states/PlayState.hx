@@ -2926,6 +2926,9 @@ class PlayState extends MusicBeatState
 		chartingMode = true;
 		paused = true;
 
+		if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
+        if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
+
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 		if(vocals != null)
@@ -2952,6 +2955,9 @@ class PlayState extends MusicBeatState
 		FlxG.camera.followLerp = 0;
 		persistentUpdate = false;
 		paused = true;
+
+		if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
+        if(Achievements.getScore('10deaths') < 10) Achievements.setScore('10deaths', 0);
 
 		if(FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -3025,6 +3031,8 @@ class PlayState extends MusicBeatState
 					FlxG.sound.music.stop();
 					openSubState(new GameOverSubstate(boyfriend, camFollow));
 				}
+
+				Achievements.addScore('10deaths');
 
 				// MusicBeatState.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
@@ -3434,7 +3442,9 @@ class PlayState extends MusicBeatState
 		#if ACHIEVEMENTS_ALLOWED
 		var weekNoMiss:String = WeekData.getWeekFileName() + '_nomiss';
 		var weekNoMissFreeplay:String = WeekData.getWeekFileName() + '_nomissfreeplay';
-		checkForAchievement([weekNoMiss, weekNoMissFreeplay, 'ur_bad', 'ur_good', 'hype', 'two_keys', 'toastie', 'debugger']);
+		checkForAchievement([weekNoMiss, weekNoMissFreeplay, 'ur_bad', 'ur_good', 'hype', 'two_keys', 'toastie', 'debugger', 'beat_tricky', 'beat_returny', 'beat_ram']);
+
+		if(Achievements.getScore('50misses') < 50) Achievements.setScore('50misses', 0);
 		#end
 
 		var ret:Dynamic = callOnScripts('onEndSong', null, true);
@@ -4073,6 +4083,8 @@ class PlayState extends MusicBeatState
 		// score and data
 		var subtract:Float = pressMissDamage;
 		if(note != null) subtract = note.missHealth;
+
+		Achievements.addScore('50misses');
 
 		noteSplashHoldPurple.visible = false;
 		noteSplashHoldBlue.visible = false;
