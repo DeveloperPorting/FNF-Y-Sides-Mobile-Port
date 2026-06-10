@@ -1,100 +1,100 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
 			"anim": "idle",
-			"fps": 12,
-			"name": "idle",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-8, -2],
-			"anim": "singLEFT",
-			"fps": 12,
-			"name": "right0",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-8, -1],
-			"anim": "singLEFTmiss",
-			"fps": 12,
-			"name": "rightmiss",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-3, 1],
-			"anim": "singDOWN",
-			"fps": 12,
-			"name": "down0",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-4, -4],
-			"anim": "singUP",
-			"fps": 12,
-			"name": "up0",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-56, 3],
-			"anim": "singRIGHT",
-			"fps": 12,
-			"name": "left0",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-3, 1],
-			"anim": "singDOWNmiss",
-			"fps": 12,
-			"name": "downmiss",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-4, -3],
-			"anim": "singUPmiss",
-			"fps": 12,
-			"name": "upmiss",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-57, 3],
-			"anim": "singRIGHTmiss",
-			"fps": 12,
-			"name": "leftmiss",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [-56, 3],
-			"anim": "shoot",
-			"fps": 24,
-			"name": "shoot",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [0, 0],
-			"anim": "burp",
-			"fps": 12,
-			"name": "burp",
-			"indices": []
-		},
-		{
-			"offsets": [0, 0],
 			"indices": [],
-			"fps": 4,
-			"anim": "papichulo",
+			"name": "idle"
+		},
+		{
+			"offsets": [-8, -2],
+			"loop": false,
+			"fps": 12,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "right0"
+		},
+		{
+			"offsets": [-8, -1],
+			"loop": false,
+			"fps": 12,
+			"anim": "singLEFTmiss",
+			"indices": [],
+			"name": "rightmiss"
+		},
+		{
+			"offsets": [-3, 1],
+			"loop": false,
+			"fps": 12,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "down0"
+		},
+		{
+			"offsets": [-4, -4],
+			"loop": false,
+			"fps": 12,
+			"anim": "singUP",
+			"indices": [],
+			"name": "up0"
+		},
+		{
+			"offsets": [-56, 3],
+			"loop": false,
+			"fps": 12,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "left0"
+		},
+		{
+			"offsets": [-3, 1],
+			"loop": false,
+			"fps": 12,
+			"anim": "singDOWNmiss",
+			"indices": [],
+			"name": "downmiss"
+		},
+		{
+			"offsets": [-4, -3],
+			"loop": false,
+			"fps": 12,
+			"anim": "singUPmiss",
+			"indices": [],
+			"name": "upmiss"
+		},
+		{
+			"offsets": [-57, 3],
+			"loop": false,
+			"fps": 12,
+			"anim": "singRIGHTmiss",
+			"indices": [],
+			"name": "leftmiss"
+		},
+		{
+			"offsets": [-56, 3],
+			"loop": false,
+			"fps": 24,
+			"anim": "shoot",
+			"indices": [],
+			"name": "shoot"
+		},
+		{
+			"offsets": [0, 0],
+			"loop": false,
+			"fps": 12,
+			"anim": "burp",
+			"indices": [],
+			"name": "burp"
+		},
+		{
 			"loop": true,
-			"name": "papichulo"
+			"offsets": [0, 0],
+			"anim": "papichulo",
+			"fps": 4,
+			"name": "papichulo",
+			"indices": []
 		}
 	],
 	"vocals_file": "",
@@ -103,15 +103,9 @@
 	"position": [-260, -55],
 	"healthicon": "pico",
 	"flip_x": false,
-	"icon_offset": [0, -20],
 	"healthbar_colors": [254, 0, 103],
 	"camera_position": [-40, 50],
 	"sing_duration": 4,
-	"censor_offset_idle": [380, 220],
-	"censor_offset_left": [320, 210],
-	"censor_offset_down": [330, 240],
-	"censor_offset_up": [370, 190],
-	"censor_offset_right": [400, 200],
-	"scale": 1,
+	"scale": 0.97,
 	"_editor_isPlayer": true
 }
