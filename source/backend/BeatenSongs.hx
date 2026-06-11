@@ -72,6 +72,7 @@ class BeatenSongs
             'cocoa-bf',
             'eggnog-bf',
             'winter-horrorland-bf',
+            'options-bf',
             'improbable-outset-bf',
             'madness-bf',
             'ram-bf',

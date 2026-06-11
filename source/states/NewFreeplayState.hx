@@ -3,6 +3,7 @@ package states;
 import flixel.addons.display.FlxBackdrop;
 import states.FreeplayState.SongMetadata;
 
+import backend.BeatenSongs;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
@@ -688,6 +689,9 @@ class NewFreeplayState extends MusicBeatState
 				}
 			}
 		}
+
+        if(category == OG && ShopSubState.isItemUnlocked('Gear') && BeatenSongs.isSongBeaten('options-bf')) addSong('Options', 6, 'options', FlxColor.fromRGB(255, 255, 255));
+
 		Mods.loadTopMod();
 
         for(i in 0...songs.length)
