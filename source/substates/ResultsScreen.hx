@@ -5,6 +5,7 @@ import flixel.addons.display.FlxBackdrop;
 import states.CharSelectState;
 import states.NewStoryMenuState;
 import states.NewFreeplayState;
+import options.OptionsState;
 
 import objects.Character;
 
@@ -380,25 +381,36 @@ class ResultsScreen extends MusicBeatSubstate
 		            trace('Earned ${ShopSubState.money} yoins!');
 
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
-                    if(PlayState.isStoryMode)
-                    {
-                        var songs = backend.WeekData.getCurrentWeek().songs;
-                        for(song in cast(songs, Array<Dynamic>))
-                        {
-                            trace('STORYMODE BEAT!');
-                            BeatenSongs.beatSong('${Paths.formatToSongPath(song[0])}-${CharSelectState.currentFreeplaySelectedName}');
-                        }
-		            	FlxTransitionableState.skipNextTransIn = true;
-		            	FlxTransitionableState.skipNextTransOut = true;
-                        MusicBeatState.switchState(new NewStoryMenuState());
-                    }
-                    else
+                    if(OptionsState.playsSongFromOptions)
                     {
                         BeatenSongs.beatSong('${Paths.formatToSongPath(PlayState.instance.curSong)}-${CharSelectState.currentFreeplaySelectedName}');
 
-		            	FlxTransitionableState.skipNextTransIn = true;
-		            	FlxTransitionableState.skipNextTransOut = true;
-                        MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
+                        FlxTransitionableState.skipNextTransIn = true;
+                        FlxTransitionableState.skipNextTransOut = true;
+                        MusicBeatState.switchState(new OptionsState());
+                    }
+                    else
+                    {
+                        if(PlayState.isStoryMode)
+                        {
+                            var songs = backend.WeekData.getCurrentWeek().songs;
+                            for(song in cast(songs, Array<Dynamic>))
+                            {
+                                trace('STORYMODE BEAT!');
+                                BeatenSongs.beatSong('${Paths.formatToSongPath(song[0])}-${CharSelectState.currentFreeplaySelectedName}');
+                            }
+                            FlxTransitionableState.skipNextTransIn = true;
+                            FlxTransitionableState.skipNextTransOut = true;
+                            MusicBeatState.switchState(new NewStoryMenuState());
+                        }
+                        else
+                        {
+                            BeatenSongs.beatSong('${Paths.formatToSongPath(PlayState.instance.curSong)}-${CharSelectState.currentFreeplaySelectedName}');
+
+                            FlxTransitionableState.skipNextTransIn = true;
+                            FlxTransitionableState.skipNextTransOut = true;
+                            MusicBeatState.switchState(new NewFreeplayState(CharSelectState.currentFreeplaySelectedName == 'pico'));
+                        }
                     }
                 });
             }}, function(value:Float)

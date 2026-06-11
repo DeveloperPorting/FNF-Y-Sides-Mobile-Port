@@ -548,7 +548,7 @@ class OptionsState extends MusicBeatState
                 dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
                 {
                     //if(endCallback != null) endCallback();
-                    endDialogue(false);
+                    //endDialogue(false);
                 });
             }
         }
@@ -573,6 +573,7 @@ class OptionsState extends MusicBeatState
         FlxTween.tween(dialogueText, {alpha: 0, y: dialogueText.y + 10}, 0.35, {ease: FlxEase.linear});
     }
 
+	public static var playsSongFromOptions:Bool = false;
 	var canInteract:Bool = true;
 	function giveGearToRobot(firstTime:Bool)
 	{
@@ -621,6 +622,7 @@ class OptionsState extends MusicBeatState
 				}
 				#if !debug LoadingState.prepareToSong(); #end
 				LoadingState.loadAndSwitchState(new PlayState());
+				playsSongFromOptions = true;
 
 				#if (MODS_ALLOWED && DISCORD_ALLOWED)
 				DiscordClient.loadModRPC();

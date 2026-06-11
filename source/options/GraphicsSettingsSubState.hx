@@ -111,7 +111,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 	{
 		if(!ClientPrefs.data.shaders && !alreadyTalked2)
 		{
-			alreadyTalked = true;
+			alreadyTalked2 = true;
 			startDialogue('question');
 			dialogueText.resetText("Do you hate em or it's just your PC not handling properly their beauty?");
 			dialogueText.start(0.04, true);
