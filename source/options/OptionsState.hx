@@ -34,6 +34,7 @@ class OptionsState extends MusicBeatState
 
 	var blackBehind:FlxSprite;
 	var radialLight:FlxSprite;
+	var selectArrow:FlxSprite;
 	var blackBackgroundOver:FlxSprite;
 
 	function openSelectedSubstate(label:String) 
@@ -164,6 +165,15 @@ class OptionsState extends MusicBeatState
 		if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(radialLight, {alpha: 0.4}, transDuration, {ease: FlxEase.quartOut});
 		add(radialLight);
 
+		selectArrow = new FlxSprite();
+		selectArrow.frames = Paths.getSparrowAtlas('optionsMenu/new/selectArrow');
+		selectArrow.animation.addByPrefix('idle', 'optionsarrow', 24, true);
+		selectArrow.animation.play('idle');
+		selectArrow.antialiasing = ClientPrefs.data.antialiasing;
+		selectArrow.alpha = 0;
+		if(ShopSubState.isItemUnlocked('Gear') && !FlxG.save.data.gaveGearToRobot) FlxTween.tween(selectArrow, {alpha: 1}, transDuration, {ease: FlxEase.quartOut});
+		add(selectArrow);
+
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
@@ -196,6 +206,10 @@ class OptionsState extends MusicBeatState
 
 		radialLight.x = 730 + character.width / 2 - radialLight.width / 2;
 		radialLight.y = FlxG.height - radialLight.height;
+
+		selectArrow.x = character.x - selectArrow.width - 10;
+		selectArrow.y = character.y;
+		FlxTween.tween(selectArrow, {x: selectArrow.x - 25, y: selectArrow.y - 25}, 1.3, {ease: FlxEase.quartInOut, type: PINGPONG});
 
 		behindPoloUp = new FlxSprite(0, 56);
 		behindPoloUp.loadGraphic(Paths.image('optionsMenu/new/poloUpBehind'));
@@ -533,9 +547,8 @@ class OptionsState extends MusicBeatState
                 //dialogueBoxContinueSprite.visible = true;
                 dialogueTimer = new FlxTimer().start(thingTimer, function(t:FlxTimer)
                 {
-                    if(endCallback != null) endCallback();
-                    //endDialogue(false);
                     //if(endCallback != null) endCallback();
+                    endDialogue(false);
                 });
             }
         }
@@ -565,6 +578,7 @@ class OptionsState extends MusicBeatState
 	{
 		if(firstTime)
 		{
+			FlxTween.tween(selectArrow, {alpha: 0}, 0.8, {ease: FlxEase.quartOut});
 			canInteract = false;
 			FlxTween.tween(FlxG.camera, {zoom: 1.06, "scroll.x": 70}, 0.8, {ease: FlxEase.quartOut});
 

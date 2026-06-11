@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="selectArrow.png">
+	<!-- Created with Adobe Animate version 24.0.13.5 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="optionsarrow0000" x="0" y="0" width="160" height="99"/>
+	<SubTexture name="optionsarrow0001" x="0" y="0" width="160" height="99"/>
+	<SubTexture name="optionsarrow0002" x="0" y="0" width="160" height="99"/>
+	<SubTexture name="optionsarrow0003" x="0" y="99" width="160" height="99"/>
+	<SubTexture name="optionsarrow0004" x="0" y="99" width="160" height="99"/>
+	<SubTexture name="optionsarrow0005" x="0" y="99" width="160" height="99"/>
+</TextureAtlas>
