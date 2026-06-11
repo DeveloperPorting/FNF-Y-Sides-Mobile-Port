@@ -657,6 +657,7 @@ class OptionsState extends MusicBeatState
 			}
 			#if !debug LoadingState.prepareToSong(); #end
 			LoadingState.loadAndSwitchState(new PlayState());
+			playsSongFromOptions = true;
 
 			#if (MODS_ALLOWED && DISCORD_ALLOWED)
 			DiscordClient.loadModRPC();

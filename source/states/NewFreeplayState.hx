@@ -3,6 +3,7 @@ package states;
 import flixel.addons.display.FlxBackdrop;
 import states.FreeplayState.SongMetadata;
 
+import options.OptionsState;
 import backend.BeatenSongs;
 import backend.WeekData;
 import backend.Highscore;
@@ -72,6 +73,8 @@ class NewFreeplayState extends MusicBeatState
     override function create()
     {
         super.create();
+
+        OptionsState.playsSongFromOptions = false;
 
 		if(FlxG.sound.music != null)
 		{

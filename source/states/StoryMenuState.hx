@@ -12,6 +12,7 @@ import flixel.addons.display.FlxBackdrop;
 import objects.MenuItem;
 import objects.MenuCharacter;
 
+import options.OptionsState;
 import options.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
 
@@ -61,6 +62,8 @@ class StoryMenuState extends MusicBeatState
 	{
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
+
+        OptionsState.playsSongFromOptions = false;
 
 		persistentUpdate = persistentDraw = true;
 		PlayState.isStoryMode = true;

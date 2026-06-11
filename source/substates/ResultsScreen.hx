@@ -383,6 +383,7 @@ class ResultsScreen extends MusicBeatSubstate
                     FlxG.sound.playMusic(Paths.music('freakyMenu'));
                     if(OptionsState.playsSongFromOptions)
                     {
+                        OptionsState.playsSongFromOptions = false;
                         BeatenSongs.beatSong('${Paths.formatToSongPath(PlayState.instance.curSong)}-${CharSelectState.currentFreeplaySelectedName}');
 
                         FlxTransitionableState.skipNextTransIn = true;
