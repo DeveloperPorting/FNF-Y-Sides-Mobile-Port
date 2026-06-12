@@ -2425,7 +2425,7 @@ class PlayState extends MusicBeatState
 				if(canHitBall)
 				{
 					trace('CAN HIT!!!!');
-					if(controls.MECHANIC)
+					if(controls.MECHANIC && !wasGoodHit)
 					{
 						boyfriend.playAnim('liftUp', true);
 
