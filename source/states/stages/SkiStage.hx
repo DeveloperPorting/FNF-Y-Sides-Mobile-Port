@@ -47,6 +47,26 @@ class SkiStage extends BaseStage
 
 		var buildings:BGSprite = new BGSprite('stages/skiStage/buildings', 0, 0, 1, 1);
 		add(buildings);
+
+		var charactersLeft:FlxSprite = new FlxSprite();
+		charactersLeft.frames = Paths.getSparrowAtlas('stages/skiStage/leftcharacters');
+		charactersLeft.animation.addByPrefix('idle', 'idle', 4, true);
+		charactersLeft.animation.play('idle');
+		charactersLeft.antialiasing = ClientPrefs.data.antialiasing;
+		//charactersLeft.x += charactersLeft.width;
+		charactersLeft.x += -568;
+		charactersLeft.y += 48 + 5;
+		add(charactersLeft);
+
+		var charactersRight:FlxSprite = new FlxSprite();
+		charactersRight.frames = Paths.getSparrowAtlas('stages/skiStage/rightcharacters');
+		charactersRight.animation.addByPrefix('idle', 'idle', 4, true);
+		charactersRight.animation.play('idle');
+		charactersRight.antialiasing = ClientPrefs.data.antialiasing;
+		//charactersRight.x += charactersLeft.width - 400;
+		charactersRight.x += -568 + 2230 + 40;
+		charactersRight.y += 48 + 115;
+		add(charactersRight);
 	}
 
 	override function createPost()
