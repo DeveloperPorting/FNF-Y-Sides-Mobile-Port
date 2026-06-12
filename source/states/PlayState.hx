@@ -576,6 +576,12 @@ class PlayState extends MusicBeatState
 		censorSprite.visible = false;
 		add(censorSprite);
 
+		independientTennisBall = new FlxSprite(dad.x, dad.y);
+		independientTennisBall.loadGraphic(Paths.image('hud/hexmechanic/independientBall'));
+		independientTennisBall.antialiasing = ClientPrefs.data.antialiasing;
+		independientTennisBall.visible = false;
+		add(independientTennisBall);
+
 		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
 		vignette.alpha = 0.25;
 		vignette.cameras = [camHUD];
@@ -2354,7 +2360,7 @@ class PlayState extends MusicBeatState
 
 	// TENNIS
 	var isTennisMechanicEnabled:Bool = true;
-	var wasGoodHit:Bool = false;
+	var wasGoodHit:Bool = true;
 	var curBeatStarted:Int = 0;
 	var isCurrentlyPlayingTennis:Bool = false;
 	var justActivatedTennis:Bool = false;
@@ -2362,9 +2368,11 @@ class PlayState extends MusicBeatState
 	var tennisEarlyMult:Float = 1;
 	var tennisLateMult:Float = 1;
 	var canHitBall:Bool = false;
+	var tooLate:Bool = false;
 	var tennisProgressSpr:FlxSprite; // idk how to name this but it's basically the "3, 2, 1, amazing, awesome..." sprite in the same thing
 	var tennisExplanationBackground:FlxSprite;
 	var tennisExplanationText:FlxSprite;
+	var independientTennisBall:FlxSprite;
 	function activateTennisMechanic()
 	{
 		if(!isTennisMechanicEnabled) return;
@@ -2471,6 +2479,8 @@ class PlayState extends MusicBeatState
 						
 						FlxTween.cancelTweensOf(tennisProgressSpr);
 
+						health += gainLiftHealthDifficultyBased(0.3, storyDifficultyText.toLowerCase());
+
 						tennisProgressSpr.scale.set(0.85, 0.85);
 						FlxTween.tween(tennisProgressSpr, {"scale.x": 1, "scale.y": 1}, Conductor.crochet / 1000, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
 						{
@@ -2480,19 +2490,40 @@ class PlayState extends MusicBeatState
 							});
 						}});
 
+						independientTennisBall.acceleration.y = 0;
+						independientTennisBall.velocity.y = 0;
+
+						var speedMult:Float = 6.5;
+
 						switch(daRating)
 						{
 							case 'amazing': 
+								FlxG.camera.shake(0.005, 0.15, null, true);
 								FlxG.sound.play(Paths.sound('tennisSfx/hitamazing'));
+
+								independientTennisBall.velocity.set(-400 * speedMult, -380 * speedMult);
 							case 'awesome':
 								FlxG.sound.play(Paths.sound('tennisSfx/hitawesome'));
+								independientTennisBall.velocity.set(-250 * speedMult, -235 * speedMult);
 							case 'great':
 								FlxG.sound.play(Paths.sound('tennisSfx/hitgreat'));
+								independientTennisBall.velocity.set(-150 * speedMult, -140 * speedMult);
 							case 'good':
 								FlxG.sound.play(Paths.sound('tennisSfx/hitgood'));
+								independientTennisBall.velocity.set(-100 * speedMult, -95 * speedMult);
 							default:
 						}
 					}
+				}
+				else if(tennisTargetTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+				{
+					boyfriend.playAnim('singUPmiss', true);
+
+					independientTennisBall.visible = false;
+					tennisProgressSpr.loadGraphic(Paths.image('hud/hexmechanic/bad'));
+					
+					FlxTween.shake(tennisProgressSpr, 0.01, 0.9, XY);
+					FlxTween.tween(tennisProgressSpr, {alpha: 0}, 0.9);
 				}
 			}
 		}
@@ -5548,6 +5579,11 @@ class PlayState extends MusicBeatState
 					
 					FlxTween.cancelTweensOf(tennisProgressSpr);
 
+					independientTennisBall.visible = false;
+					independientTennisBall.velocity.set(0, 0);
+					independientTennisBall.acceleration.set(0, 0);
+					independientTennisBall.setPosition(dad.x + dad.width - 50, dad.y + 60);
+
 					tennisProgressSpr.scale.set(0.6, 0.6);
 					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.65, "scale.y": 0.65, alpha: 1}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
 				}
@@ -5562,6 +5598,13 @@ class PlayState extends MusicBeatState
 
 					tennisProgressSpr.scale.set(0.65, 0.65);
 					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.7, "scale.y": 0.7}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
+
+					independientTennisBall.visible = true;
+					FlxTween.cancelTweensOf(independientTennisBall);
+					FlxTween.tween(independientTennisBall, {y: independientTennisBall.y - 200}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
+					{
+						FlxTween.tween(independientTennisBall, {y: independientTennisBall.y + 200}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quartIn});
+					}});
 				}
 				else if(curBeat == curBeatStarted + 2)
 				{
@@ -5574,6 +5617,12 @@ class PlayState extends MusicBeatState
 
 					tennisProgressSpr.scale.set(0.7, 0.7);
 					FlxTween.tween(tennisProgressSpr, {"scale.x": 0.75, "scale.y": 0.75}, Conductor.crochet / 1000, {ease: FlxEase.quartOut});
+
+					// TODO: make thi work as a tween cuz acceleration sucks af
+
+					independientTennisBall.acceleration.y = -2160;
+					independientTennisBall.velocity.y = 1270;
+					FlxTween.tween(independientTennisBall, {x: boyfriend.x}, (Conductor.crochet / 1000), {ease: FlxEase.linear});
 				}
 				else if(curBeat == curBeatStarted + 3)
 				{
