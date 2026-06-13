@@ -5384,8 +5384,9 @@ class PlayState extends MusicBeatState
 					case 48:
 						FlxTween.tween(songCard, {alpha: 0, y: songCard.y - 10}, 0.3);
 					case 168:
+						constantHealthDrainAmount = 0.0004;
 						setHbFire(true);
-					case 296:
+					case 424:
 						setHbFire(false);
 				}
 			case 'Winter Horrorland-bf':

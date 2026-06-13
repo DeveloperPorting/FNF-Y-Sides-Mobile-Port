@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="fenceChar1.png">
+<SubTexture name="idle0000" x="169" y="0" width="173" height="210" frameX="-29" frameY="-12" frameWidth="194" frameHeight="223" />
+<SubTexture name="idle0001" x="0" y="0" width="169" height="212" frameX="-31" frameY="-9" frameWidth="194" frameHeight="223" />
+<SubTexture name="run0000" x="0" y="212" width="201" height="184" frameX="-10" frameY="-44" frameWidth="194" frameHeight="223" />
+<SubTexture name="run0001" x="342" y="0" width="197" height="200" frameX="-11" frameY="-31" frameWidth="194" frameHeight="223" />
+</TextureAtlas>
