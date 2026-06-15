@@ -1923,7 +1923,7 @@
 	"offset": 0,
 	"song": "Settings",
 	"needsVoices": true,
-	"stage": "stage",
+	"stage": "settingsStage",
 	"bpm": 138,
 	"format": "psych_v1",
 	"speed": 2.9
