@@ -29,6 +29,7 @@ import cutscenes.DialogueBoxPsych;
 import cutscenes.NewDialogueBox;
 
 import objects.Character;
+import objects.VideoSprite;
 
 import states.NewStoryMenuState;
 import states.NewFreeplayState;
@@ -47,7 +48,6 @@ import shaders.ErrorHandledShader;
 import shaders.GlitchFragmentShader;
 
 import objects.HoldNoteSplash;
-import objects.VideoSprite;
 import objects.Note.EventNote;
 import objects.*;
 import states.stages.*;
@@ -342,6 +342,7 @@ class PlayState extends MusicBeatState
 	var splash:NoteSplash;
 
 	var ogPlayer3Pos:Array<Float> = [];
+	var returnyGameoverDeathVideo:VideoSprite;
 	override public function create()
 	{
 		//trace('Playback Rate: ' + playbackRate);
@@ -1180,6 +1181,15 @@ class PlayState extends MusicBeatState
 		endLiftingSound = new FlxSound();
 		endLiftingSound.loadEmbedded(Paths.sound('liftDumbellsEnding'));
 		FlxG.sound.list.add(endLiftingSound);
+
+		returnyGameoverDeathVideo = new VideoSprite(Paths.video('nomasreturny'), false, false, false);
+		returnyGameoverDeathVideo.cameras = [camOther];
+		returnyGameoverDeathVideo.visible = false;
+		returnyGameoverDeathVideo.finishCallback = function()
+		{
+			MusicBeatState.resetState();
+		}
+		add(returnyGameoverDeathVideo);
 
 		var idleFrame0:Array<Float> = [0, 13];
 		var idleFrame1:Array<Float> = [0, 8];
@@ -3237,23 +3247,34 @@ class PlayState extends MusicBeatState
 				FlxTween.globalManager.clear();
 				FlxG.camera.setFilters([]);
 
-				if(GameOverSubstate.deathDelay > 0)
+				if(curSong != 'Returny')
 				{
-					gameOverTimer = new FlxTimer().start(GameOverSubstate.deathDelay, function(_)
+					if(GameOverSubstate.deathDelay > 0)
+					{
+						gameOverTimer = new FlxTimer().start(GameOverSubstate.deathDelay, function(_)
+						{
+							vocals.stop();
+							opponentVocals.stop();
+							FlxG.sound.music.stop();
+							openSubState(new GameOverSubstate(boyfriend, camFollow));
+							gameOverTimer = null;
+						});
+					}
+					else
 					{
 						vocals.stop();
 						opponentVocals.stop();
 						FlxG.sound.music.stop();
 						openSubState(new GameOverSubstate(boyfriend, camFollow));
-						gameOverTimer = null;
-					});
+					}
 				}
 				else
 				{
 					vocals.stop();
 					opponentVocals.stop();
 					FlxG.sound.music.stop();
-					openSubState(new GameOverSubstate(boyfriend, camFollow));
+					returnyGameoverDeathVideo.visible = true;
+					returnyGameoverDeathVideo.play();
 				}
 
 				//Achievements.addScore('10deaths');
