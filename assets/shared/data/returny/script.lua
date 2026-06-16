@@ -63,7 +63,7 @@ function onStepHit()
 
     if curStep == 1056 then
         setProperty('bg.visible', true)
-        setProperty('bgn.visible', true)
+        doTweenAlpha('bgnTwn', 'bgn', 0.5, 0.15, 'linear')
         doTweenAlpha('faden', 'n', 0, 0.5, 'linear')
         setProperty('healthBar.visible', true)
         setProperty('iconP1.visible', true)
