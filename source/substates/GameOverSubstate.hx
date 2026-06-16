@@ -13,6 +13,7 @@ import states.NewFreeplayState;
 class GameOverSubstate extends MusicBeatSubstate
 {
 	public var boyfriend:Character;
+	public var boyfriendHey:Character;
 	var camFollow:FlxObject;
 
 	var stagePostfix:String = "";
@@ -23,7 +24,7 @@ class GameOverSubstate extends MusicBeatSubstate
 	public static var endSoundName:String = 'gameOverEnd';
 	public static var deathDelay:Float = 0;
 
-	public var firstDeathDelay:Float = 0.85;
+	public var firstDeathDelay:Float = 0;
 
 	public var currentCamPos:FlxObject;
 
@@ -100,6 +101,25 @@ class GameOverSubstate extends MusicBeatSubstate
 		boyfriend.skipDance = true;
 		add(boyfriend);
 
+		if(boyfriendHey == null)
+		{
+			var targetName:String = '';
+			switch(characterName)
+			{
+				case 'bf-xmas-dead': targetName = 'bf-christmas';
+				case 'bf-spooky-dead': targetName = 'bf-spooky';
+				default: targetName = 'bf';
+			}
+			boyfriendHey = new Character(PlayState.instance.boyfriend.getPosition().x, PlayState.instance.boyfriend.getPosition().y, targetName, true);
+			//boyfriend.x += boyfriend.positionArray[0] - PlayState.instance.boyfriend.positionArray[0];
+			//boyfriend.y += boyfriend.positionArray[1] - PlayState.instance.boyfriend.positionArray[1];
+			boyfriendHey.x += boyfriendHey.positionArray[0];
+			boyfriendHey.y += boyfriendHey.positionArray[1];
+			boyfriendHey.visible = false;
+		}
+		boyfriendHey.skipDance = true;
+		add(boyfriendHey);
+
 		retryButton = new FlxSprite();
 		retryButton.frames = Paths.getSparrowAtlas('gameover/retryButton');
 		retryButton.animation.addByPrefix('idle', 'idle', 4, true);
@@ -107,7 +127,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		retryButton.antialiasing = ClientPrefs.data.antialiasing;
 		retryButton.alpha = 0;
 		retryButton.x = boyfriend.getGraphicMidpoint().x - (retryButton.width / 2) + 40;
-		retryButton.y = boyfriend.y - retryButton.height - 0;
+		retryButton.y = boyfriend.y + 250 - retryButton.height - 0;
 		add(retryButton);
 
 		coolLight = new FlxSprite();
@@ -121,7 +141,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		coolLight.updateHitbox();
 		//coolLight.y += -36;
 		coolLight.x = boyfriend.getGraphicMidpoint().x - (coolLight.width / 2);
-		coolLight.y = boyfriend.y - 400;
+		coolLight.y = boyfriend.y + 250 - 400;
 		add(coolLight);
 
 		tomatosFrontGrp = new FlxTypedGroup<FlxSprite>();
@@ -356,8 +376,12 @@ class GameOverSubstate extends MusicBeatSubstate
 			isEnding = true;
 			if(boyfriend.hasAnimation('deathConfirm'))
 				boyfriend.playAnim('deathConfirm', true);
-			else if(boyfriend.hasAnimation('deathLoop'))
-				boyfriend.playAnim('deathLoop', true);
+			else
+			{
+				boyfriend.visible = false;
+				boyfriendHey.visible = true;
+				boyfriendHey.playAnim('hey', true);
+			}
 
 			if(overlay != null && overlay.animation.exists('deathConfirm'))
 			{
