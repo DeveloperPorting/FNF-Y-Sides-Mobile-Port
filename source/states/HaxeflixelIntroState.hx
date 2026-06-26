@@ -47,7 +47,8 @@ class HaxeflixelIntroState extends MusicBeatState
 		    bloomShader.Size.value = [0.0]; // 8.0, 1.0
 
 		    bloomFilter = new ShaderFilter(bloomShader);
-            FlxG.camera.filters = [bloomFilter];
+            //FlxG.camera.filters = [bloomFilter];
+            // better no, like, the shader prompt it's the following thing that appears lmao
         }
 
         videoCutscene.finishCallback = function()
