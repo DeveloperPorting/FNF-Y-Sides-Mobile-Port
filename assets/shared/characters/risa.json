@@ -1,0 +1,79 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [0, 8],
+			"anim": "idle",
+			"fps": 24,
+			"name": "idle",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [2, 9],
+			"anim": "singLEFT",
+			"fps": 24,
+			"name": "left",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [0, -172],
+			"anim": "singDOWN",
+			"fps": 24,
+			"name": "down",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [-11, 18],
+			"anim": "singRIGHT",
+			"fps": 24,
+			"name": "right",
+			"indices": []
+		},
+		{
+			"offsets": [17, -83],
+			"indices": [],
+			"fps": 24,
+			"anim": "singUP",
+			"loop": false,
+			"name": "risa0"
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"censor_offset_right": [
+		0,
+		0
+	],
+	"image": "characters/risa",
+	"position": [-100, -340],
+	"icon_offset": [
+		0,
+		0
+	],
+	"healthicon": "monster",
+	"censor_offset_down": [
+		0,
+		0
+	],
+	"censor_offset_idle": [
+		0,
+		0
+	],
+	"censor_offset_left": [
+		0,
+		0
+	],
+	"flip_x": false,
+	"healthbar_colors": [153, 51, 102],
+	"censor_offset_up": [
+		0,
+		0
+	],
+	"camera_position": [0, 0],
+	"sing_duration": 4,
+	"scale": 1.1,
+	"_editor_isPlayer": false
+}

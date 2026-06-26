@@ -39,15 +39,47 @@
 			"anim": "singRIGHT",
 			"indices": [],
 			"name": "right"
+		},
+		{
+			"offsets": [7, 170],
+			"indices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+			"fps": 24,
+			"anim": "1",
+			"loop": false,
+			"name": "aparecion0"
 		}
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
+	"censor_offset_right": [
+		0,
+		0
+	],
 	"image": "characters/monsteroscuro",
 	"position": [60, 210],
+	"icon_offset": [
+		0,
+		0
+	],
 	"healthicon": "monster",
+	"censor_offset_down": [
+		0,
+		0
+	],
+	"censor_offset_idle": [
+		0,
+		0
+	],
+	"censor_offset_left": [
+		0,
+		0
+	],
 	"flip_x": false,
 	"healthbar_colors": [243, 255, 110],
+	"censor_offset_up": [
+		0,
+		0
+	],
 	"camera_position": [-140, -140],
 	"sing_duration": 4,
 	"scale": 0.9,
