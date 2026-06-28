@@ -579,6 +579,10 @@ class OptionsState extends MusicBeatState
 	{
 		if(firstTime)
 		{
+			FlxTween.cancelTweensOf(dialogueBox);
+			FlxTween.cancelTweensOf(dialogueText);
+			if(dialogueTimer != null) dialogueTimer.cancel();
+
 			FlxTween.tween(selectArrow, {alpha: 0}, 0.8, {ease: FlxEase.quartOut});
 			canInteract = false;
 			FlxTween.tween(FlxG.camera, {zoom: 1.06, "scroll.x": 70}, 0.8, {ease: FlxEase.quartOut});
@@ -665,6 +669,7 @@ class OptionsState extends MusicBeatState
 		}
 	}
 
+	var gaveGearToRobotClick:Bool = false;
 	override function update(elapsed:Float) 
 	{
 		super.update(elapsed);
@@ -677,8 +682,9 @@ class OptionsState extends MusicBeatState
 			{
 				if(FlxG.mouse.overlaps(character))
 				{
-					if(FlxG.mouse.justPressed)
+					if(FlxG.mouse.justPressed && !gaveGearToRobotClick)
 					{
+						gaveGearToRobotClick = true;
 						giveGearToRobot(!FlxG.save.data.gaveGearToRobot);
 					}
 				}
@@ -686,8 +692,9 @@ class OptionsState extends MusicBeatState
 		}
 
 		#if debug
-			if(FlxG.keys.justPressed.T)
+			if(FlxG.keys.justPressed.T && !gaveGearToRobotClick)
 			{
+				gaveGearToRobotClick = true;
 				giveGearToRobot(true);
 			}
 		#end
