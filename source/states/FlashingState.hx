@@ -474,6 +474,8 @@ class FlashingState extends MusicBeatState
 		bindAssignedGrp.members[curSelectedControls].text = ClientPrefs.keyBinds.get(bindsToConfig[curSelectedControls][1])[0];
 		bindAssignedGrp.members[curSelectedControls].color = 0xFFF7F16A;
 		FlxG.sound.play(Paths.sound('keyInput'));
+		
+		ClientPrefs.saveSettings();
 
 		new FlxTimer().start(0.1, function(tmr:FlxTimer)
 		{
