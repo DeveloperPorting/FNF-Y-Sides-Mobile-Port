@@ -1,0 +1,55 @@
+{
+	"animations": [
+		{
+			"loop": false,
+			"offsets": [4, 9],
+			"anim": "perfect",
+			"fps": 12,
+			"name": "perfect",
+			"indices": []
+		},
+		{
+			"loop": false,
+			"offsets": [3, 7],
+			"anim": "miss",
+			"fps": 4,
+			"name": "miss",
+			"indices": []
+		}
+	],
+	"vocals_file": "",
+	"no_antialiasing": false,
+	"censor_offset_right": [
+		0,
+		0
+	],
+	"image": "characters/bfTennisSPR",
+	"position": [-70, 0],
+	"icon_offset": [
+		0,
+		0
+	],
+	"healthicon": "bf",
+	"censor_offset_down": [
+		0,
+		0
+	],
+	"censor_offset_idle": [
+		0,
+		0
+	],
+	"censor_offset_left": [
+		0,
+		0
+	],
+	"flip_x": true,
+	"healthbar_colors": [255, 189, 36],
+	"censor_offset_up": [
+		0,
+		0
+	],
+	"camera_position": [100, 50],
+	"sing_duration": 4,
+	"scale": 0.95,
+	"_editor_isPlayer": true
+}

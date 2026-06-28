@@ -76,6 +76,21 @@ class HexStage extends BaseStage
 				}
 			};
 
+			var rimBFTennis = new DropShadowShader();
+			rimBFTennis.setAdjustColor(-6, -12, 6, -22);
+			rimBFTennis.color = 0x0;
+			game.boyfriendTennisClone.shader = rimBFTennis;
+			rimBFTennis.attachedSprite = game.boyfriendTennisClone;
+			rimBFTennis.angle = 90;
+
+			game.boyfriendTennisClone.animation.callback = function()
+			{
+				if (game.boyfriendTennisClone != null)
+				{
+					rimBFTennis.updateFrameInfo(game.boyfriendTennisClone.frame);
+				}
+			};
+
 			var rimGF = new DropShadowShader();
 			rimGF.setAdjustColor(-6, -12, 6, -22);
 			rimGF.color = 0x0;

@@ -168,6 +168,7 @@ class PlayState extends MusicBeatState
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
+	public var boyfriendTennisClone:Character = null;
 	public var censorSprite:FlxSprite;
 
 	public var notes:FlxTypedGroup<Note>;
@@ -507,6 +508,11 @@ class PlayState extends MusicBeatState
 		boyfriend = new Character(0, 0, SONG.player1, true);
 		startCharacterPos(boyfriend);
 		boyfriendGroup.add(boyfriend);
+
+		boyfriendTennisClone = new Character(0, 0, 'bf-tennis', true);
+		startCharacterPos(boyfriendTennisClone);
+		boyfriendTennisClone.visible = false;
+		boyfriendGroup.add(boyfriendTennisClone);
 		
 		if(stageData.objects != null && stageData.objects.length > 0)
 		{
@@ -2463,7 +2469,10 @@ class PlayState extends MusicBeatState
 					trace('CAN HIT!!!!');
 					if(controls.MECHANIC && !wasGoodHit)
 					{
-						boyfriend.playAnim('liftUp', true);
+						// boyfriend.playAnim('liftUp', true);
+						boyfriend.visible = false;
+						boyfriendTennisClone.visible = true;
+						boyfriendTennisClone.playAnim('perfect');
 
 						wasGoodHit = true;
 
@@ -2514,8 +2523,17 @@ class PlayState extends MusicBeatState
 				}
 				else if(tennisTargetTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
 				{
-					boyfriend.playAnim('singUPmiss', true);
+					//boyfriend.playAnim('singUPmiss', true);
+					boyfriend.visible = false;
+					boyfriendTennisClone.visible = true;
+					boyfriendTennisClone.playAnim('miss');
 					wasGoodHit = true; // forgive me
+
+					new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
+					{
+						boyfriend.visible = true;
+						boyfriendTennisClone.visible = false;
+					});
 
 					FlxG.sound.play(Paths.sound('tennisSfx/hitfail'));
 
@@ -5660,7 +5678,7 @@ class PlayState extends MusicBeatState
 					FlxTween.tween(independientTennisBall, {x: boyfriend.x}, (Conductor.crochet / 1000), {ease: FlxEase.linear});
 					FlxTween.tween(independientTennisBall, {y: independientTennisBall.y - 60}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quintOut, onComplete: function(twn:FlxTween)
 					{
-						FlxTween.tween(independientTennisBall, {y: independientTennisBall.y + 60}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quartIn});
+						FlxTween.tween(independientTennisBall, {y: independientTennisBall.y + 125}, (Conductor.crochet / 1000) / 2, {ease: FlxEase.quartIn});
 					}});
 				}
 				else if(curBeat == curBeatStarted + 3)
@@ -5706,6 +5724,8 @@ class PlayState extends MusicBeatState
 				if(!startedLift && !forcedLiftingSection)
 				{
 					censorSprite.visible = false;
+					boyfriendTennisClone.visible = false;
+					boyfriend.visible = true;
 					boyfriend.dance();
 				}
 			}
@@ -5714,12 +5734,16 @@ class PlayState extends MusicBeatState
 				if(!canHitBall)
 				{
 					censorSprite.visible = false;
+					boyfriendTennisClone.visible = false;
+					boyfriend.visible = true;
 					boyfriend.dance();
 				}
 			}
 			else
 			{
 				censorSprite.visible = false;
+				boyfriendTennisClone.visible = false;
+				boyfriend.visible = true;
 				boyfriend.dance();
 			}
 		}
