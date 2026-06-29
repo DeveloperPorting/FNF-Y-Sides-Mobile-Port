@@ -511,6 +511,13 @@ class VaultState extends MusicBeatState
     {
         super.update(elapsed);
 
+        #if debug
+        if(FlxG.keys.justPressed.TAB)
+        {
+            Achievements.unlockAll();
+        }
+        #end
+        
 		final hudMousePos = FlxG.mouse.getScreenPosition(camMain);
 
 		var multX = (hudMousePos.x - (FlxG.width / 2)) / (FlxG.width / 2);

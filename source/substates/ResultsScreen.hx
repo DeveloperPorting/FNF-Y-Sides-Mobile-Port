@@ -66,6 +66,8 @@ class ResultsScreen extends MusicBeatSubstate
         super();
     }
 
+    var yoinsEarnedOnSession:Int = 0;
+    var yoinsEarnMult:Float = 0.2;
     override function create() 
     {
         super.create();
@@ -79,6 +81,11 @@ class ResultsScreen extends MusicBeatSubstate
         good = PlayState.isStoryMode ? PlayState.campaignGoods : PlayState.instance.ratingsData[1].hits;
         bad = PlayState.isStoryMode ? PlayState.campaignBads : PlayState.instance.ratingsData[2].hits;
         shit = PlayState.isStoryMode ? PlayState.campaignShits : PlayState.instance.ratingsData[3].hits;
+
+        if(PlayState.isStoryMode)
+            yoinsEarnedOnSession = Std.int(PlayState.totalPlayedWeek * yoinsEarnMult);
+        else
+            yoinsEarnedOnSession = Std.int(PlayState.instance.totalPlayed * yoinsEarnMult);
 
         rank = new ResultsScreenRank(0, 0, getRankName());
         yoinsEarnedTxt = new Alphabet(0, 0, '+0 yoins', false);
@@ -373,10 +380,7 @@ class ResultsScreen extends MusicBeatSubstate
             FlxTween.num(1, 0, 0.6, {ease: FlxEase.linear, onComplete: (_) -> {
                 new FlxTimer().start(0.6,(_) -> {
 
-                    if(PlayState.isStoryMode)
-		                ShopSubState.addMoney(Std.int(PlayState.totalPlayedWeek * 0.5));
-                    else
-		                ShopSubState.addMoney(Std.int(PlayState.instance.totalPlayed * 0.5));
+                    ShopSubState.addMoney(yoinsEarnedOnSession);
 
 		            trace('Earned ${ShopSubState.money} yoins!');
 
@@ -470,9 +474,9 @@ class ResultsScreen extends MusicBeatSubstate
                 }});
 
                 if(PlayState.isStoryMode)
-                    yoinsEarnedTxt.text = '+${Std.int(PlayState.totalPlayedWeek * 0.5)} yoins';
+                    yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
                 else
-                    yoinsEarnedTxt.text = '+${Std.int(PlayState.instance.totalPlayed * 0.5)} yoins';
+                    yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
 
                 FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
                 new FlxTimer().start(2.05, function(tmr:FlxTimer)
@@ -528,9 +532,9 @@ class ResultsScreen extends MusicBeatSubstate
                         }});
 
                         if(PlayState.isStoryMode)
-                            yoinsEarnedTxt.text = '+${Std.int(PlayState.totalPlayedWeek * 0.5)} yoins';
+                            yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
                         else
-                            yoinsEarnedTxt.text = '+${Std.int(PlayState.instance.totalPlayed * 0.5)} yoins';
+                            yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
 
                         FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
                         new FlxTimer().start(2.05, function(tmr:FlxTimer)
@@ -563,9 +567,9 @@ class ResultsScreen extends MusicBeatSubstate
                     }});
 
                     if(PlayState.isStoryMode)
-                        yoinsEarnedTxt.text = '+${Std.int(PlayState.totalPlayedWeek * 0.5)} yoins';
+                        yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
                     else
-                        yoinsEarnedTxt.text = '+${Std.int(PlayState.instance.totalPlayed * 0.5)} yoins';
+                        yoinsEarnedTxt.text = '+$yoinsEarnedOnSession yoins';
 
                     FlxTween.tween(yoinsEarnedTxt, {alpha: 1, y: yoinsEarnedTxt.y - 10}, 0.3, {ease: FlxEase.quartOut});
                     new FlxTimer().start(2.05, function(tmr:FlxTimer)

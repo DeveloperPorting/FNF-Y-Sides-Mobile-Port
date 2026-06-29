@@ -199,6 +199,13 @@ class CreditsStateYSides extends MusicBeatState
 			color: 0xFF5B556D
 		},
 		{
+			name: 'Inkgamer159',
+			icon: 'ink',
+			roles: ['Build Tester'],
+			socialMedias: [],
+			color: 0xFFFFDC8E
+		},
+		{
 			name: 'Saturn',
 			icon: 'sas',
 			roles: ['- Me composer... -', 'drawer', 'I not cook'],
