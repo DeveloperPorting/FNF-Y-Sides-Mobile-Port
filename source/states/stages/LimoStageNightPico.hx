@@ -253,6 +253,7 @@ class LimoStageNightPico extends BaseStage
 			rimGF.attachedSprite = game.gf;
 			rimGF.distance = 10;
 			rimGF.angle = 90;
+            if(CharSelectState.currentFreeplaySelectedName == 'pico') rimGF.distance = 15;
 
 			game.gf.animation.callback = function()
 			{
