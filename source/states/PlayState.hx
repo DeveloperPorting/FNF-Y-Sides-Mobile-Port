@@ -3765,7 +3765,7 @@ class PlayState extends MusicBeatState
        					LimoStage.buildingsBack2XPos = 0;
        					LimoStage.buildingsBackXPos = 0;
        					LimoStage.buildingsFrontXPos = 0;
-						LimoStage.cloudsXPos = 0;
+						if(!ClientPrefs.data.lowQuality) LimoStage.cloudsXPos = 0;
 					}
 
 					// if ()
@@ -3806,7 +3806,7 @@ class PlayState extends MusicBeatState
        					LimoStage.buildingsBack2XPos = LimoStage.buildingsBack2.x;
        					LimoStage.buildingsBackXPos = LimoStage.buildingsBack.x;
        					LimoStage.buildingsFrontXPos = LimoStage.buildingsFront.x;
-						LimoStage.cloudsXPos = LimoStage.clouds.x;
+						if(!ClientPrefs.data.lowQuality) LimoStage.cloudsXPos = LimoStage.clouds.x;
 					}
 
 					canResync = false;
