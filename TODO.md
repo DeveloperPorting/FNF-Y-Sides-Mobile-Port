@@ -149,20 +149,20 @@
 
 ## OTHER
 
-- [ ] RAM Mechanic
-- [ ] Satin Panties (SONGCARD)
-- [ ] High (SONGCARD)
-- [ ] MILF (SONGCARD)
-- [ ] Cocoa (SONGCARD)
-- [ ] Eggnog (SONGCARD)
-- [ ] Improbable Outset (SONGCARD)
-- [ ] Madness (SONGCARD)
-- [ ] RAM (SONGCARD)
-- [ ] Returny (SONGCARD)
-- [ ] Fresh (Pico Mix) (SONGCARD)
-- [ ] South (Pico Mix) (SONGCARD)
-- [ ] High (Pico Mix) (SONGCARD)
-- [ ] MILF (Pico Mix) (SONGCARD)
+- [x] RAM Mechanic
+- [x] Satin Panties (SONGCARD)
+- [x] High (SONGCARD)
+- [x] MILF (SONGCARD)
+- [x] Cocoa (SONGCARD)
+- [x] Eggnog (SONGCARD)
+- [x] Improbable Outset (SONGCARD)
+- [x] Madness (SONGCARD)
+- [x] RAM (SONGCARD)
+- [x] Returny (SONGCARD)
+- [x] Fresh (Pico Mix) (SONGCARD)
+- [x] South (Pico Mix) (SONGCARD)
+- [x] High (Pico Mix) (SONGCARD)
+- [x] MILF (Pico Mix) (SONGCARD)
 
 - [x] Week 4 Award
 - [x] Week 5 Award
@@ -177,10 +177,10 @@
 - [x] Freeplay Menu Overhaul
     - [x] Character selector
 - [x] Gallery Overhaul
-- [ ] Vault Menu
-    - [ ] Shop Menu
-    - [ ] Collectionables Menu
-    - [ ] Awards Menu
+- [x] Vault Menu
+    - [x] Shop Menu
+    - [x] Collectionables Menu
+    - [x] Awards Menu
 
 ## SPECIFIC
 
