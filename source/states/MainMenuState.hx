@@ -87,6 +87,11 @@ class MainMenuState extends MusicBeatState
 				FlxG.sound.music.fadeIn(1);
 			}
 		}
+        else
+        {
+			trace('Starting main menu music because there is NO MUSIC in general!');
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
+        }
 
 		persistentUpdate = persistentDraw = true;
 
