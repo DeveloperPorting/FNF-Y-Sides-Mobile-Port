@@ -1,10 +1,12 @@
 {
     "dependencies": [
         {
-            "name": "lime",
-            "type": "haxelib",
-            "version": "8.1.2"
-        },
+	      "name": "lime",
+	      "type": "git",
+	      "dir": null,
+	      "ref": "main",
+	      "url": "https://github.com/DeveloperPorting-Stuff/lime"
+	    },
         {
             "name": "openfl",
             "type": "haxelib",
@@ -69,8 +71,8 @@
             "name": "linc_luajit",
             "type": "git",
             "dir": null,
-            "ref": "master",
-            "url": "https://github.com/superpowers04/linc_luajit.git"
+            "ref": "main",
+            "url": "https://github.com/DeveloperPorting-Stuff/linc_luajit"
         },
         {
             "name": "extended-flixel",
