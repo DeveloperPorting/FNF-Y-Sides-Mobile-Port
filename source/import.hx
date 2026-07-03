@@ -45,6 +45,10 @@ import states.PlayState;
 import states.LoadingState;
 import states.vault.ShopSubState;
 
+#if mobile
+import mobile.backend.AssetsUtil;
+#end
+
 #if flxanimate
 import flxanimate.*;
 import flxanimate.PsychFlxAnimate as FlxAnimate;
