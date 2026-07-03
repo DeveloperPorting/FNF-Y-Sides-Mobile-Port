@@ -173,7 +173,6 @@ class Main extends Sprite
 		game._customSoundTray = backend.CustomSoundTray;
 		addChild(game);
 
-		#if !mobile
 		fpsVar = new FPSCounter(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
@@ -181,7 +180,6 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
-		#end
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
@@ -263,13 +261,16 @@ class Main extends Sprite
 		#end
 		errMsg += "\n\n> Crash Handler written by: sqirra-rng";
 
+        #if !mobile
 		if (!FileSystem.exists("./crash/"))
 			FileSystem.createDirectory("./crash/");
+		
 
 		File.saveContent(path, errMsg + "\n");
+		#end
 
 		Sys.println(errMsg);
-		Sys.println("Crash dump saved in " + Path.normalize(path));
+		#if !mobile Sys.println("Crash dump saved in " + Path.normalize(path)); #end
 
 		Application.current.window.alert(errMsg, "Error!");
 		#if DISCORD_ALLOWED
