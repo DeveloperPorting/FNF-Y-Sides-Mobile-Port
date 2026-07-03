@@ -44,7 +44,7 @@ class CoolUtil
 	inline public static function coolTextFile(path:String):Array<String>
 	{
 		var daList:String = null;
-		#if (sys && MODS_ALLOWED)
+		#if (MODS_ALLOWED)
 		if(FileSystem.exists(path)) daList = File.getContent(path);
 		#else
 		if(Assets.exists(path)) daList = Assets.getText(path);
@@ -136,7 +136,7 @@ class CoolUtil
 	}
 
 	inline public static function openFolder(folder:String, absolute:Bool = false) {
-		#if sys
+		#if desktop
 			if(!absolute) folder =  Sys.getCwd() + '$folder';
 
 			folder = folder.replace('/', '\\');
