@@ -34,7 +34,7 @@ class AssetsUtil {
 		#end
 	}
 	
-	public static function readDirectoryFilter(path:String):String {
+	public static function readDirectoryFilter(path:String):Array<String> {
 		return Assets.list().filter(directory -> directory.contains(path));
 	}
 }
