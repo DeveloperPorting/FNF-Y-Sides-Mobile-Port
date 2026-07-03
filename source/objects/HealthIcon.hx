@@ -1,5 +1,7 @@
 package objects;
 
+import openfl.utils.Assets;
+
 class HealthIcon extends FlxSprite
 {
 	public var sprTracker:FlxSprite;

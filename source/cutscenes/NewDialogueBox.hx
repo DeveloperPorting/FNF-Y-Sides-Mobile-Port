@@ -1,8 +1,7 @@
 package cutscenes;
 
 import haxe.Json;
-import sys.io.File;
-import sys.FileSystem;
+import openfl.utils.Assets;
 import flixel.FlxG;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
