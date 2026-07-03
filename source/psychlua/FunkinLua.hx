@@ -1577,7 +1577,7 @@ class FunkinLua {
 			var isString:Bool = !Assets.exists(scriptName);
 			var result:Dynamic = null;
 			if(!isString)
-				result = LuaL.dofile(lua, scriptName);
+				result = LuaL.dostring(lua, Assets.getText(scriptName));
 			else
 				result = LuaL.dostring(lua, scriptName);
 
