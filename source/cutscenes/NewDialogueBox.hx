@@ -449,9 +449,9 @@ class NewDialogueBox extends FlxSpriteGroup
     public static function returnJsonData(jsonPath:String)
     {
         var rawJson:String = null;
-        if(FileSystem.exists(jsonPath))
+        if(Assets.exists(jsonPath))
         {
-            rawJson = File.getContent(jsonPath);
+            rawJson = Assets.getText(jsonPath);
 
             return cast Json.parse(rawJson);
         }

@@ -31,9 +31,9 @@ class HealthIcon extends FlxSprite
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-' + char; //Older versions of psych engine's support
 			if(!Paths.fileExists('images/' + name + '.png', IMAGE)) name = 'icons/icon-face'; //Prevents crash from missing icon
 			
-			isAnimated = FileSystem.exists('assets/shared/images/' + name + '.xml'); //Check if xml file exists
+			isAnimated = Assets.exists('assets/shared/images/' + name + '.xml'); //Check if xml file exists
 			#if debug
-			trace('IF ${'assets/shared/images/' + name + '.xml'} (${FileSystem.exists('assets/shared/images/' + name + '.xml')}) EXISTS, isAnimated: $isAnimated');
+			trace('IF ${'assets/shared/images/' + name + '.xml'} (${Assets.exists('assets/shared/images/' + name + '.xml')}) EXISTS, isAnimated: $isAnimated');
 			#end
 			
 			if(isAnimated)
