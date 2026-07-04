@@ -94,13 +94,13 @@ class GalleryPreload
         Thread.create(() -> {
             var galleryPath = 'assets/shared/images/gallery/$galleryDirectory';
             
-            if (!FileSystem.exists(galleryPath))
+            /*if (!FileSystem.exists(galleryPath))
             {
                 trace('Gallery directory not found: $galleryPath');
                 return;
-            }
+            }*/
             
-            var imagesOnFolder = FileSystem.readDirectory(galleryPath);
+            var imagesOnFolder = AssetsUtil.readDirectoryFilter(galleryPath + '/');
             
             // Filter to only PNG images
             var imageFiles = imagesOnFolder.filter(function(file) {
@@ -118,9 +118,9 @@ class GalleryPreload
                 try 
                 {
                     // Load metadata if available
-                    if (FileSystem.exists(jsonPath))
+                    if (Assets.exists(jsonPath))
                     {
-                        var content = File.getContent(jsonPath);
+                        var content = Assets.getText(jsonPath);
                         var imageData = Json.parse(content);
                         trace('Preloaded metadata: ${imageData.name} at index $num');
                     }

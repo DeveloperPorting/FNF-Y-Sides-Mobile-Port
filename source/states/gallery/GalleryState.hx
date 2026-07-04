@@ -448,7 +448,7 @@ class GalleryStateImages extends MusicBeatState
         descText.y = barBottom.y + (barBottom.height / 2) - (descText.height / 2);
         add(descText);
 
-        var imagesOnFolder = FileSystem.readDirectory('assets/shared/images/gallery/$folderName');
+        var imagesOnFolder = AssetsUtil.readDirectoryFilter('assets/shared/images/gallery/$folderName/');
         
         //remove the .json files (lmao)
         for(obj in imagesOnFolder)
@@ -470,7 +470,7 @@ class GalleryStateImages extends MusicBeatState
             var imageName = StringTools.replace(image, '.png', '');
 
             try {
-                var content = File.getContent('assets/shared/images/gallery/$folderName/$imageName.json');
+                var content = Assets.getText('assets/shared/images/gallery/$folderName/$imageName.json');
                 var imageData = Json.parse(content);
 
                 #if debug
