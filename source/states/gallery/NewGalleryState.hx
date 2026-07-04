@@ -638,7 +638,7 @@ class NewGalleryState extends MusicBeatState
         var imagesOnFolder:Array<String> = [];
 
         // Delete json files
-        for(obj in FileSystem.readDirectory('assets/shared/images/gallery/$folderName'))
+        for(obj in AssetsUtil.readDirectoryFilter('assets/shared/images/gallery/$folderName/'))
         {
             trace(obj, obj.endsWith('.png'));
             if(obj.endsWith('.png'))
@@ -657,7 +657,7 @@ class NewGalleryState extends MusicBeatState
             var imageName = StringTools.replace(image, '.png', '');
 
             try {
-                var content = File.getContent('assets/shared/images/gallery/$folderName/$imageName.json');
+                var content = Assets.getText('assets/shared/images/gallery/$folderName/$imageName.json');
                 var imageData = Json.parse(content);
 
                 #if debug
