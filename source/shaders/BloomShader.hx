@@ -12,8 +12,6 @@ class BloomShader extends FlxGraphicsShader
 	uniform float Quality;
 	uniform float Size;
 	
-	vec2 Radius = Size/openfl_TextureSize.xy;
-	
 	void main(void)
 	{
       const float amount = 2.0;

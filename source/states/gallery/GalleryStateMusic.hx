@@ -349,7 +349,7 @@ class GalleryStateMusic extends MusicBeatState
             if(firstTime) item.snapToPosition();
 		}
 
-        if(FileSystem.exists('assets/songs/${musicSongsArray[curSelected]}/Inst.ogg'))
+        if(openfl.utils.Assets.exists('assets/songs/${musicSongsArray[curSelected]}/Inst.ogg'))
         {
             if(FlxG.sound.music != null)
                 FlxG.sound.music.stop();
