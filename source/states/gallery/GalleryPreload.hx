@@ -99,7 +99,7 @@ class GalleryPreload
                 return;
             }*/
             
-            var imagesOnFolder = AssetsUtil.readDirectoryFilter(galleryPath + '/');
+            var imagesOnFolder = AssetsUtil.readDirectoryFilter(galleryPath);
             
             // Filter to only PNG images
             var imageFiles = imagesOnFolder.filter(function(file) {

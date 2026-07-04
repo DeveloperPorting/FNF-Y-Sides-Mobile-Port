@@ -639,7 +639,7 @@ class NewGalleryState extends MusicBeatState
         var imagesOnFolder:Array<String> = [];
 
         // Delete json files
-        for(obj in AssetsUtil.readDirectoryFilter('assets/shared/images/gallery/$folderName/'))
+        for(obj in AssetsUtil.readDirectoryFilter('assets/shared/images/gallery/$folderName'))
         {
             trace(obj, obj.endsWith('.png'));
             if(obj.endsWith('.png'))
