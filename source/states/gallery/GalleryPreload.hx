@@ -2,8 +2,7 @@ package states.gallery;
 
 import sys.thread.Thread;
 import sys.thread.Mutex;
-import sys.FileSystem;
-import sys.io.File;
+import openfl.utils.Assets;
 import haxe.Json;
 import flixel.sound.FlxSound;
 

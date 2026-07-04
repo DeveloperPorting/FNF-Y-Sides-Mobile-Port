@@ -6,6 +6,7 @@ import shaders.WaterShader;
 import shaders.Dubswitcher;
 import shaders.ColorSwap.ColorSwapShader;
 import openfl.filters.ShaderFilter;
+import openfl.utils.Assets;
 import haxe.Json;
 
 class NewGalleryState extends MusicBeatState
