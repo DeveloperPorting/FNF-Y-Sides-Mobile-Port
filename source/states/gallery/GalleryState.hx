@@ -3,6 +3,7 @@ package states.gallery;
 import haxe.Json;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WiggleEffect;
+import openfl.utils.Assets;
 
 class GalleryState extends MusicBeatState
 {
