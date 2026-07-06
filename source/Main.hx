@@ -19,6 +19,10 @@ import lime.app.Application;
 import states.TitleState;
 import states.HaxeflixelIntroState;
 
+#if mobile
+import mobile.backend.MobileUtil;
+#end
+
 #if HSCRIPT_ALLOWED
 import crowplexus.iris.Iris;
 import psychlua.HScript.HScriptInfos;
@@ -84,6 +88,13 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
+		
+		#if mobile
+		FlxG.signals.preUpdate.add(function() 
+		{
+			MobileUtil.updateInputMethod();
+		});
+		#end
 
 		#if windows
 		// DPI Scaling fix for windows 

@@ -103,7 +103,7 @@ class PerformanceWarning extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		if(controls.ACCEPT && !pressedEnter)
+		if(controls.ACCEPT #if mobile || TouchUtil.justPressed() #end && !pressedEnter)
 		{
 			pressedEnter = true;
 			FlxG.sound.play(Paths.sound('performance/enter'), 0.9);

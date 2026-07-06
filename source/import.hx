@@ -46,6 +46,7 @@ import states.LoadingState;
 import states.vault.ShopSubState;
 
 #if mobile
+import mobile.backend.utils.TouchUtil;
 import mobile.backend.AssetsUtil;
 #end
 
