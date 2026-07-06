@@ -1036,6 +1036,21 @@ class PlayState extends MusicBeatState
 		add(blackThing);
 
 		if(curSong == 'Monster' || curSong == 'Winter Horrorland' || curSong == 'Settings') skipCountdown = true;
+		
+		#if mobile
+		var pauseButton = new mobile.backend.PauseButton(0, 0, function()
+		{
+			var ret:Dynamic = callOnScripts('onPause', null, true);
+			if(ret != LuaUtils.Function_Stop) {
+				openPauseMenu();
+			}
+		});
+		add(pauseButton);
+		pauseButton.cameras = [camOther];
+		
+		addMobileControls(false);
+	    hitbox.visible = false;
+		#end
 
 		startingSong = true;
 
@@ -1605,6 +1620,10 @@ class PlayState extends MusicBeatState
 			callOnScripts('onStartCountdown');
 			return false;
 		}
+		
+		#if mobile
+		hitbox.visible = true;
+		#end
 
 		seenCutscene = true;
 		inCutscene = false;
@@ -3702,6 +3721,9 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		endingSong = true;
 		camZooming = false;
+		#if mobile
+		hitbox.visible = false;
+		#end
 		inCutscene = false;
 		updateTime = false;
 

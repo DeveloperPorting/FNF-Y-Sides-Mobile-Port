@@ -236,6 +236,10 @@ class NewStoryMenuState extends MusicBeatState
 		topBlackBg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF000000);
 		topBlackBg.alpha = 0;
 		add(topBlackBg);
+		
+		#if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		#end
 
 		changeWeek(0, true);
 		changeDifficulty();

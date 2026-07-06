@@ -482,6 +482,10 @@ class NewFreeplayState extends MusicBeatState
 		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
         changeCategory(moddedSongs ? curCategory : OG, false);
         changeSelect(0, true);
+        
+        #if mobile
+		addVirtualPad(LEFT_FULL, FREEPLAY);
+		#end
 
         initTransition();
     }
@@ -783,10 +787,10 @@ class NewFreeplayState extends MusicBeatState
                 _updateSongLastDifficulty();
             }
 
-            if(FlxG.keys.justPressed.Q)
+            if(FlxG.keys.justPressed.Q #if mobile || virtualPad.buttonLeft2.justPressed #end)
                 changeCategory(OG);
 
-            if(FlxG.keys.justPressed.E)
+            if(FlxG.keys.justPressed.E #if mobile || virtualPad.buttonRight2.justPressed #end)
                 changeCategory(MODS);
 
             if(controls.BACK)
