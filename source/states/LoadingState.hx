@@ -404,7 +404,7 @@ class LoadingState extends MusicBeatState
 
 		if(canStartSong)
 		{
-			if(controls.ACCEPT)
+			if(controls.ACCEPT #if mobile || TouchUtil.justPressed() #end)
 			{
 				if (stopMusic && FlxG.sound.music != null)
 					FlxG.sound.music.stop();

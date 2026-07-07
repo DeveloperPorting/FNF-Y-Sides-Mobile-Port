@@ -293,10 +293,6 @@ class FreeplayState extends MusicBeatState
 		player = new MusicPlayer(this);
 		add(player);
 		
-		#if mobile
-		addVirtualPad(LEFT_FULL, FREEPLAY);
-		#end
-		
 		changeSelection(true, false);
 		updateTexts();
 		super.create();
@@ -306,17 +302,7 @@ class FreeplayState extends MusicBeatState
 	{
 		changeSelection(0, false);
 		persistentUpdate = true;
-		#if mobile
-		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-			controls.isInSubstate = false;
-		});
-		#end
 		super.closeSubState();
-		
-		#if mobile
-		removeVirtualPad();
-		addVirtualPad(LEFT_FULL, FREEPLAY);
-		#end
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
@@ -516,13 +502,12 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 
-		if(FlxG.keys.justPressed.CONTROL #if mobile || virtualPad.buttonC.justPressed #end && !player.playingMusic)
+		if(FlxG.keys.justPressed.CONTROL && !player.playingMusic)
 		{
 			persistentUpdate = false;
 			openSubState(new GameplayChangersSubstate());
-			#if mobile removeVirtualPad(); #end
 		}
-		else if(FlxG.keys.justPressed.SPACE #if mobile || virtualPad.buttonX.justPressed #end)
+		else if(FlxG.keys.justPressed.SPACE)
 		{
 			if(instPlaying != curSelected && !player.playingMusic)
 			{
@@ -647,12 +632,11 @@ class FreeplayState extends MusicBeatState
 			DiscordClient.loadModRPC();
 			#end
 		}
-		else if(controls.RESET #if mobile || virtualPad.buttonR.justPressed #end && !player.playingMusic)
+		else if(controls.RESET && !player.playingMusic)
 		{
 			persistentUpdate = false;
 			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			FlxG.sound.play(Paths.sound('scrollMenu'));
-			#if mobile removeVirtualPad(); #end
 		}
 
 		updateTexts(elapsed);

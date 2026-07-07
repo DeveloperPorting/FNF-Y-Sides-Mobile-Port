@@ -234,7 +234,7 @@ class WinScreen extends MusicBeatSubstate
     {
         super.update(elapsed);
 
-        if (controls.ACCEPT) 
+        if (controls.ACCEPT #if mobile || TouchUtil.justPressed() #end) 
         {
             PlayState.isWeekSFC = false;
             PlayState.isWeekGFC = false;

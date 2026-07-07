@@ -37,7 +37,6 @@ enum MobileActionMode
 	X;
 	A_B;
 	A_B_C;
-	STORYMENU;
 	FREEPLAY;
 	CHART_EDITOR;
 	CHARACTER_EDITOR;
@@ -128,8 +127,8 @@ class MobileVirtualPad extends TouchInputManager
 				buttonB = add(createButton(screenW - 258, screenH - 135, 'b', 0xFFCB00, [B]));
 				buttonA = add(createButton(screenW - 132, screenH - 135, 'a', 0xFF0000, [A]));
 			case FREEPLAY:
-			    buttonLeft2 = add(createButton(screenW - 510, screenH - 255, 'left', 0xFF00FF, [LEFT]));
-				buttonRight2 = add(createButton(screenW - 384, screenH - 255, 'right', 0xFF0000, [RIGHT]));
+			    buttonLeft2 = add(createButton(screenW - 258, screenH - 255, 'left', 0xFF00FF, [LEFT]));
+				buttonRight2 = add(createButton(screenW - 132, screenH - 255, 'right', 0xFF0000, [RIGHT]));
 				buttonB = add(createButton(screenW - 258, screenH - 135, 'b', 0xFFCB00, [B]));
 				buttonA = add(createButton(screenW - 132, screenH - 135, 'a', 0xFF0000, [A]));
 			case CHART_EDITOR:
