@@ -355,6 +355,11 @@ class VaultState extends MusicBeatState
         {
             startDialogue('Hey! We are finishing to place your progress...');
         }
+        
+        #if mobile
+		addVirtualPad(NONE, B);
+		addVirtualPadCamera();
+		#end
     }
 
     var transDuration:Float = 0.65;
@@ -967,6 +972,15 @@ class VaultState extends MusicBeatState
     override function closeSubState()
     {
         super.closeSubState();
+        
+        #if mobile
+		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			controls.isInSubstate = false;
+		});
+		removeVirtualPad();
+		addVirtualPad(NONE, B);
+		addVirtualPadCamera();
+		#end
 
         if(isOnCollectionables)
         {

@@ -228,6 +228,12 @@ class ShopSubState extends MusicBeatSubstate
 
         //FlxTween.tween(item, {y: 0}, 1, {type: PINGPONG});
 
+        #if mobile
+        controls.isInSubstate = true;
+		addVirtualPad(UP_DOWN, A_B);
+		addVirtualPadCamera();
+		#end
+		
         initTransition();
         changeSelection();
     }

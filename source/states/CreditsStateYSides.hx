@@ -310,6 +310,10 @@ class CreditsStateYSides extends MusicBeatState
 		rightArrow = new Alphabet(10, 300, '>', true);
 		rightArrow.x = FlxG.width - rightArrow.width - 10;
 		add(rightArrow);
+		
+		#if mobile
+		addVirtualPad(NONE, B);
+		#end
 
         changeSelection();
 		super.create();
