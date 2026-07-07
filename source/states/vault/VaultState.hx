@@ -831,10 +831,10 @@ class VaultState extends MusicBeatState
         FlxTween.cancelTweensOf(FlxG.camera);
         FlxTween.cancelTweensOf(blackShopBackground);
         
-        FlxTween.tween(virtualPad.buttonUp, {alpha: 0.5}, 0.8);
-		FlxTween.tween(virtualPad.buttonDown, {alpha: 0.5}, 0.8);
-		FlxTween.tween(virtualPad.buttonA, {alpha: 0.5}, 0.8);
-		FlxTween.tween(virtualPad.buttonB, {x: FlxG.width - 258}, 0.8);
+        FlxTween.tween(virtualPad.buttonUp, {alpha: 0.5}, 0.2);
+		FlxTween.tween(virtualPad.buttonDown, {alpha: 0.5}, 0.2);
+		FlxTween.tween(virtualPad.buttonA, {alpha: 0.5}, 0.2);
+		FlxTween.tween(virtualPad.buttonB, {x: FlxG.width - 258}, 0.2);
 
         FlxTween.tween(FlxG.camera, {zoom: 1.15, "scroll.x": 70}, 1, {ease: FlxEase.quartOut});
         FlxTween.tween(blackShopBackground, {alpha: 0.5}, 1);
@@ -981,19 +981,6 @@ class VaultState extends MusicBeatState
     override function closeSubState()
     {
         super.closeSubState();
-        
-        #if mobile
-		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-			controls.isInSubstate = false;
-		});
-		removeVirtualPad();
-		addVirtualPad(UP_DOWN, A_B);
-		addVirtualPadCamera();
-		virtualPad.buttonUp.alpha = 0;
-		virtualPad.buttonDown.alpha = 0;
-		virtualPad.buttonA.alpha = 0;
-		virtualPad.buttonB.x = FlxG.width - 132;
-		#end
 
         if(isOnCollectionables)
         {
@@ -1009,6 +996,19 @@ class VaultState extends MusicBeatState
 
             FlxTween.cancelTweensOf(poloDown);
             FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
+            
+            #if mobile
+			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+				controls.isInSubstate = false;
+			});
+			removeVirtualPad();
+			addVirtualPad(UP_DOWN, A_B);
+			addVirtualPadCamera();
+			virtualPad.buttonUp.alpha = 0;
+			virtualPad.buttonDown.alpha = 0;
+			virtualPad.buttonA.alpha = 0;
+			virtualPad.buttonB.x = FlxG.width - 132;
+			#end
 
             zoomOutToCharacter();
 
@@ -1036,10 +1036,10 @@ class VaultState extends MusicBeatState
         FlxTween.cancelTweensOf(FlxG.camera);
         FlxTween.cancelTweensOf(blackShopBackground);
         
-		FlxTween.tween(virtualPad.buttonUp, {alpha: 0}, 0.8);
-		FlxTween.tween(virtualPad.buttonDown, {alpha: 0}, 0.8);
-		FlxTween.tween(virtualPad.buttonA, {alpha: 0}, 0.8);
-		FlxTween.tween(virtualPad.buttonB, {x: FlxG.width - 132}, 0.8);
+		FlxTween.tween(virtualPad.buttonUp, {alpha: 0}, 0.2);
+		FlxTween.tween(virtualPad.buttonDown, {alpha: 0}, 0.2);
+		FlxTween.tween(virtualPad.buttonA, {alpha: 0}, 0.2);
+		FlxTween.tween(virtualPad.buttonB, {x: FlxG.width - 132}, 0.2);
 
         FlxTween.tween(heroCharacter, {x: rightSpawnHero ? -heroCharacter.width : FlxG.width + 30}, 2);
         FlxTween.color(heroCharacter, 2, heroCharacter.color, 0xFFFFFFFF);
