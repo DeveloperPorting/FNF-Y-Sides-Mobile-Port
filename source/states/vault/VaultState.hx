@@ -545,7 +545,7 @@ class VaultState extends MusicBeatState
 
         if(isInInteractiveDialogue)
         {
-            if(controls.ACCEPT)
+            if(controls.ACCEPT #if mobile || virtualPad.buttonA.justPressed #end)
             {
                 if(!dialogueEnded) 
                 {
@@ -561,23 +561,23 @@ class VaultState extends MusicBeatState
 
         if(isOnPreShop && canInteractPreShopUI)
         {
-            if(controls.UI_UP_P)
+            if(controls.UI_UP_P #if mobile || virtualPad.buttonUp.justPressed #end)
             {
                 preShopChangeSelection(-1);
             }
 
-            if(controls.UI_DOWN_P)
+            if(controls.UI_DOWN_P #if mobile || virtualPad.buttonDown.justPressed #end)
             {
                 preShopChangeSelection(1);
             }
 
-            if(controls.ACCEPT)
+            if(controls.ACCEPT #if mobile || virtualPad.buttonA.justPressed #end)
             {
                 endDialogue();
                 preShopSelect();
             }
 
-            if(controls.BACK)
+            if(controls.BACK #if mobile || virtualPad.buttonB.justPressed #end)
             {
                 endDialogue();
                 zoomOutFromShop();
@@ -585,7 +585,7 @@ class VaultState extends MusicBeatState
         }
         else if(!isOnPreShop && !isOnCollectionables)
         {
-            if(controls.BACK && !wentBack && !isInInteractiveDialogue)
+            if(controls.BACK #if mobile || virtualPad.buttonB.justPressed #end && !wentBack && !isInInteractiveDialogue)
             {
                 wentBack = true;
                 endDialogue();
@@ -998,9 +998,6 @@ class VaultState extends MusicBeatState
             FlxTween.tween(poloDown, {y: FlxG.height - poloDown.height}, 0.45, {ease: FlxEase.quintOut});
             
             #if mobile
-			new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-				controls.isInSubstate = false;
-			});
 			removeVirtualPad();
 			addVirtualPad(UP_DOWN, A_B);
 			addVirtualPadCamera();
