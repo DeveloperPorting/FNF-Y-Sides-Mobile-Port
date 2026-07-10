@@ -383,6 +383,8 @@ class MainMenuState extends MusicBeatState
             curtainsTransition.animation.play('open', true);
 			NewGalleryState.comingFromGallery = false;
         }
+        
+        #if mobile controls.isInSubstate = false; #end
 
         //openSubState(new backend.IconFadeTransition(4, 'test', true));
     }
