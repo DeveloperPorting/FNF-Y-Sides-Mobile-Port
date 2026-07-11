@@ -5,18 +5,14 @@ import flixel.system.FlxAssets.FlxShader;
 class GlitchFragmentShader extends FlxShader
 {
 	@glFragmentSource('
-
-	#pragma header
-	vec2 uv = openfl_TextureCoordv.xy;
-	vec2 fragCoord = openfl_TextureCoordv*openfl_TextureSize;
-	vec2 iResolution = openfl_TextureSize;
-	uniform float iTime;
-	#define iChannel0 bitmap
-	#define texture flixel_texture2D
-	#define fragColor gl_FragColor
-	#define mainImage main
 	
-	// https://www.shadertoy.com/view/wdVSR1
+	#pragma header
+	
+	uniform float iTime;
+	uniform float GLITCH_THR;
+	uniform float GLITCH_RECT_DIVISION;
+	uniform int GLITCH_RECT_ITR;
+	
 	// MODE set effect type.
 	// 0 : no effect
 	// 1 : color 
@@ -27,78 +23,83 @@ class GlitchFragmentShader extends FlxShader
 	#define ENABLE_MODE 2
 	#define MODE 5
 	
-	float hash(in float v) { return fract(sin(v)*43768.5453); }
-	float hash(in vec2 v) { return fract(sin(dot(v, vec2(12.9898, 78.233)))*43768.5453); }
-	vec2 hash2(in float v) { return vec2(hash(v+vec2(77.77)), hash(v+vec2(999.999))); }
-	vec2 hash2(in vec2 v) { return vec2(hash(v+vec2(77.77)), hash(v+vec2(999.999))); }
+	float hash(in float v) { return fract(sin(v) * 43768.5453); }
+	float hash(in vec2 v) { return fract(sin(dot(v, vec2(12.9898, 78.233))) * 43768.5453); }
+	vec2 hash2(in float v) { return vec2(hash(v + 77.77), hash(v + 999.999)); }
+	vec2 hash2(in vec2 v) { return vec2(hash(v + vec2(77.77)), hash(v + vec2(999.999))); }
 	
-	uniform float GLITCH_THR;
-	uniform float GLITCH_RECT_DIVISION;
-	uniform int GLITCH_RECT_ITR;
-
 	vec3 glitch(in vec2 p, in float seed) {
-		vec2 q = fract(p);
-		float g = -1.;
-		for(int i=0;i<GLITCH_RECT_ITR;i++) {
-			float fi = float(i)+1.;
-			float h = hash(fi + seed);
-			vec2 h2 = hash2(fi + seed);
+	    float g = -1.0;
+	    
+	    // GLSL ES 100 exige limite constante em loops. Limitado a 16 iterações.
+	    for(int i = 0; i < 16; i++) {
+	        if (i >= GLITCH_RECT_ITR) break;
+	        
+	        float fi = float(i) + 1.0;
+	        float fis = fi + seed; // Pré-calculado para evitar somas repetidas
+	        
+	        float h = hash(fis);
+	        vec2 h2 = hash2(fis);
 	
-			q = p *  GLITCH_RECT_DIVISION * fi + h2;
-			q *= hash2(fi + seed)*2.-1.;
-			vec2 iq = floor(q);
-			vec2 fq = fract(q);
-			float hq = hash(iq);
-			if(hq<GLITCH_THR) {
-				p += hash2(iq)*2.-1.;
-				g = h;
-			}
-		}
-		return vec3(fract(p), g);
+	        vec2 q = p * GLITCH_RECT_DIVISION * fi + h2;
+	        // Otimização: O original chamava hash2(fi + seed) duas vezes.
+	        // Reutilizar o h2 aqui economiza muitas operações de seno!
+	        q *= h2 * 2.0 - 1.0; 
+	        
+	        vec2 iq = floor(q);
+	        float hq = hash(iq);
+	        
+	        if(hq < GLITCH_THR) {
+	            p += hash2(iq) * 2.0 - 1.0;
+	            g = h;
+	        }
+	    }
+	    return vec3(fract(p), g);
 	}
 	
-	
-	vec4 tex(in vec2 uv) { return texture(iChannel0, uv); }
-	
-	vec3 pattern0(in vec2 uv, in vec3 g) { return tex(uv).rgb; }
-	vec3 pattern1(in vec2 uv, in vec3 g) { return g.z<0. ? tex(uv).rgb : g.z * tex(uv).rgb; }
-	vec3 pattern2(in vec2 uv, in vec3 g) { return g.z<0. ? tex(uv).rgb : tex(uv+vec2(0.1*(g.z*2.-1.), 0.)).rgb; }
-	vec3 pattern3(in vec2 uv, in vec3 g) { return g.z<0. ? tex(uv).rgb : 1.-tex(uv).rgb; }
-	vec3 pattern4(in vec2 uv, in vec3 g) { return g.z<0. ? tex(uv).rgb : tex(g.xy).rgb; }
-	#define RGB_SHIFT (g.z*vec3(0.16, 0.04, -0.8))
-	vec3 pattern5(in vec2 uv, in vec3 g) { return g.z<0. ? tex(uv).rgb : vec3(tex(uv+vec2(RGB_SHIFT.r, 0.)).r, tex(uv+vec2(RGB_SHIFT.g, 0.)).g, tex(uv+vec2(RGB_SHIFT.b, 0.)).b); }
-	
-	void mainImage()
+	void main()
 	{
-		vec2 uv = fragCoord/iResolution.xy;
-		
-		float gps = 15.;// glitch per seconds
-		vec3 g = glitch(uv, floor(iTime*gps)/gps);
-		
-		vec3 col = vec3(0.);
-		if (ENABLE_MODE==0) {
-			float m = mod(iTime, 6.);
-			col = 
-				m<1. ? pattern0(uv, g) : 
-				m<2. ? pattern1(uv, g) : 
-				m<3. ? pattern2(uv, g) : 
-				m<4. ? pattern3(uv, g) : 
-				m<5. ? pattern4(uv, g) : 
-							 pattern5(uv, g) ;
-		} else {
-			col =
-				MODE==0 ? pattern0(uv, g) : 
-				MODE==1 ? pattern1(uv, g) : 
-				MODE==2 ? pattern2(uv, g) : 
-				MODE==3 ? pattern3(uv, g) : 
-				MODE==4 ? pattern4(uv, g) : 
-				MODE==5 ? pattern5(uv, g) : 
-				vec3(0.);
-		}
+	    vec2 uv = openfl_TextureCoordv.xy;
+	    float gps = 15.0; // glitch per seconds
+	    vec3 g = glitch(uv, floor(iTime * gps) / gps);
+	    
+	    vec3 col = vec3(0.0);
+	    
+	    // Usando pré-processador, a GPU descarta (não compila) os modos não utilizados
+	    #if ENABLE_MODE == 0
+	        float m = mod(iTime, 6.0);
+	        if (m < 1.0) { col = flixel_texture2D(bitmap, uv).rgb; }
+	        else if (m < 2.0) { col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : g.z * flixel_texture2D(bitmap, uv).rgb; }
+	        else if (m < 3.0) { col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : flixel_texture2D(bitmap, uv + vec2(0.1 * (g.z * 2.0 - 1.0), 0.0)).rgb; }
+	        else if (m < 4.0) { col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : 1.0 - flixel_texture2D(bitmap, uv).rgb; }
+	        else if (m < 5.0) { col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : flixel_texture2D(bitmap, g.xy).rgb; }
+	        else { 
+	            vec3 shift = g.z * vec3(0.16, 0.04, -0.8);
+	            col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : vec3(flixel_texture2D(bitmap, uv + vec2(shift.r, 0.0)).r, flixel_texture2D(bitmap, uv + vec2(shift.g, 0.0)).g, flixel_texture2D(bitmap, uv + vec2(shift.b, 0.0)).b); 
+	        }
+	    #else
+	        #if MODE == 0
+	            col = flixel_texture2D(bitmap, uv).rgb;
+	        #elif MODE == 1
+	            col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : g.z * flixel_texture2D(bitmap, uv).rgb;
+	        #elif MODE == 2
+	            col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : flixel_texture2D(bitmap, uv + vec2(0.1 * (g.z * 2.0 - 1.0), 0.0)).rgb;
+	        #elif MODE == 3
+	            col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : 1.0 - flixel_texture2D(bitmap, uv).rgb;
+	        #elif MODE == 4
+	            col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : flixel_texture2D(bitmap, g.xy).rgb;
+	        #elif MODE == 5
+	            vec3 shift = g.z * vec3(0.16, 0.04, -0.8);
+	            col = g.z < 0.0 ? flixel_texture2D(bitmap, uv).rgb : vec3(
+	                flixel_texture2D(bitmap, uv + vec2(shift.r, 0.0)).r, 
+	                flixel_texture2D(bitmap, uv + vec2(shift.g, 0.0)).g, 
+	                flixel_texture2D(bitmap, uv + vec2(shift.b, 0.0)).b
+	            );
+	        #endif
+	    #endif
 	
-		// Output to screen
-		gl_FragColor = vec4(col,1.0);
-	gl_FragColor.a = flixel_texture2D(bitmap, openfl_TextureCoordv).a;
+	    // Output to screen
+	    gl_FragColor = vec4(col, flixel_texture2D(bitmap, uv).a);
 	}
 	
 	')
