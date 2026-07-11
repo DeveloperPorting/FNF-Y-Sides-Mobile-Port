@@ -31,19 +31,16 @@ class GlitchFragmentShader extends FlxShader
 	vec3 glitch(in vec2 p, in float seed) {
 	    float g = -1.0;
 	    
-	    // GLSL ES 100 exige limite constante em loops. Limitado a 16 iterações.
 	    for(int i = 0; i < 16; i++) {
 	        if (i >= GLITCH_RECT_ITR) break;
 	        
 	        float fi = float(i) + 1.0;
-	        float fis = fi + seed; // Pré-calculado para evitar somas repetidas
+	        float fis = fi + seed;
 	        
 	        float h = hash(fis);
 	        vec2 h2 = hash2(fis);
 	
 	        vec2 q = p * GLITCH_RECT_DIVISION * fi + h2;
-	        // Otimização: O original chamava hash2(fi + seed) duas vezes.
-	        // Reutilizar o h2 aqui economiza muitas operações de seno!
 	        q *= h2 * 2.0 - 1.0; 
 	        
 	        vec2 iq = floor(q);
@@ -60,12 +57,11 @@ class GlitchFragmentShader extends FlxShader
 	void main()
 	{
 	    vec2 uv = openfl_TextureCoordv.xy;
-	    float gps = 15.0; // glitch per seconds
+	    float gps = 15.0;
 	    vec3 g = glitch(uv, floor(iTime * gps) / gps);
 	    
 	    vec3 col = vec3(0.0);
 	    
-	    // Usando pré-processador, a GPU descarta (não compila) os modos não utilizados
 	    #if ENABLE_MODE == 0
 	        float m = mod(iTime, 6.0);
 	        if (m < 1.0) { col = flixel_texture2D(bitmap, uv).rgb; }
