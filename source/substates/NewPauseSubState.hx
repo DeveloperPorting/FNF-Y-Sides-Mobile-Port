@@ -65,6 +65,11 @@ class NewPauseSubState extends MusicBeatSubstate
         paperObject.alpha = 0;
         paperObject.y += 10;
         FlxTween.tween(paperObject, {y: paperObject.y - 10, alpha: 1}, 0.5, {ease: FlxEase.quartOut});
+        
+        #if mobile
+		addVirtualPad(LEFT_FULL, A_B);
+		addVirtualPadCamera();
+		#end
 
         var shader = new BlurShader();
         shader.radius.value = [0];

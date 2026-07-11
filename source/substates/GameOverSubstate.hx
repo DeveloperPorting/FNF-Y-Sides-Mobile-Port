@@ -264,6 +264,11 @@ class GameOverSubstate extends MusicBeatSubstate
 				neneKnife.animation.play('anim', true);
 			}
 		}
+		
+		#if mobile
+		addVirtualPad(NONE, A_B);
+		addVirtualPadCamera();
+		#end
 
 		super.create();
 	}

@@ -2280,6 +2280,12 @@ class PlayState extends MusicBeatState
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = false);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = false);
 		}
+		
+		#if mobile
+		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			controls.isInSubstate = true;
+		});
+		#end
 
 		super.openSubState(SubState);
 	}
@@ -2287,6 +2293,12 @@ class PlayState extends MusicBeatState
 	public var canResync:Bool = true;
 	override function closeSubState()
 	{
+	    #if mobile
+		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			controls.isInSubstate = false;
+		});
+		#end
+		
 		super.closeSubState();
 		
 		stagesFunc(function(stage:BaseStage) stage.closeSubState());

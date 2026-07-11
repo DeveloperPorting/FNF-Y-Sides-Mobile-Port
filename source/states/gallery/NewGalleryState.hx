@@ -321,6 +321,10 @@ class NewGalleryState extends MusicBeatState
 		curtainsTransition.screenCenter();
 		curtainsTransition.y += 10;
 		add(curtainsTransition);
+		
+		#if mobile
+		addVirtualPad(LEFT_RIGHT, A_B);
+		#end
 
 		changeSelect(0, true);
 	}

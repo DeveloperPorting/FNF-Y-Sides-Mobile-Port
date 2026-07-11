@@ -165,6 +165,10 @@ class SaveFilesMenu extends MusicBeatState
 		blackBackgroundOver = new FlxSprite();
 		blackBackgroundOver.makeGraphic(1280, 720, FlxColor.BLACK);
 		add(blackBackgroundOver);
+		
+		#if mobile
+		addVirtualPad(NONE, B);
+		#end
 
 		FlxTween.tween(blackBackgroundOver, {alpha: 0}, 0.7, {ease: FlxEase.expoOut});
 
@@ -183,7 +187,7 @@ class SaveFilesMenu extends MusicBeatState
     {
         super.update(elapsed);
 
-        if (FlxG.keys.justPressed.ESCAPE)
+        if (FlxG.keys.justPressed.ESCAPE #if mobile || virtualPad.buttonB.justPressed #end)
         {
             if(!canInteract) return;
             comingFromSaveFilesMenu = true;
