@@ -286,14 +286,14 @@ class NewPauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		#if mobile controls.isInSubstate = false; #end
+		#if mobile backend.Controls.instance.isInSubstate = false; #end
 		MusicBeatState.resetState();
 	}
 
     function closePauseMenu()
     {
 			pauseMusic.stop();
-			#if mobile controls.isInSubstate = false; #end
+			#if mobile backend.Controls.instance.isInSubstate = false; #end
             close();
     }
 }
