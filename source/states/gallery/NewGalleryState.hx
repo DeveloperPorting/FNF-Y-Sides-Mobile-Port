@@ -324,6 +324,7 @@ class NewGalleryState extends MusicBeatState
 		
 		#if mobile
 		addVirtualPad(LEFT_RIGHT, A_B);
+		addVirtualPadCamera();
 		#end
 
 		changeSelect(0, true);
