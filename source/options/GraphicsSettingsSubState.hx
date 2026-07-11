@@ -84,7 +84,11 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		{
 			alreadyTalked = true;
 			startDialogue('shocked');
+			#if mobile
+			dialogueText.resetText('What kind of Smartphone do you have???');
+			#else
 			dialogueText.resetText('What kind of PC do you have???');
+			#end
 			dialogueText.start(0.04, true);
 			dialogueText.completeCallback = function() 
 			{
@@ -114,7 +118,11 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		{
 			alreadyTalked2 = true;
 			startDialogue('question');
+			#if mobile
+			dialogueText.resetText("Do you hate em or it's just your Smartphone not handling properly their beauty?");
+			#else
 			dialogueText.resetText("Do you hate em or it's just your PC not handling properly their beauty?");
+			#end
 			dialogueText.start(0.04, true);
 			dialogueText.completeCallback = function() 
 			{

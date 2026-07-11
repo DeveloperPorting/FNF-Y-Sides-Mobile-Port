@@ -432,6 +432,7 @@ class OptionsState extends MusicBeatState
 
 		changeSelection();
 		#if mobile
+		controls.isInSubstate = false;
 		addVirtualPad(UP_DOWN, A_B);
 		#end
 		ClientPrefs.saveSettings();
