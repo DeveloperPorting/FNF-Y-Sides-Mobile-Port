@@ -431,6 +431,9 @@ class OptionsState extends MusicBeatState
 		}
 
 		changeSelection();
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 		ClientPrefs.saveSettings();
 
 		blackBackgroundOver = new FlxSprite();
@@ -486,10 +489,21 @@ class OptionsState extends MusicBeatState
 
 	override function closeSubState()
 	{
+	    #if mobile
+		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+			controls.isInSubstate = false;
+		});
+		#end
+		
 		super.closeSubState();
 
 		icons.setPosition(iconsPos[0], iconsPos[1]);
 		songThing.x = songThingPos[0];
+		
+		#if mobile
+		removeVirtualPad();
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 
 		ClientPrefs.saveSettings();
 		#if DISCORD_ALLOWED
