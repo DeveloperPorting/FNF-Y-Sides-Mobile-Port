@@ -484,6 +484,7 @@ class NewFreeplayState extends MusicBeatState
         changeSelect(0, true);
         
         #if mobile
+        controls.isInSubstate = false;
 		addVirtualPad(LEFT_FULL, FREEPLAY);
 		#end
 

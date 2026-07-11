@@ -238,6 +238,7 @@ class NewStoryMenuState extends MusicBeatState
 		add(topBlackBg);
 		
 		#if mobile
+		controls.isInSubstate = false;
 		addVirtualPad(LEFT_FULL, A_B);
 		#end
 
