@@ -7,61 +7,75 @@ class DeflectiveLens extends FlxShader
     @glFragmentSource('
 	#pragma header
 	
+	#define round(a) floor(a + 0.5)
+	#define iResolution vec3(openfl_TextureSize, 0.0)
 	uniform float iTime;
+	#define iChannel0 bitmap
+	uniform sampler2D iChannel1;
+	uniform sampler2D iChannel2;
+	uniform sampler2D iChannel3;
+	#define texture flixel_texture2D
+	
+	// variables which is empty, they need just to avoid crashing shader
+	uniform float iTimeDelta;
+	uniform float iFrameRate;
+	uniform int iFrame;
+	#define iChannelTime iTime
+	#define iChannelResolution iResolution
 	uniform vec4 iMouse;
+	uniform vec4 iDate;
+	
+	const float pi = 3.14159265358979323846;
+	const float epsilon = 1e-6;
+	
+	const float fringeExp = 2.3;
+	const float fringeScale = 0.0;
+	const float distortionExp = 2.0;
 	uniform float distortionScale;
 	
-	vec4 flixel_texture2D(sampler2D bitmap, vec2 coord) {
-	    vec4 color = texture2D(bitmap, coord);
-	    if (!hasTransform) {
-	        return color;
-	    }
-	    if (color.a == 0.0) {
-	        return vec4(0.0);
-	    }
-	    if (!hasColorTransform) {
-	        return color * openfl_Alphav;
-	    }
-	    color = vec4(color.rgb / color.a, color.a);
-	    mat4 colorMultiplier = mat4(0.0);
-	    colorMultiplier[0][0] = openfl_ColorMultiplierv.x;
-	    colorMultiplier[1][1] = openfl_ColorMultiplierv.y;
-	    colorMultiplier[2][2] = openfl_ColorMultiplierv.z;
-	    colorMultiplier[3][3] = openfl_ColorMultiplierv.w;
-	    color = clamp(openfl_ColorOffsetv + (color * colorMultiplier), 0.0, 1.0);
-	    if (color.a > 0.0) {
-	        return vec4(color.rgb * color.a * openfl_Alphav, color.a * openfl_Alphav);
-	    }
-	    return vec4(0.0);
+	const float startAngle = 1.23456 + pi;	// tweak to get different fringe colouration
+	const float angleStep = pi * 2.0 / 3.0;	// space samples every 120 degrees
+	
+	void mainImage( out vec4 fragColor, in vec2 fragCoord )
+	{
+	    vec2 baseUV = fragCoord.xy / iResolution.xy;
+	    vec2 fromCentre = baseUV - vec2(0.5, 0.5);
+	    
+	    // correct for aspect ratio
+	    fromCentre.y *= iResolution.y / iResolution.x;
+	    float radius = length(fromCentre);
+	    fromCentre = radius > epsilon
+	        ? (fromCentre * (1.0 / radius))
+	        : vec2(0.0);
+	    
+	    float strength = 0.5 - (iMouse.x / iResolution.x);
+	    float rotation = iMouse.y / iResolution.y * 2.0 * pi;
+	    
+	    float fringing = fringeScale * pow(radius, fringeExp) * strength;
+	    float distortion = distortionScale * pow(radius, distortionExp) * strength;
+	    
+	    vec2 distortUV = baseUV - fromCentre * distortion;
+	    
+	    float angle;
+	    vec2 dir;
+	    
+	    angle = startAngle + rotation;
+	    dir = vec2(sin(angle), cos(angle));
+	    vec4 redPlane = texture(iChannel0, distortUV + fringing * dir);
+	    
+	    angle += angleStep;
+	    dir = vec2(sin(angle), cos(angle));
+	    vec4 greenPlane = texture(iChannel0, distortUV + fringing * dir);
+	    
+	    angle += angleStep;
+	    dir = vec2(sin(angle), cos(angle));
+	    vec4 bluePlane = texture(iChannel0, distortUV + fringing * dir);
+	    
+	    fragColor = vec4(redPlane.r, greenPlane.g, bluePlane.b, texture(iChannel0, distortUV).a);
 	}
 	
 	void main() {
-	    vec2 baseUV = openfl_TextureCoordv.xy;
-	    vec2 fromCentre = baseUV - 0.5;
-	    fromCentre.y *= openfl_TextureSize.y / openfl_TextureSize.x;
-	    
-	    float radius = length(fromCentre);
-	    float strength = 0.5 - (iMouse.x / openfl_TextureSize.x);
-	    
-	    vec2 distortUV = baseUV - fromCentre * (distortionScale * radius * strength);
-	    
-	    float fringing = 0.0 * pow(radius, 2.3) * strength;
-	    float rotation = (iMouse.y / openfl_TextureSize.y) * 6.28318530718;
-	    
-	    float a1 = 4.37615265 + rotation;
-	    float a2 = a1 + 2.0943951;
-	    float a3 = a2 + 2.0943951;
-	    
-	    vec2 d1 = vec2(sin(a1), cos(a1)) * fringing;
-	    vec2 d2 = vec2(sin(a2), cos(a2)) * fringing;
-	    vec2 d3 = vec2(sin(a3), cos(a3)) * fringing;
-	    
-	    float r = flixel_texture2D(bitmap, distortUV + d1).r;
-	    float g = flixel_texture2D(bitmap, distortUV + d2).g;
-	    float b = flixel_texture2D(bitmap, distortUV + d3).b;
-	    float a = flixel_texture2D(bitmap, distortUV).a;
-	    
-	    gl_FragColor = vec4(r, g, b, a);
+	    mainImage(gl_FragColor, openfl_TextureCoordv * openfl_TextureSize);
 	}
 	')
 
