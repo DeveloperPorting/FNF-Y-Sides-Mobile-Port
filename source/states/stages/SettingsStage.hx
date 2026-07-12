@@ -57,7 +57,7 @@ class SettingsStage extends BaseStage
 			deflectiveLensShader = new DeflectiveLens();
 			deflectiveLensShader.distortionScale.value = [0.0];
 			deflectiveLensFilter = new ShaderFilter(deflectiveLensShader);
-			FlxG.camera.filters = [deflectiveLensFilter];
+			if (ClientPrefs.data.heavyShaders) FlxG.camera.filters = [deflectiveLensFilter];
 
             bloomShader = new BloomShader();
 			bloomShader.dim.value = [2.0]; // 1.8

@@ -40,6 +40,13 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		option.onChange = onChangeShaders;
 		addOption(option);
+		
+		var option:Option = new Option('Heavy Shaders', //Name
+			"If checked, enable heavier shaders.\n(Make sure your phone's CPU can handle it)", //Description
+			'heavyShaders',
+			BOOL);
+		option.onChange = onChangeHeavyShaders;
+		addOption(option);
 
 		var option:Option = new Option('GPU Caching', //Name
 			"If checked, allows the GPU to be used for caching textures, decreasing RAM usage.\nDon't turn this on if you have a shitty Graphics Card.", //Description
@@ -161,6 +168,36 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 					endDialogue();
 				});
 			}
+		}
+	}
+	
+	var alreadyTalked4:Bool = false;
+	function onChangeHeavyShaders()
+	{
+		if(ClientPrefs.data.heavyShaders && !alreadyTalked4)
+		{
+			alreadyTalked4 = true;
+			startDialogue('question');
+			dialogueText.resetText("Are you sure you want to enable this option?");
+			dialogueText.start(0.04, true);
+			dialogueText.completeCallback = function() 
+			{
+				new FlxTimer().start(thingTimer, function(t:FlxTimer)
+				{
+					endDialogue();
+				});
+			}
+		}
+
+		if(ClientPrefs.data.framerate > FlxG.drawFramerate)
+		{
+			FlxG.updateFramerate = ClientPrefs.data.framerate;
+			FlxG.drawFramerate = ClientPrefs.data.framerate;
+		}
+		else
+		{
+			FlxG.drawFramerate = ClientPrefs.data.framerate;
+			FlxG.updateFramerate = ClientPrefs.data.framerate;
 		}
 	}
 

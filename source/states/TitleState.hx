@@ -160,7 +160,13 @@ class TitleState extends MusicBeatState
 		rgbShader.bOffset.value = [0.0];
 		rgbFilter = new ShaderFilter(rgbShader);
 
-		if(ClientPrefs.data.shaders) FlxG.camera.filters = [bloomFilter, deflectiveLensFilter, rgbFilter];
+		if(ClientPrefs.data.shaders) {
+			if(ClientPrefs.data.heavyShaders) {
+		        FlxG.camera.filters = [bloomFilter, deflectiveLensFilter, rgbFilter];
+		    } else {
+				FlxG.camera.filters = [bloomFilter, rgbFilter];
+		    }
+		}
 
 		var preferences:FlxSave = new FlxSave();
 		preferences.bind('preferences', CoolUtil.getSavePath());
