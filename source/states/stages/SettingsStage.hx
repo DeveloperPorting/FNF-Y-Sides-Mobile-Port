@@ -57,7 +57,7 @@ class SettingsStage extends BaseStage
 			deflectiveLensShader = new DeflectiveLens();
 			deflectiveLensShader.distortionScale.value = [0.0];
 			deflectiveLensFilter = new ShaderFilter(deflectiveLensShader);
-			if (ClientPrefs.data.heavyShaders) FlxG.camera.filters = [deflectiveLensFilter];
+			FlxG.camera.filters = [deflectiveLensFilter];
 
             bloomShader = new BloomShader();
 			bloomShader.dim.value = [2.0]; // 1.8
@@ -66,7 +66,7 @@ class SettingsStage extends BaseStage
 			bloomShader.Size.value = [4.0]; // 8.0, 1.0
 
 			bloomFilter = new ShaderFilter(bloomShader);
-			if (ClientPrefs.data.heavyShaders) FlxG.camera.filters.push(bloomFilter); else FlxG.camera.filters = [bloomFilter];
+			FlxG.camera.filters.push(bloomFilter);
 
 			chromaticAberration = new ChromaticAberration();
 			chromaticAberration.rOffset.value = [0.001];
@@ -74,7 +74,7 @@ class SettingsStage extends BaseStage
 			chromaticAberration.bOffset.value = [-0.001];
 
 			chromaticAberrationFilter = new ShaderFilter(chromaticAberration);
-			FlxG.camera.filters.push(chromaticAberrationFilter);
+			if (ClientPrefs.data.heavyShaders) FlxG.camera.filters.push(chromaticAberrationFilter);
 
 			glitchShader = new GlitchFragmentShader();
 			glitchShader.GLITCH_THR.value = [0.0]; // velocity //// 0.01
