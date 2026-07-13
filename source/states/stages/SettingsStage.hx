@@ -66,7 +66,7 @@ class SettingsStage extends BaseStage
 			bloomShader.Size.value = [4.0]; // 8.0, 1.0
 
 			bloomFilter = new ShaderFilter(bloomShader);
-			FlxG.camera.filters.push(bloomFilter);
+			if (ClientPrefs.data.heavyShaders) FlxG.camera.filters.push(bloomFilter); else FlxG.camera.filters = [bloomFilter];
 
 			chromaticAberration = new ChromaticAberration();
 			chromaticAberration.rOffset.value = [0.001];
