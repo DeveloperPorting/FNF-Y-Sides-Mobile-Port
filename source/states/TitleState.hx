@@ -164,7 +164,7 @@ class TitleState extends MusicBeatState
 			if(ClientPrefs.data.heavyShaders) {
 		        FlxG.camera.filters = [bloomFilter, deflectiveLensFilter, rgbFilter];
 		    } else {
-				FlxG.camera.filters = [bloomFilter, rgbFilter];
+				FlxG.camera.filters = [deflectiveLensFilter, rgbFilter];
 		    }
 		}
 
