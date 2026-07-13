@@ -6,7 +6,7 @@ class BloomShader extends FlxGraphicsShader
 {
 	@glFragmentSource("
 	#pragma header
-	// GAUSSIAN BLUR SETTINGS
+	
 	uniform float dim;
 	uniform float Directions;
 	uniform float Quality;
@@ -15,29 +15,27 @@ class BloomShader extends FlxGraphicsShader
 	void main(void)
 	{
 	  vec2 uv = openfl_TextureCoordv.xy;
-	  float Pi = 6.28318530718; // Pi*2.0
 	  vec4 Color = texture2D(bitmap, uv);
 
-	  vec2 radius = Size / openfl_TextureSize.xy;
+	  vec2 radiusStep = (Size / openfl_TextureSize.xy) / Quality;
 
 	  for(int j = 0; j < 32; j++)
 	  {
 		  if (float(j) >= Directions) break;
 		  
-		  float d = float(j) * Pi / Directions;
-		  vec2 dir = vec2(cos(d), sin(d)) * radius;
+		  float d = float(j) * 6.28318530718 / Directions;
+		  vec2 dir = vec2(cos(d), sin(d)) * radiusStep;
 		  
 		  for(int k = 1; k <= 8; k++)
 		  {		
 			  if (float(k) > Quality) break;
 			  
-			  float i = float(k) / Quality;
-			  Color += flixel_texture2D(bitmap, uv + (dir * i));	
+			  Color += texture2D(bitmap, uv + (dir * float(k)));	
 		  }
 	  }
 
 	  Color /= (dim * Quality) * Directions - 15.0;
-	  vec4 bloom = (flixel_texture2D(bitmap, uv) / dim) + Color;
+	  vec4 bloom = (flixel_texture2D(bitmap, uv) / dim) + (Color * openfl_Alphav);
 	  gl_FragColor = bloom;
 	}
 	")
