@@ -22,7 +22,6 @@ void main()
     vec2 uv = curve(q);
     
     vec4 baseColor = flixel_texture2D(bitmap, q);
-    vec3 oricol = baseColor.rgb;
     vec3 col;
     
     float x = sin(0.3 * iTime + uv.y * 21.0) * sin(0.7 * iTime + uv.y * 29.0) * sin(0.3 + 0.33 * iTime + uv.y * 31.0) * 0.0017;
@@ -38,7 +37,7 @@ void main()
     col = clamp(col * 0.6 + 0.4 * col * col * 1.0, 0.0, 1.0);
 
     float vig = (0.0 + 1.0 * 16.0 * uv.x * uv.y * (1.0 - uv.x) * (1.0 - uv.y));
-    col *= vec3(pow(vig, 0.3));
+    col *= vec3(pow(max(vig, 0.0), 0.3));
 
     col *= vec3(0.95, 1.05, 0.95);
     col *= 2.8;
@@ -49,8 +48,8 @@ void main()
 
     col *= 1.0 + 0.01 * sin(110.0 * iTime);
     
-    if (uv.x < 0.0 || uv.x > 1.0) col *= 0.0;
-    if (uv.y < 0.0 || uv.y > 1.0) col *= 0.0;
+    float inBounds = step(0.0, uv.x) * step(uv.x, 1.0) * step(0.0, uv.y) * step(uv.y, 1.0);
+    col *= inBounds;
     
     col *= 1.0 - 0.65 * vec3(clamp((mod(fragCoord.x, 2.0) - 1.0) * 2.0, 0.0, 1.0));
     
