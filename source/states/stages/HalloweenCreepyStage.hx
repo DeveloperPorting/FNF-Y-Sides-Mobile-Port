@@ -76,7 +76,7 @@ class HalloweenCreepyStage extends BaseStage
 
 			var chromaticAberrationFilter = new ShaderFilter(chromaticAberration);
 			FlxG.camera.filters.push(chromaticAberrationFilter);
-			game.camHUD.filters.push(chromaticAberrationFilter);
+			if (ClientPrefs.data.heavyShaders) game.camHUD.filters = [chromaticAberrationFilter]; else game.camHUD.filters.push(chromaticAberrationFilter);
 
 			// lights on characters
 			var rimBF = new DropShadowShader();

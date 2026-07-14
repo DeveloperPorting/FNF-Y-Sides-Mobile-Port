@@ -192,6 +192,10 @@ class FlashingState extends MusicBeatState
 		rgbShader.gOffset.value = [0.0];
 		rgbShader.bOffset.value = [0.0];
 		rgbFilter = new ShaderFilter(rgbShader);
+		
+		#if mobile
+		addVirtualPad(NONE, A);
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -298,83 +302,74 @@ class FlashingState extends MusicBeatState
 			}
 			
 			#if mobile
-			if (pressEnterToContinueText != null && pressEnterToContinueText.alpha > 0)
-			{		
-				for (touch in FlxG.touches.justStarted())
+			if (MobileUtil.isTouchActive && virtualPad.buttonA.justPressed)
+			{
+				leftState = true;
+				var tweenDuration:Float = 1.2;
+
+				ClientPrefs.data.shaders = shadersOpt.value;
+				ClientPrefs.data.flashing = flashingLightsOpt.value;
+				ClientPrefs.saveSettings();
+
+				if(ClientPrefs.data.flashing && ClientPrefs.data.shaders) FlxG.camera.filters = [bloomFilter, rgbFilter];
+
+				FlxTween.num(0, 1.8, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
 				{
-					if (touch.screenX >= pressEnterToContinueText.x && 
-						touch.screenX <= pressEnterToContinueText.x + pressEnterToContinueText.width &&
-						touch.screenY >= pressEnterToContinueText.y && 
-						touch.screenY <= pressEnterToContinueText.y + pressEnterToContinueText.height)
-					{
-						leftState = true;
-						var tweenDuration:Float = 1.2;
-		
-						ClientPrefs.data.shaders = shadersOpt.value;
-						ClientPrefs.data.flashing = flashingLightsOpt.value;
-						ClientPrefs.saveSettings();
-		
-						if(ClientPrefs.data.flashing && ClientPrefs.data.shaders) FlxG.camera.filters = [bloomFilter, rgbFilter];
-		
-						FlxTween.num(0, 1.8, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-						{
-							deflectiveLensShader.distortionScale.value[0] = v;
-						});
-		
-						FlxTween.num(0.001, 0, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-						{
-							rgbShader.rOffset.value[0] = v;
-							rgbShader.gOffset.value[0] = 0;
-							rgbShader.bOffset.value[0] = -v;
-						});
-		
-						FlxTween.num(1.35, 10, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-						{
-							bloomShader.Directions.value[0] = v;
-						});
-		
-						FlxTween.num(1.45, 2, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
-						{
-							bloomShader.dim.value[0] = v;
-						});
-		
-						FlxTween.cancelTweensOf(gradient);
-						FlxTween.cancelTweensOf(gradient2);
-						//FlxTween.cancelTweensOf(particles);
-						FlxTween.cancelTweensOf(infoText);
-						FlxTween.cancelTweensOf(infoText2);
-						FlxTween.cancelTweensOf(infoText3);
-						FlxTween.cancelTweensOf(flashingLightsOpt.checkbox);
-						FlxTween.cancelTweensOf(flashingLightsOpt.optionText);
-						FlxTween.cancelTweensOf(flashingLightsOpt.background);
-						FlxTween.cancelTweensOf(shadersOpt.checkbox);
-						FlxTween.cancelTweensOf(shadersOpt.optionText);
-						FlxTween.cancelTweensOf(shadersOpt.background);
-						FlxTween.cancelTweensOf(pressEnterToContinueText);
-		
-						FlxTween.tween(gradient, {alpha: 0.55}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(gradient2, {alpha: 0.25}, tweenDuration, {ease: FlxEase.cubeOut});
-						//FlxTween.tween(particles, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
-		
-						FlxTween.tween(warningText, {alpha: 0, y: warningText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(infoText, {alpha: 0, y: infoText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(infoText2, {alpha: 0, y: infoText2.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(infoText3, {alpha: 0, y: infoText3.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(flashingLightsOpt.checkbox, {alpha: 0, y: flashingLightsOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(flashingLightsOpt.optionText, {alpha: 0, y: flashingLightsOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(flashingLightsOpt.background, {alpha: 0, y: flashingLightsOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(shadersOpt.checkbox, {alpha: 0, y: shadersOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(shadersOpt.optionText, {alpha: 0, y: shadersOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(shadersOpt.background, {alpha: 0, y: shadersOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						FlxTween.tween(pressEnterToContinueText, {alpha: 0, y: pressEnterToContinueText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
-						
-						FlxG.sound.music.fadeOut(tweenDuration);
-						new FlxTimer().start(1.5, function(t:FlxTimer)
-						{
-							MusicBeatState.switchState(new TitleState());
-						});
-					}
-				}
+					deflectiveLensShader.distortionScale.value[0] = v;
+				});
+
+				FlxTween.num(0.001, 0, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					rgbShader.rOffset.value[0] = v;
+					rgbShader.gOffset.value[0] = 0;
+					rgbShader.bOffset.value[0] = -v;
+				});
+
+				FlxTween.num(1.35, 10, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					bloomShader.Directions.value[0] = v;
+				});
+
+				FlxTween.num(1.45, 2, tweenDuration, {ease: FlxEase.cubeOut}, function(v:Float)
+				{
+					bloomShader.dim.value[0] = v;
+				});
+
+				FlxTween.cancelTweensOf(gradient);
+				FlxTween.cancelTweensOf(gradient2);
+				FlxTween.cancelTweensOf(particles);
+				FlxTween.cancelTweensOf(infoText);
+				FlxTween.cancelTweensOf(infoText2);
+				FlxTween.cancelTweensOf(infoText3);
+				FlxTween.cancelTweensOf(flashingLightsOpt.checkbox);
+				FlxTween.cancelTweensOf(flashingLightsOpt.optionText);
+				FlxTween.cancelTweensOf(flashingLightsOpt.background);
+				FlxTween.cancelTweensOf(shadersOpt.checkbox);
+				FlxTween.cancelTweensOf(shadersOpt.optionText);
+				FlxTween.cancelTweensOf(shadersOpt.background);
+				FlxTween.cancelTweensOf(pressEnterToContinueText);
+
+				FlxTween.tween(gradient, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(gradient2, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(particles, {alpha: 0}, tweenDuration, {ease: FlxEase.cubeOut});
+
+				FlxTween.tween(warningText, {alpha: 0, y: warningText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(infoText, {alpha: 0, y: infoText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(infoText2, {alpha: 0, y: infoText2.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(infoText3, {alpha: 0, y: infoText3.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(flashingLightsOpt.checkbox, {alpha: 0, y: flashingLightsOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(flashingLightsOpt.optionText, {alpha: 0, y: flashingLightsOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(flashingLightsOpt.background, {alpha: 0, y: flashingLightsOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(shadersOpt.checkbox, {alpha: 0, y: shadersOpt.checkbox.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(shadersOpt.optionText, {alpha: 0, y: shadersOpt.optionText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(shadersOpt.background, {alpha: 0, y: shadersOpt.background.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				FlxTween.tween(pressEnterToContinueText, {alpha: 0, y: pressEnterToContinueText.y - 10}, tweenDuration, {ease: FlxEase.cubeOut});
+				
+				FlxG.sound.music.fadeOut(tweenDuration);
+				new FlxTimer().start(1.5, function(t:FlxTimer)
+				{
+					MusicBeatState.switchState(new TitleState());
+				});
 			}
 			#end
             
@@ -457,7 +452,7 @@ class FlashingState extends MusicBeatState
 		
 		#if mobile
 		if (MobileUtil.isTouchActive)
-			pressEnterToContinueText.text = 'Click HERE to continue!';
+			pressEnterToContinueText.text = 'Press A to continue!';
 		else
 			pressEnterToContinueText.text = 'Press ENTER to continue!';
 		#end
