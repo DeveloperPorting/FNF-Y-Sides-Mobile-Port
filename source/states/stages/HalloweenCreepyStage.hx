@@ -64,7 +64,7 @@ class HalloweenCreepyStage extends BaseStage
 			superBloomHUD.Size.value = [4.0]; // 8.0, 1.0
 
 			superBloomHUDFilter = new ShaderFilter(superBloomHUD);
-			game.camHUD.filters = [superBloomHUDFilter];
+			if (ClientPrefs.data.heavyShaders) game.camHUD.filters = [superBloomHUDFilter];
 
 			var shaderFilter = new ShaderFilter(bloom);
 			FlxG.camera.filters = [shaderFilter];
@@ -183,7 +183,7 @@ class HalloweenCreepyStage extends BaseStage
 					superBloomHUD.Directions.value[0] = 20; // 1.8
 					deflectiveLensShader.distortionScale.value[0] = 0; // 1.8
 
-					game.camHUD.filters.remove(superBloomHUDFilter);
+					if (ClientPrefs.data.heavyShaders) game.camHUD.filters.remove(superBloomHUDFilter);
 					game.camHUD.filters.remove(chromaticAberrationFilter);
 
 					chromaticAberration.rOffset.value = [0.001];

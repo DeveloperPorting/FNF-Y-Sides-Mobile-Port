@@ -298,10 +298,16 @@ class FlashingState extends MusicBeatState
 			}
 			
 			#if mobile
-			if (MobileUtil.isTouchActive) {
-	            if (FlxG.mouse.overlaps(pressEnterToContinueText)) {
-		            if (FlxG.mouse.justPressed) {
-			            leftState = true;
+			if (pressEnterToContinueText != null && pressEnterToContinueText.alpha > 0)
+			{		
+				for (touch in FlxG.touches.justStarted())
+				{
+					if (touch.screenX >= pressEnterToContinueText.x && 
+						touch.screenX <= pressEnterToContinueText.x + pressEnterToContinueText.width &&
+						touch.screenY >= pressEnterToContinueText.y && 
+						touch.screenY <= pressEnterToContinueText.y + pressEnterToContinueText.height)
+					{
+						leftState = true;
 						var tweenDuration:Float = 1.2;
 		
 						ClientPrefs.data.shaders = shadersOpt.value;
@@ -367,10 +373,10 @@ class FlashingState extends MusicBeatState
 						{
 							MusicBeatState.switchState(new TitleState());
 						});
-		            }
-	            }
-            }
-            #end
+					}
+				}
+			}
+			#end
             
 			if (controls.ACCEPT) {
 				isChangingControls = true;

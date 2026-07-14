@@ -463,15 +463,25 @@ class CreditsStateYSides extends MusicBeatState
 		}
 		
 		#if mobile
-		if (FlxG.mouse.overlaps(psychText)) {
-	        if (FlxG.mouse.justPressed) {
+		for (touch in FlxG.touches.justStarted())
+		{
+			var realTextWidth:Float = psychText.textField.textWidth;
+			
+			var startX:Float = (FlxG.width - realTextWidth) / 2;
+			var fimX:Float = startX + realTextWidth;
+	
+			if (touch.screenX >= startX && 
+				touch.screenX <= fimX &&
+				touch.screenY >= psychText.y && 
+				touch.screenY <= psychText.y + psychText.height)
+			{
 				FlxTransitionableState.skipNextTransIn = true;
 				FlxTransitionableState.skipNextTransOut = true;
-	
+		
 				MusicBeatState.switchState(new CreditsState());
-	        }
-        }
-        #end
+			}
+		}
+		#end
 
 		if(devs[curSelected].name == 'Saturn') callMeAGoodBOOOY.volume = 1;
 		else callMeAGoodBOOOY.volume = 0;
