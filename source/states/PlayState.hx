@@ -1039,7 +1039,7 @@ class PlayState extends MusicBeatState
 		
 		#if mobile
 		#if !ios
-		if(!ClientPrefs.data.invisibleButtonPause)
+		if(!ClientPrefs.data.invisibleButtonPause) {
 			var pauseButton = new mobile.backend.PauseButton(0, 0, function()
 			{
 				var ret:Dynamic = callOnScripts('onPause', null, true);
