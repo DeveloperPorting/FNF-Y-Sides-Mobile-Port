@@ -2,18 +2,19 @@ package mobile.controls;
 
 import flixel.FlxG;
 import flixel.util.FlxDestroyUtil;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import openfl.display.BitmapData;
-import openfl.display.Shape;
 import mobile.backend.MobileUtil;
 import mobile.backend.flixel.FlxButton;
 import mobile.backend.flixel.input.TouchInputManager;
 import mobile.backend.flixel.input.FlxMobileInputID;
+import flixel.util.FlxColor;
 
 /**
  * Hitbox... HIT
  * @author StarNova (Cream.BR)
  */
- 
 class MobileHitbox extends TouchInputManager
 {
 	public var buttons:Array<FlxButton> = [];
@@ -22,16 +23,32 @@ class MobileHitbox extends TouchInputManager
 	public var buttonDown:FlxButton;
 	public var buttonUp:FlxButton;
 	public var buttonRight:FlxButton;
+	
+	public var buttonAction:FlxButton;
 
 	private final alphaTarget:Float = 0.2;
 	
 	private var _cachedGraphics:Map<Int, flixel.graphics.FlxGraphic> = new Map();
 
-	public function new():Void
+	/**
+	 * @param hasAction If true, it adds a giant yellow button at the top (25% of the screen)
+	 */
+	public function new(hasAction:Bool = false):Void
 	{
 		super();
 
+		var mainY:Int = hasAction ? Std.int(FlxG.height * 0.25) : 0;
+		var mainHeight:Int = hasAction ? Std.int(FlxG.height * 0.75) : FlxG.height;
 		var buttonWidth:Int = Std.int(FlxG.width / 4);
+
+		if (hasAction) 
+		{
+			var actionBtn = createHint(0, 0, FlxG.width, Std.int(FlxG.height * 0.25), 0xFFFF00, [FlxMobileInputID.NONE, FlxMobileInputID.NONE]);
+			add(actionBtn);
+			buttons.push(actionBtn);
+			buttonAction = actionBtn;
+		}
+
 		var data = [
 			{color: 0xFF00FF, ids: [FlxMobileInputID.hitboxLEFT, FlxMobileInputID.noteLEFT]},
 			{color: 0x00FFFF, ids: [FlxMobileInputID.hitboxDOWN, FlxMobileInputID.noteDOWN]},
@@ -40,15 +57,16 @@ class MobileHitbox extends TouchInputManager
 		];
 		
 		for (i in 0...data.length) {
-			var btn = createHint(i * buttonWidth, 0, buttonWidth, FlxG.height, data[i].color, data[i].ids);
+			var btn = createHint(i * buttonWidth, mainY, buttonWidth, mainHeight, data[i].color, data[i].ids);
 			add(btn);
 			buttons.push(btn);
 		}
 
-		buttonLeft  = buttons[0];
-		buttonDown  = buttons[1];
-		buttonUp    = buttons[2];
-		buttonRight = buttons[3];
+		var offset:Int = hasAction ? 1 : 0;
+		buttonLeft  = buttons[offset];
+		buttonDown  = buttons[offset + 1];
+		buttonUp    = buttons[offset + 2];
+		buttonRight = buttons[offset + 3];
 
 		scrollFactor.set();
 		refreshMappedButtons();
@@ -73,24 +91,24 @@ class MobileHitbox extends TouchInputManager
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 
-        if (!ClientPrefs.data.invisibleHitbox) {
+		if (!ClientPrefs.data.invisibleHitbox) {
 			var hintTween:FlxTween = null;
 			hint.onDown.callback = function() {
-			    if (hintTween != null) hintTween.cancel();
-			    
-			    hintTween = FlxTween.tween(hint, {alpha: alphaTarget}, 0.075, {
-			        ease: FlxEase.circInOut,
-			        onComplete: function(_) { hintTween = null; }
-			    });
+				if (hintTween != null) hintTween.cancel();
+				
+				hintTween = FlxTween.tween(hint, {alpha: alphaTarget}, 0.075, {
+					ease: FlxEase.circInOut,
+					onComplete: function(_) { hintTween = null; }
+				});
 			}
 			
 			hint.onUp.callback = function() {
-			    if (hintTween != null) hintTween.cancel();
-			    
-			    hintTween = FlxTween.tween(hint, {alpha: 0.00001}, 0.15, {
-			        ease: FlxEase.circInOut,
-			        onComplete: function(_) { hintTween = null; }
-			    });
+				if (hintTween != null) hintTween.cancel();
+				
+				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, 0.15, {
+					ease: FlxEase.circInOut,
+					onComplete: function(_) { hintTween = null; }
+				});
 			}
 			
 			hint.onOut.callback = hint.onUp.callback;
@@ -102,24 +120,10 @@ class MobileHitbox extends TouchInputManager
 		
 		return hint;
 	}
-
-    // It will be used for skins in the future
-	/*private function createHintGraphic(Width:Int, Height:Int, Color:Int):BitmapData
-	{
-		var shape:Shape = new Shape();
-		shape.graphics.beginFill(Color);
-		shape.graphics.drawRect(0, 0, Width, Height);
-		shape.graphics.endFill();
-
-		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
-		bitmap.draw(shape);
-		return bitmap;
-	}*/
 	
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
-	
 		MobileUtil.setControlsState(this, buttons);
 	}
 

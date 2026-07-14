@@ -1048,7 +1048,11 @@ class PlayState extends MusicBeatState
 		add(pauseButton);
 		pauseButton.cameras = [camOther];
 		
-		addMobileControls(false);
+		if (curSong == 'Dad Battle' || curSong == 'Ram')
+			addMobileControls(false, true);
+		else
+			addMobileControls(false, false);
+		
 	    hitbox.visible = false;
 		#end
 
@@ -2502,7 +2506,7 @@ class PlayState extends MusicBeatState
 				if(canHitBall)
 				{
 					trace('CAN HIT!!!!');
-					if(controls.MECHANIC && !wasGoodHit)
+					if((controls.MECHANIC #if mobile || hitbox?.buttonAction?.justPressed #end) && !wasGoodHit)
 					{
 						// boyfriend.playAnim('liftUp', true);
 						boyfriend.visible = false;
@@ -2681,7 +2685,7 @@ class PlayState extends MusicBeatState
 					}
 					if(!areNotesInBfSec)
 					{
-						if(controls.MECHANIC && !alredyLiftAnim) {
+						if((controls.MECHANIC #if mobile || hitbox?.buttonAction?.justPressed #end) && !alredyLiftAnim) {
 	
 							startedLift = true;
 							isPressingSpace = true;

@@ -486,6 +486,7 @@ class NewFreeplayState extends MusicBeatState
         #if mobile
         controls.isInSubstate = false;
 		addVirtualPad(LEFT_FULL, FREEPLAY);
+		if (!moddedSongs || isPicoMix) virtualPad.buttonLeft2.visible = virtualPad.buttonRight2.visible = false;
 		if (!unlockedPico) virtualPad.buttonC.visible = false;
 		#end
 
