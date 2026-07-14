@@ -5,6 +5,10 @@ import objects.AttachedSprite;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WiggleEffect;
 
+#if mobile
+import mobile.backend.MobileUtil;
+#end
+
 typedef Credit = {
 	name:String,
 	icon:String,
@@ -225,6 +229,34 @@ class CreditsStateYSides extends MusicBeatState
 				}
 			],
 			color: 0xFF45725F
+		},
+		{
+			name: 'StarNova',
+			icon: 'starnova',
+			roles: ['Mobile Porter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://youtube.com/@StarNovaOficial'
+				},
+				{
+					icon: 'x',
+					link: 'https://x.com/StarNovaBR'
+				}
+			],
+			color: 0xFFC7305D
+		},
+		{
+			name: 'Lumi (FNF BR)',
+			icon: 'lumi',
+			roles: ['Mobile Porter'],
+			socialMedias: [
+				{
+					icon: 'yt',
+					link: 'https://youtube.com/@FNF-BR'
+				}
+			],
+			color: 0xFFA2DCF8
 		}
 	];
 
@@ -312,6 +344,7 @@ class CreditsStateYSides extends MusicBeatState
 		add(rightArrow);
 		
 		#if mobile
+		controls.isInSubstate = false;
 		addVirtualPad(NONE, B);
 		#end
 
@@ -426,11 +459,29 @@ class CreditsStateYSides extends MusicBeatState
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 
-			MusicBeatState.switchState(new CreditsState());	
+			MusicBeatState.switchState(new CreditsState());
 		}
+		
+		#if mobile
+		if (FlxG.mouse.overlaps(psychText)) {
+	        if (FlxG.mouse.justPressed) {
+				FlxTransitionableState.skipNextTransIn = true;
+				FlxTransitionableState.skipNextTransOut = true;
+	
+				MusicBeatState.switchState(new CreditsState());
+	        }
+        }
+        #end
 
 		if(devs[curSelected].name == 'Saturn') callMeAGoodBOOOY.volume = 1;
 		else callMeAGoodBOOOY.volume = 0;
+		
+		#if mobile
+		if (MobileUtil.isTouchActive)
+			psychText.text = 'Click HERE to view Psych Engine credits';
+		else
+			psychText.text = 'Press TAB to view Psych Engine credits';
+		#end
 
 		FlxG.mouse.visible = true;
 	}

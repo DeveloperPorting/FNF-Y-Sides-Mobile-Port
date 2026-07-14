@@ -14,7 +14,9 @@ import shaders.DeflectiveLens;
 import shaders.BloomShader;
 import shaders.ChromaticAberration;
 
+#if mobile
 import mobile.backend.MobileUtil;
+#end
 
 import flixel.effects.FlxFlicker;
 import lime.app.Application;
@@ -297,8 +299,8 @@ class FlashingState extends MusicBeatState
 			
 			#if mobile
 			if (MobileUtil.isTouchActive) {
-	            if (FlxG.mouse.justPressed) {
-		            if (FlxG.mouse.overlaps(pressEnterToContinueText)) {
+	            if (FlxG.mouse.overlaps(pressEnterToContinueText)) {
+		            if (FlxG.mouse.justPressed) {
 			            leftState = true;
 						var tweenDuration:Float = 1.2;
 		
@@ -448,11 +450,10 @@ class FlashingState extends MusicBeatState
 		}
 		
 		#if mobile
-		if (MobileUtil.isTouchActive) {
+		if (MobileUtil.isTouchActive)
 			pressEnterToContinueText.text = 'Click HERE to continue!';
-		} else {
+		else
 			pressEnterToContinueText.text = 'Press ENTER to continue!';
-		}
 		#end
 		
 		super.update(elapsed);
