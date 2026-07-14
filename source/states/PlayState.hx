@@ -1038,6 +1038,19 @@ class PlayState extends MusicBeatState
 		if(curSong == 'Monster' || curSong == 'Winter Horrorland' || curSong == 'Settings') skipCountdown = true;
 		
 		#if mobile
+		#if !ios
+		if(!ClientPrefs.data.invisibleButtonPause)
+			var pauseButton = new mobile.backend.PauseButton(0, 0, function()
+			{
+				var ret:Dynamic = callOnScripts('onPause', null, true);
+				if(ret != LuaUtils.Function_Stop) {
+					openPauseMenu();
+				}
+			});
+			add(pauseButton);
+			pauseButton.cameras = [camOther];
+		}
+		#else
 		var pauseButton = new mobile.backend.PauseButton(0, 0, function()
 		{
 			var ret:Dynamic = callOnScripts('onPause', null, true);
@@ -1047,12 +1060,9 @@ class PlayState extends MusicBeatState
 		});
 		add(pauseButton);
 		pauseButton.cameras = [camOther];
+		#end
 		
-		if (curSong == 'Dad Battle' || curSong == 'Ram')
-			addMobileControls(false, true);
-		else
-			addMobileControls(false, false);
-		
+		addMobileControls(false, (curSong == 'Dad Battle' || curSong == 'Ram'));		
 	    hitbox.visible = false;
 		#end
 
@@ -2773,7 +2783,7 @@ class PlayState extends MusicBeatState
 		if(watchingMechanicInfo)
 		{
 			// people who play with gamepad also deserves getting out of here bro (now i'm curious who would play this with a gamepad lmfao) -madera
-			if(controls.ACCEPT)
+			if(controls.ACCEPT #if mobile || TouchUtil.justPressed() #end)
 			{
 				FlxTween.cancelTweensOf(mechanicPoster);
 				FlxTween.cancelTweensOf(mechanicPosterText);
@@ -2794,7 +2804,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE #if mobile || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnScripts('onPause', null, true);
 			if(ret != LuaUtils.Function_Stop) {

@@ -21,6 +21,22 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			BOOL);
 		option.onChange = onChangeMiddleScroll;
 		addOption(option);
+		
+		#if mobile
+		var option:Option = new Option('Invisible Hitbox',
+            'If checked, the hitbox will become invisible.',
+            'invisibleHitbox',
+            'bool');
+		addOption(option);
+		
+		#if !ios
+		var option:Option = new Option('Invisible Pause Button',
+            'If checked, the pause button will become invisible.',
+            'invisibleButtonPause',
+            'bool');
+		addOption(option);
+		#end
+		#end
 
 		var option:Option = new Option('Opponent Notes',
 			'If unchecked, opponent notes get hidden.',
