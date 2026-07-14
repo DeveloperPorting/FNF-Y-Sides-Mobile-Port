@@ -177,6 +177,11 @@ class CharSelectState extends MusicBeatState
         poloDown.antialiasing = ClientPrefs.data.antialiasing;
         poloDown.y = FlxG.height - poloDown.height;
         add(poloDown);
+        
+        #if mobile
+        controls.isInSubstate = false;
+		addVirtualPad(LEFT_RIGHT, A_B);
+		#end
 
         changeSelect();
     }

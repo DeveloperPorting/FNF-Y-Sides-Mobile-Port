@@ -486,6 +486,7 @@ class NewFreeplayState extends MusicBeatState
         #if mobile
         controls.isInSubstate = false;
 		addVirtualPad(LEFT_FULL, FREEPLAY);
+		if (!unlockedPico) virtualPad.buttonC.visible = false;
 		#end
 
         initTransition();
@@ -895,7 +896,7 @@ class NewFreeplayState extends MusicBeatState
                 #end
             }
 
-            if(FlxG.keys.justPressed.TAB)
+            if(FlxG.keys.justPressed.TAB #if mobile || virtualPad.buttonC.justPressed #end)
             {
                 if(!unlockedPico) return;
                 
