@@ -6165,28 +6165,29 @@ class PlayState extends MusicBeatState
 	{
 		if(!ClientPrefs.data.shaders) return false;
 
-		#if (MODS_ALLOWED && !flash && sys)
+		#if (!flash && sys)
 		if(runtimeShaders.exists(name))
 		{
 			FlxG.log.warn('Shader $name was already initialized!');
 			return true;
 		}
 
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'shaders/'))
+         var foldersToCheck:Array<String> = [Paths.getSharedPath('shaders/')];
+		for (folder in foldersToCheck)
 		{
 			var frag:String = folder + name + '.frag';
 			var vert:String = folder + name + '.vert';
 			var found:Bool = false;
-			if(FileSystem.exists(frag))
+			if(Assets.exists(frag))
 			{
-				frag = File.getContent(frag);
+				frag = Assets.getText(frag);
 				found = true;
 			}
 			else frag = null;
 
-			if(FileSystem.exists(vert))
+			if(Assets.exists(vert))
 			{
-				vert = File.getContent(vert);
+				vert = Assets.getText(vert);
 				found = true;
 			}
 			else vert = null;
