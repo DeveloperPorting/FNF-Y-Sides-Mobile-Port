@@ -545,7 +545,7 @@ class VaultState extends MusicBeatState
 
         if(isInInteractiveDialogue)
         {
-            if(controls.ACCEPT #if mobile || virtualPad.buttonA.justPressed #end)
+            if(controls.ACCEPT #if mobile || TouchUtil.justPressed() #end)
             {
                 if(!dialogueEnded) 
                 {
