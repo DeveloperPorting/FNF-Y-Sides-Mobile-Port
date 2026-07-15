@@ -109,6 +109,10 @@ class ControlsSubState extends MusicBeatSubstate
 		text.alignment = CENTERED;
 		text.setScale(0.4);
 		add(text);
+		
+		#if mobile
+		addVirtualPad(NONE, B);
+		#end
 
 		createTexts();
 	}
@@ -281,7 +285,7 @@ class ControlsSubState extends MusicBeatSubstate
 
 		if(!binding)
 		{
-			if(FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(B))
+			if(FlxG.keys.justPressed.ESCAPE #if mobile || virtualPad.buttonB.justPressed #end || FlxG.gamepads.anyJustPressed(B))
 			{
 				close();
 				return;
