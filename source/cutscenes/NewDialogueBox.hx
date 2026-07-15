@@ -229,7 +229,7 @@ class NewDialogueBox extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 
-		if (FlxG.keys.justPressed.ENTER && !finishedWholeDialogue)
+		if ((FlxG.keys.justPressed.ENTER #if mobile || TouchUtil.justPressed() #end) && !finishedWholeDialogue)
 		{
 			if (startedDialogue && !endedDialogue)
 			{
