@@ -373,7 +373,7 @@ class FlashingState extends MusicBeatState
 			}
 			#end
             
-			if (controls.ACCEPT) {
+			if (#if mobile !MobileUtil.isTouchActive && #end controls.ACCEPT) {
 				isChangingControls = true;
 				FlxTransitionableState.skipNextTransIn = true;
 				FlxTransitionableState.skipNextTransOut = true;
