@@ -111,6 +111,7 @@ class ControlsSubState extends MusicBeatSubstate
 		add(text);
 		
 		#if mobile
+		controls.isInSubstate = true;
 		addVirtualPad(NONE, B);
 		#end
 
