@@ -4,6 +4,7 @@ import haxe.Json;
 import flixel.addons.display.FlxBackdrop;
 import shaders.WiggleEffect;
 import openfl.utils.Assets;
+
 class GalleryState extends MusicBeatState
 {
 	var bg:FlxSprite;
@@ -469,15 +470,24 @@ class GalleryStateImages extends MusicBeatState
 
 		var imagesOnFolder:Array<String> = [];
 
+		var searchDir:String = 'assets/shared/images/gallery/$folderName/';
+		
 		for (obj in Assets.list())
 		{
-			if (StringTools.startsWith(obj, 'assets/shared/images/gallery/$folderName') && StringTools.endsWith(obj.toLowerCase(), '.png'))
+			if (obj.indexOf(searchDir) != -1 && StringTools.endsWith(obj.toLowerCase(), '.png'))
 			{
-				var parts = obj.split('/');
-				var fileName = parts[parts.length - 1];
-				imagesOnFolder.push(fileName);
+				var relativePath:String = obj.substring(obj.indexOf(searchDir) + searchDir.length);
+		
+				if (relativePath.indexOf('/') == -1)
+				{
+					if (!imagesOnFolder.contains(relativePath))
+					{
+						imagesOnFolder.push(relativePath);
+					}
+				}
 			}
 		}
+
 
 		#if debug trace('lol: $imagesOnFolder'); #end
 

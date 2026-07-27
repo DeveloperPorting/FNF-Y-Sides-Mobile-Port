@@ -93,15 +93,24 @@ class GalleryPreload
 			var galleryPath = 'assets/shared/images/gallery/$galleryDirectory';
 			var imagesOnFolder:Array<String> = [];
 
+			var searchDir:String = galleryPath.endsWith('/') ? galleryPath : galleryPath + '/';
+			
 			for (asset in Assets.list())
 			{
-				if (StringTools.startsWith(asset, galleryPath) && StringTools.endsWith(asset.toLowerCase(), '.png'))
+				if (asset.indexOf(searchDir) != -1 && StringTools.endsWith(asset.toLowerCase(), '.png'))
 				{
-					var parts = asset.split('/');
-					var fileName = parts[parts.length - 1];
-					imagesOnFolder.push(fileName);
+					var relativePath:String = asset.substring(asset.indexOf(searchDir) + searchDir.length);
+			
+					if (relativePath.indexOf('/') == -1)
+					{
+						if (!imagesOnFolder.contains(relativePath))
+						{
+							imagesOnFolder.push(relativePath);
+						}
+					}
 				}
 			}
+
 
 			if (imagesOnFolder.length == 0)
 			{

@@ -84,3 +84,4 @@ class TouchUtil
 		#end
 	}
 }
+}
