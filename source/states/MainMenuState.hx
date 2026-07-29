@@ -745,15 +745,20 @@ class MainMenuState extends MusicBeatState
 
     function mouseBehaviour(elapsed:Float)
     {
-		if (allowMouse && usingMouse)
-		{
+        if (allowMouse && usingMouse)
+        {
             menuItemsLeftGrp.forEach(function(spr:MenuItemObj)
             {
                 if(FlxG.mouse.overlaps(spr))
                 {
                     if(FlxG.mouse.justPressed)
                     {
+                        #if mobile
+                        if(spr.ID == curSelected && curColumn == LEFT)
+                            pressAccept();
+                        #else
                         pressAccept();
+                        #end
                     }
                     if(spr.ID == curSelected && curColumn == LEFT) return;
 
@@ -774,7 +779,12 @@ class MainMenuState extends MusicBeatState
                 {
                     if(FlxG.mouse.justPressed)
                     {
+                        #if mobile
+                        if(spr.ID == curSelected && curColumn == RIGHT)
+                            pressAccept();
+                        #else
                         pressAccept();
+                        #end
                     }
                     if(spr.ID == curSelected && curColumn == RIGHT) return;
 
@@ -788,7 +798,7 @@ class MainMenuState extends MusicBeatState
                     spr.overlaping = false;
                 }
             });
-		}
+        }
     }
 }
 
