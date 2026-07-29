@@ -63,7 +63,7 @@ class CollectionablesSubState extends MusicBeatSubstate
         collectBackground = new FlxSprite();
         collectBackground.makeGraphic(750, 541, 0xFFB19BE7);
         collectBackground.antialiasing = ClientPrefs.data.antialiasing;
-        collectBackground.screenCenter(flixel.util.FlxAxes.X);
+        collectBackground.screenCenter(X);
         collectBackground.y = FlxG.height;
         collectBackground.alpha = 0.75;
         add(collectBackground);
