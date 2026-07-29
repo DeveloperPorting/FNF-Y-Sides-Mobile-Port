@@ -744,6 +744,7 @@ class OptionsState extends MusicBeatState
 			{
 				FlxG.sound.music.fadeOut(0.2);
 				FlxG.sound.play(Paths.sound('cancelMenu'));
+				#if mobile FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.quartOut}); #end
 				if(onPlayState)
 				{
 					StageData.loadDirectory(PlayState.SONG);
