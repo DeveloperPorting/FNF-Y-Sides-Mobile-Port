@@ -63,7 +63,7 @@ class CollectionablesSubState extends MusicBeatSubstate
         collectBackground = new FlxSprite();
         collectBackground.makeGraphic(750, 541, 0xFFB19BE7);
         collectBackground.antialiasing = ClientPrefs.data.antialiasing;
-        collectBackground.screenCenter(X);
+        collectBackground.screenCenter(flixel.util.FlxAxes.X);
         collectBackground.y = FlxG.height;
         collectBackground.alpha = 0.75;
         add(collectBackground);
@@ -466,9 +466,45 @@ class CollectionablesSubState extends MusicBeatSubstate
     var mouseScrollProgress:Float = 230;
     var mousePointerX:Float = 0;
     var mousePointerY:Float = 0;
+    
+    #if mobile
+    var touchStartY:Float = 0;
+    var touchStartScrollAwards:Float = 0;
+    var touchStartScrollProgress:Float = 0;
+    #end
+
     function handleMouseBehaviour(elapsed:Float)
     {
         // awards thingie
+        #if mobile
+        for (touch in FlxG.touches.list)
+        {
+            if (touch.justPressed)
+            {
+                touchStartY = touch.screenY;
+                touchStartScrollAwards = mouseScrollAwards;
+                touchStartScrollProgress = mouseScrollProgress;
+            }
+            else if (touch.pressed)
+            {
+                var deltaY:Float = touch.screenY - touchStartY;
+                switch (currentPage)
+                {
+                    case AWARDS:
+                        mouseScrollAwards = touchStartScrollAwards - deltaY;
+                        if(mouseScrollAwards < 190) mouseScrollAwards = 190;
+                        if(mouseScrollAwards > 10 + (awardItemsGrp.members.length - 3) * 145 + 135) mouseScrollAwards = 10 + (awardItemsGrp.members.length - 3) * 145 + 135;
+                    case PROGRESS:
+                        if(progressItemsGrp.members.length < 11) continue;
+
+                        mouseScrollProgress = touchStartScrollProgress - deltaY;
+                        if(mouseScrollProgress < 230) mouseScrollProgress = 230;
+                        if(mouseScrollProgress > 10 + (progressItemsGrp.members.length - 5) * 25 + 75) mouseScrollProgress = 10 + (progressItemsGrp.members.length - 5) * 25 + 75;
+                    default:
+                }
+            }
+        }
+        #else
         if(FlxG.mouse.wheel != 0)
         {
             // note: i really hope there's another way to do this shitty effect instead that with tons of camera, my eyes are about to fall and my brain's going to rot -madera
@@ -489,6 +525,7 @@ class CollectionablesSubState extends MusicBeatSubstate
                 default:
             }
         }
+        #end
 
         switch(currentPage)
         {
