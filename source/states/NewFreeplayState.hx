@@ -832,6 +832,7 @@ class NewFreeplayState extends MusicBeatState
                     FlxTween.cancelTweensOf(object);
                     FlxTween.tween(object, backOptions.get(object), transitionDuration, {ease: FlxEase.expoIn});
                 }
+                #if mobile FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.quartOut}); #end
 
                 // FlxTween.tween(categoryBackground, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});
                 // FlxTween.tween(categoryOg, {y: -poloUp.height + 55}, transitionDuration, {ease: FlxEase.expoIn});

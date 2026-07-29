@@ -322,6 +322,7 @@ class NewStoryMenuState extends MusicBeatState
 				FlxTween.tween(gradient, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(sprDifficulty, {alpha: 0}, transitionDuration, {ease: FlxEase.expoOut});
 				FlxTween.tween(character, {alpha: 0, y: character.y + 10}, transitionDuration, {ease: FlxEase.expoOut});
+				#if mobile FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.quartOut}); #end
 
 				txtTracklistGrp.forEach(function(text:FlxBitmapText)
 				{

@@ -325,6 +325,8 @@ class NewGalleryState extends MusicBeatState
 		#if mobile
 		addVirtualPad(LEFT_RIGHT, A_B);
 		addVirtualPadCamera();
+		virtualPad.alpha = 0;
+		FlxTween.tween(virtualPad, {alpha: 0.5}, 0.5, {ease: FlxEase.quartOut});
 		#end
 
 		changeSelect(0, true);
@@ -491,6 +493,8 @@ class NewGalleryState extends MusicBeatState
 				comingFromGallery = true;
 
 				curtainsTransition.animation.play('close', true);
+				
+				#if mobile FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.quartOut}); #end
 
 				FlxTween.tween(blackTop, {alpha: 1}, 1.3, {ease: FlxEase.expoOut});
 				FlxTween.tween(FlxG.camera, {zoom: 1.05}, 1, {ease: FlxEase.expoOut});

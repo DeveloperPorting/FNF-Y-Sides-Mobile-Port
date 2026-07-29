@@ -628,6 +628,7 @@ class VaultState extends MusicBeatState
                 FlxTween.tween(machine, {x: FlxG.width + table.width - machine.width - 30}, backTransDuration, {ease: FlxEase.quartOut});
                 FlxTween.tween(poloUp, {y: -poloUp.height}, backTransDuration, {ease: FlxEase.quartOut});
                 FlxTween.tween(poloDown, {y: FlxG.height}, backTransDuration, {ease: FlxEase.quartOut});
+                #if mobile FlxTween.tween(virtualPad, {alpha: 0}, 0.5, {ease: FlxEase.quartOut}); #end
 
                 new FlxTimer().start(backTransDuration, function(tmr:FlxTimer)
                 {
